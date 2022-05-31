@@ -4,7 +4,7 @@ import type { AppProps } from 'next/app';
 import { Global, ThemeProvider } from '@emotion/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
-import { GlobalStyle, theme } from 'styles';
+import { GlobalStyle, theme } from 'styles/base';
 import { SEO, LayoutWrapper } from 'components';
 
 // React Query의 QueryClient 설정, 나중에 추가할 예정입니다.

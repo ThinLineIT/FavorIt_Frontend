@@ -191,6 +191,15 @@ const GlobalStyle = () => css`
     box-sizing: border-box;
   }
 
+  /* 스크롤바 보일지 안보일지 추후 논의 */
+  /* *::-webkit-scrollbar {
+    width: 0px;
+    background: none;
+  }
+  *::-webkit-scrollbar-track {
+    background: none;
+  } */
+
   html {
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 16px;

@@ -1,9 +1,66 @@
 import Image from 'next/image';
+import styled from '@emotion/styled';
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 
 import styles from 'styles/Home.module.css';
+import { avatar_32 } from 'styles/modules/_avatars';
+import { flexbox, columnFlexbox } from 'styles/mixins/_flexbox';
+import { textStyle } from 'styles/mixins/_text-style';
+import {
+  btn48,
+  btnPrimary,
+  btnSecondary,
+  btnOutlined,
+  btnGhost,
+} from 'styles/modules/_buttons';
 
+const Button = styled.button`
+  ${btnPrimary};
+  ${btn48};
+  margin: 10px 0px;
+`;
+const Button2 = styled.button`
+  ${btnSecondary};
+  ${btn48};
+  margin: 10px 0px;
+`;
+const Button3 = styled.button`
+  ${btnOutlined};
+  ${btn48};
+  margin: 10px 0px;
+`;
+const Button4 = styled.button`
+  ${btnGhost};
+  ${btn48};
+  margin: 10px 0px;
+`;
+
+const Button5 = styled.button`
+  ${btnPrimary};
+  ${btn48};
+  margin: 10px 0px;
+`;
+
+const FlexboxTest = styled.div`
+  width: 100%;
+  height: 284px;
+
+  /* flexbox 사용 예시 */
+  ${flexbox('center', 'center')} //
+  column-gap: 24px;
+  /* ${flexbox('start', 'center')} */ //
+  /* ${columnFlexbox('start', 'center')} */
+`;
+
+const Avatar = styled.div`
+  ${avatar_32}
+`;
+
+const Description = styled.h2`
+  ${textStyle(16, 'teal')};
+  /* ${textStyle(24, 'teal')}; */
+`;
 const Home: NextPage = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -15,15 +72,35 @@ const Home: NextPage = () => {
   return (
     <div className={styles.container}>
       <main className={styles.main}>
-        <h1 className={styles.title}>
+        <h2 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
+        </h2>
+        <br />
+        {/* 버튼 */}
+        <Button>ZOOM</Button>
+        <Button2>ZOOM</Button2>
+        <Button3>ZOOM</Button3>
+        <Button4>ZOOM</Button4>
+        <Button5 disabled>ZOOM</Button5>
+        <br />
+        {/* 아바타 */}
+        <FlexboxTest>
+          {/* default, 유저 프로필 사진 없을 시 */}
+          <Avatar />
+          <Avatar>
+            {/* 유저 프로필 사진 있을 시 */}
+            <img src="https://picsum.photos/200/300" alt="avatar test" />
+          </Avatar>
+        </FlexboxTest>
+        <Description>
+          lorem ipsum dolor sit Lorem ipsum dolor sit, amet consectetur
+          adipisicing elit. Odit amet iure officiis totam maxime quisquam
+          laudantium minima culpa, quam assumenda hic modi eius.
+        </Description>
         <p className={styles.description}>
           Get started by editing{' '}
           <code className={styles.code}>pages/index.tsx</code>
         </p>
-
         <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>
             <h2>Documentation &rarr;</h2>
