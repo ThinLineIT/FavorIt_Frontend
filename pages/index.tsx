@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import styled from '@emotion/styled';
 import type { NextPage } from 'next';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import styles from 'styles/Home.module.css';
 import { avatar_32 } from 'styles/modules/_avatars';
@@ -14,40 +14,32 @@ import {
   btnOutlined,
   btnGhost,
 } from 'styles/modules/_buttons';
+import Modal from 'components/Modal';
 
 const Button = styled.button`
   ${btnPrimary};
   ${btn48};
   margin: 10px 0px;
 `;
-const Button2 = styled.button`
+const Button2 = styled(Button)`
   ${btnSecondary};
-  ${btn48};
-  margin: 10px 0px;
 `;
-const Button3 = styled.button`
+const Button3 = styled(Button)`
   ${btnOutlined};
-  ${btn48};
-  margin: 10px 0px;
 `;
-const Button4 = styled.button`
+const Button4 = styled(Button)`
   ${btnGhost};
-  ${btn48};
-  margin: 10px 0px;
 `;
-
-const Button5 = styled.button`
+const Button5 = styled(Button)`
   ${btnPrimary};
-  ${btn48};
-  margin: 10px 0px;
 `;
 
 const FlexboxTest = styled.div`
   width: 100%;
-  height: 284px;
+  height: 56px;
 
-  /* flexbox 사용 예시 */
-  ${flexbox('center', 'center')} //
+  /* flexbox  */
+  ${flexbox('end', 'center')} //
   column-gap: 24px;
   /* ${flexbox('start', 'center')} */ //
   /* ${columnFlexbox('start', 'center')} */
@@ -58,24 +50,72 @@ const Avatar = styled.div`
 `;
 
 const Description = styled.h2`
-  ${textStyle(16, 'teal')};
-  /* ${textStyle(24, 'teal')}; */
+  /* ${textStyle(16)} */
+  ${textStyle(18, 'tomato')}
 `;
-const Home: NextPage = () => {
-  const [loading, setLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    // 임의로 로딩 상태 표현
-    setTimeout(() => setLoading(false), 2000);
-  }, []);
+const ButtonClose = styled.button`
+  width: 280px;
+  height: 68px;
+  border-radius: 12px;
+  color: #fff;
+  background-color: #3d6afe;
+  margin: 0;
+  border: none;
+  font-size: 24px;
+  &:active {
+    opacity: 0.8;
+  }
+`;
+
+const ModalBody = styled.div`
+  border-radius: 8px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  max-height: calc(100vh - 16px);
+  overflow: hidden auto;
+  position: relative;
+  padding-block: 12px;
+  padding-inline: 24px;
+`;
+
+const Home: NextPage = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpen = () => {
+    setIsOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
 
   return (
     <div className={styles.container}>
       <main className={styles.main}>
-        <h2 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h2>
+        {/* 플렉스 박스 */}
+        {/* 아바타 */}
+        <FlexboxTest>
+          {/* default, 유저 프로필 사진 없을 시 */}
+          <Avatar />
+          {/* 유저 프로필 사진 있을 시 */}
+          <Avatar>
+            <img src="https://picsum.photos/200/300" alt="avatar test" />
+          </Avatar>
+        </FlexboxTest>
+        <h2 className={styles.title}>Welcome!</h2>
         <br />
+
+        {/* 모달  */}
+        <ButtonClose onClick={handleOpen}>Modal Open</ButtonClose>
+        <Modal isOpen={isOpen} onClose={handleClose} selector="#modal">
+          <ModalBody>
+            <h2>Title</h2>
+            <p>Description</p>
+          </ModalBody>
+        </Modal>
+        <br />
+
         {/* 버튼 */}
         <Button>ZOOM</Button>
         <Button2>ZOOM</Button2>
@@ -83,53 +123,14 @@ const Home: NextPage = () => {
         <Button4>ZOOM</Button4>
         <Button5 disabled>ZOOM</Button5>
         <br />
-        {/* 아바타 */}
-        <FlexboxTest>
-          {/* default, 유저 프로필 사진 없을 시 */}
-          <Avatar />
-          <Avatar>
-            {/* 유저 프로필 사진 있을 시 */}
-            <img src="https://picsum.photos/200/300" alt="avatar test" />
-          </Avatar>
-        </FlexboxTest>
+
+        {/* 텍스트 스타일 */}
         <Description>
-          lorem ipsum dolor sit Lorem ipsum dolor sit, amet consectetur
-          adipisicing elit. Odit amet iure officiis totam maxime quisquam
-          laudantium minima culpa, quam assumenda hic modi eius.
+          “나는 치킨도 안 먹는데 허니 콤보 & 웨지감자 기프티콘만 10만원이
+          넘어요” 아마 많은 생일 선물은 카카오톡 기프티콘으로 대체하고 있죠,
+          주기 쉽고 받기 쉽고 랭킹이 있다는 이유로 다만, 받는 사람이 필요하지
+          않는 선물을 받을 수도 있어요
         </Description>
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.tsx</code>
-        </p>
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
       </main>
 
       <footer className={styles.footer}>
