@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import { columnFlexbox } from 'styles/mixins/_flexbox';
 
-export default function Custom404() {
+export default function Custom500() {
   return (
     <PageContainer>
-      <h1>{'(>_<)'}</h1>
+      <h1>(o_o)/</h1>
       <br />
       <p>{"The page you're looking for doesn't exist. Sorry."}</p>
     </PageContainer>

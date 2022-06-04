@@ -1,5 +1,6 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import styled from '@emotion/styled';
+import type { ReactNode } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
 import Portal from 'components/Portal';
@@ -32,7 +33,7 @@ const Container = styled.div`
 `;
 
 export type ModalProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   isOpen: boolean;
   onClose: () => void;
   selector?: string;
