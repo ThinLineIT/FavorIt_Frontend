@@ -1,9 +1,12 @@
 import styled from '@emotion/styled';
+import type { ReactNode } from 'react';
+import { useRecoilValue } from 'recoil';
 import { useRouter } from 'next/router';
-import { Header, Footer, FloatingButton } from 'components';
-import React, { ReactNode, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import PATH from 'constants/path';
+import { isTopNavigation } from 'recoil/atom';
+import { Header, FloatingButton } from 'components';
 
 interface LayoutWrapperProps {
   children: ReactNode;
@@ -12,6 +15,8 @@ interface LayoutWrapperProps {
 const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
   const { asPath } = useRouter();
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const isTopHeader = useRecoilValue(isTopNavigation);
 
   //@Note 페이지 이동 시에도 항상 스크롤 맨 위 고정
   useEffect(() => {
@@ -27,9 +32,8 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
     <Wrapper ref={scrollRef}>
       {/* 로그인 섹션 혹은 인트로 섹션 */}
       {/* {asPath === PATH.Home && <LoginSection />} */}
-      <Header />
+      {isTopHeader && <Header />}
       {children}
-      <Footer />
       {/* <FloatingButton /> */}
     </Wrapper>
   );
@@ -45,7 +49,7 @@ const Wrapper = styled.div`
   margin: 0 auto;
   flex: 1 1 0%;
   overflow: auto;
-  padding-top: 3.75rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
 `;
 
 export default LayoutWrapper;

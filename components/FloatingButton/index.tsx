@@ -1,6 +1,4 @@
-import React from 'react';
-
-const FloatingButton: React.FC = () => {
+const FloatingButton = () => {
   return <div>FloatingButton</div>;
 };
 
