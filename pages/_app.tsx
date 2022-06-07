@@ -5,8 +5,9 @@ import { Global, ThemeProvider } from '@emotion/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import 'styles/modal.css';
-import { SEO, LayoutWrapper } from 'components';
-import { GlobalStyle, theme } from 'styles/base';
+import { SEO } from '@components/base';
+import { GlobalStyle, theme } from '@styles/base';
+import { LayoutWrapper } from '@components/layout';
 
 // React Query의 QueryClient 설정, 나중에 추가할 예정입니다.
 const queryClient = new QueryClient({

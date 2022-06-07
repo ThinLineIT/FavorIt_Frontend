@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import type { ReactNode } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
-import Portal from 'components/Portal';
+import Portal from '@components/base/Portal';
 import { flexbox } from 'styles/mixins/_flexbox';
 
 const Overlay = styled.div`

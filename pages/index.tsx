@@ -1,11 +1,12 @@
 import styled from '@emotion/styled';
 import type { NextPage } from 'next';
 
-import { Modal } from 'components';
-import useModal from 'hooks/useCardModal';
-import { posCenter } from 'styles/mixins/_positions';
-import { textStyle } from 'styles/mixins/_text-style';
-import { columnFlexbox } from 'styles/mixins/_flexbox';
+import { Modal } from '@components/base';
+import useModal from '@hooks/useCardModal';
+import { LandingBox } from '@components/domain/home';
+import { posCenter } from '@styles/mixins/_positions';
+import { textStyle } from '@styles/mixins/_text-style';
+import { columnFlexbox } from '@styles/mixins/_flexbox';
 
 const Main = styled.main`
   ${posCenter()};
@@ -47,8 +48,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Main onClick={showModal}>
-        <h1>{'(>_<)'}</h1>
-        Hello, FavorIt !
+        <LandingBox />
       </Main>
       <Modal isOpen={isOpen} onClose={hideModal} selector="#mt">
         <ModalBody>

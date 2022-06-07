@@ -5,8 +5,8 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 
 import PATH from 'constants/path';
-import { isTopNavigation } from 'recoil/atom';
-import { Header, FloatingButton } from 'components';
+import { Header, FloatingButton } from '@components/base';
+import { isBottomNavigation, isTopNavigation } from 'recoil/atom';
 
 interface LayoutWrapperProps {
   children: ReactNode;
@@ -16,7 +16,8 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
   const { asPath } = useRouter();
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const isTopHeader = useRecoilValue(isTopNavigation);
+  const isTopNav = useRecoilValue(isTopNavigation);
+  const isBottomNav = useRecoilValue(isBottomNavigation);
 
   //@Note 페이지 이동 시에도 항상 스크롤 맨 위 고정
   useEffect(() => {
@@ -32,8 +33,9 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
     <Wrapper ref={scrollRef}>
       {/* 로그인 섹션 혹은 인트로 섹션 */}
       {/* {asPath === PATH.Home && <LoginSection />} */}
-      {isTopHeader && <Header />}
+      {isTopNav && <Header />}
       {children}
+      {/* {isBottomNav && <BottomNavigation />} */}
       {/* <FloatingButton /> */}
     </Wrapper>
   );
