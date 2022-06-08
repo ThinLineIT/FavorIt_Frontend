@@ -1,10 +1,9 @@
 import { atom } from 'recoil';
 
-export const isTopNavigation = atom<boolean>({
-  key: 'isTopNavigation',
+export const isTopGoBack = atom<boolean>({
+  key: 'isTopGoBack',
   default: true,
 });
-
 
 export const isBottomNavigation = atom<boolean>({
   key: 'isBottomNavigation',

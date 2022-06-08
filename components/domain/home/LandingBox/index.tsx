@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { flexbox } from '@styles/mixins/_flexbox';
 
 const Base = styled.div`
-  max-width: 426px;
+  max-width: 150px;
   aspect-ratio: 1 / 1;
   overflow: hidden;
   margin: 28px auto 0;
@@ -25,12 +25,10 @@ const Video = styled.video`
   -webkit-mask-image: -webkit-radial-gradient(center, white, black);
 `;
 
-export type LandingBoxProps = {};
-
 const Box = () => {
   return (
     <Base>
-      <Video autoPlay loop muted playsInline>
+      <Video autoPlay muted playsInline>
         <source
           src="https://static.toss.im/assets/homepage/tossbank/video-02.mp4"
           type="video/mp4"
