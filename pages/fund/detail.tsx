@@ -1,20 +1,22 @@
-import { GoBack } from '@components/layout';
-import { isLocalGenerator } from '@recoil/generate';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 
+import { GoBack } from '@components/layout';
+import { isLocalGenerator } from '@recoil/generate';
+
 function DetailFundPage() {
   const [generator, setGenerator] = useRecoilState(isLocalGenerator);
+
   useEffect(() => {
     return () => {
       setGenerator((prev) => ({ ...prev, done: false }));
     };
-  }, []);
+  }, [setGenerator]);
   return (
-    <div style={{ width: '100%' }}>
+    <>
       <GoBack path="/" />
-      sex
-    </div>
+      <div style={{ width: '100%' }}>detail</div>
+    </>
   );
 }
 

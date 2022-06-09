@@ -2305,6 +2305,11 @@
     "loose-envify" "^1.1.0"
     "scheduler" "^0.22.0"
 
+"react-hook-form@^7.31.3":
+  "integrity" "sha512-NVZdCWViIWXXXlQ3jxVQH0NuNfwPf8A/0KvuCxrM9qxtP1qYosfR2ZudarziFrVOC7eTUbWbm1T4OyYCwv9oSQ=="
+  "resolved" "https://registry.npmjs.org/react-hook-form/-/react-hook-form-7.31.3.tgz"
+  "version" "7.31.3"
+
 "react-is@^16.13.1", "react-is@^16.7.0":
   "integrity" "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ=="
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
@@ -2329,7 +2334,7 @@
     "loose-envify" "^1.4.0"
     "prop-types" "^15.6.2"
 
-"react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^17.0.2 || ^18.0.0-0", "react@^18.1.0", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", "react@>=16.13.1", "react@>=16.6.0", "react@>=16.8.0", "react@18.1.0":
+"react@^16.8.0 || ^17 || ^18", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^17.0.2 || ^18.0.0-0", "react@^18.1.0", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", "react@>=16.13.1", "react@>=16.6.0", "react@>=16.8.0", "react@18.1.0":
   "integrity" "sha512-4oL8ivCz5ZEPyclFQXaNksK3adutVS8l2xzZU0cqEFrE9Sb7fC0EFK5uEk74wIreL1DERyjvsU915j1pcT2uEQ=="
   "resolved" "https://registry.npmjs.org/react/-/react-18.1.0.tgz"
   "version" "18.1.0"
@@ -2337,9 +2342,9 @@
     "loose-envify" "^1.1.0"
 
 "recoil@^0.7.3-alpha.2":
-  "integrity" "sha512-8LL4T8Bh7WMA5/ka+420PCenaUFie0457kyxX7cy/gsyRlbIGYpyNkAyU0znCvtHTN2clVYkTjGF6zKJ/DzzJg=="
-  "resolved" "https://registry.npmjs.org/recoil/-/recoil-0.7.3-alpha.2.tgz"
-  "version" "0.7.3-alpha.2"
+  "integrity" "sha512-WaPppk3Hz5/V9nOVmu1X/o3cJyf/rLXw/YsEENvMzEDk+LKqMiGfFgZ3Gg51TKWccpCZCyrSBXn2O4L1E2WDPQ=="
+  "resolved" "https://registry.npmjs.org/recoil/-/recoil-0.7.3.tgz"
+  "version" "0.7.3"
   dependencies:
     "hamt_plus" "1.0.2"
 

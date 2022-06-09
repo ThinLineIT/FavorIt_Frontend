@@ -1,14 +1,14 @@
 import dynamic from 'next/dynamic';
-import styled from '@emotion/styled';
-import React, { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
-
-import { isLocalGenerator } from '@recoil/generate';
 import { useRouter } from 'next/router';
+import { useRecoilState } from 'recoil';
+import React, { useEffect } from 'react';
+
+import { GoBack } from '@components/layout';
+import { generatorType, isLocalGenerator } from '@recoil/generate';
 
 // @Note 추후 분리하기
-const Crolling = dynamic(
-  () => import('@components/domain/generate/page-components/Crolling'),
+const Crawling = dynamic(
+  () => import('@components/domain/generate/page-components/Crawling'),
   { ssr: false },
 );
 const Options = dynamic(
@@ -31,11 +31,15 @@ const Date = dynamic(
   () => import('@components/domain/generate/page-components/Date'),
   { ssr: false },
 );
+const Preview = dynamic(
+  () => import('@components/domain/generate/page-components/Preview'),
+  { ssr: false },
+);
 
 const hocComponents = [
   {
     page: 0,
-    component: <Crolling />,
+    component: <Crawling />,
   },
   {
     page: 1,
@@ -57,6 +61,10 @@ const hocComponents = [
     page: 5,
     component: <Date />,
   },
+  {
+    page: 6,
+    component: <Preview />,
+  },
 ];
 
 const Generate = () => {
@@ -72,7 +80,21 @@ const Generate = () => {
   // 개별 컴포넌트에 setGenerator를 넘겨 page-number를 +1 해주거나 리셋해준다.
   // 마지막 컴포넌트에서는 generator.done === true로 줘서 완료시킨다.
   // 이에 대해서는 hoc를 활용해보려고 생각중
-  return <>{hocComponents[generator.page].component}</>;
+  return (
+    <>
+      <GoBack
+        currying={() => {
+          generator.page > 0
+            ? setGenerator((prev: generatorType) => ({
+                ...prev,
+                page: prev.page - 1,
+              }))
+            : router.replace('/');
+        }}
+      />
+      {hocComponents[generator.page].component}
+    </>
+  );
 };
 
 export default Generate;

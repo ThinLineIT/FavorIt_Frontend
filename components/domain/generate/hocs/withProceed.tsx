@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 //  TODO: Check
 // 1. Form이나 확인 버튼을 클릭 시 다음 컴포넌트로 이동할 수 있는 handleClickToMove 함수 있어야함

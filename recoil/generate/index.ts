@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-type generatorType = {
+export type generatorType = {
   page: number;
   done: boolean;
   proceed: boolean;

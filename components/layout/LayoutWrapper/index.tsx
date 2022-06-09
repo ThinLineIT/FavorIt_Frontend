@@ -4,11 +4,10 @@ import { useRecoilValue } from 'recoil';
 import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 
-import GoBack from '../GoBack';
 import PATH from 'constants/path';
 import { Header } from '@components/base';
-import { columnFlexbox } from '@styles/mixins/_flexbox';
 import BottomNavigation from '../BottomNavigation';
+import { columnFlexbox } from '@styles/mixins/_flexbox';
 import { isBottomNavigation, isTopGoBack } from '@recoil/layout/navigator';
 
 interface LayoutWrapperProps {
@@ -35,7 +34,6 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
   return (
     <Wrapper ref={scrollRef}>
       {asPath === PATH.Home && <Header />}
-      {canGoBack && <GoBack />}
       {children}
       {isBottomNav && <BottomNavigation />}
     </Wrapper>
@@ -48,7 +46,6 @@ const Wrapper = styled.div`
   height: 100vh;
   margin: 0 auto;
   padding: 0 5px;
-  overflow-x: hidden;
   background-color: #f1f4f6;
   ${columnFlexbox()};
   flex: 1 1 0%;
