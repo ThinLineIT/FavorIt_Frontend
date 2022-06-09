@@ -4,12 +4,11 @@ import { useRecoilValue } from 'recoil';
 import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 
-import GoBack from '../GoBack';
 import PATH from 'constants/path';
 import { Header } from '@components/base';
-import { columnFlexbox } from '@styles/mixins/_flexbox';
 import BottomNavigation from '../BottomNavigation';
-import { isBottomNavigation, isTopGoBack } from '@recoil/layout/navigator';
+import { columnFlexbox } from '@styles/mixins/_flexbox';
+import { isBottomNavigation } from '@recoil/layout/navigator';
 
 interface LayoutWrapperProps {
   children: ReactNode;
@@ -19,7 +18,6 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
   const { asPath } = useRouter();
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const canGoBack = useRecoilValue(isTopGoBack);
   const isBottomNav = useRecoilValue(isBottomNavigation);
 
   //@Note 페이지 이동 시에도 항상 스크롤 맨 위 고정
@@ -35,7 +33,6 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
   return (
     <Wrapper ref={scrollRef}>
       {asPath === PATH.Home && <Header />}
-      {canGoBack && <GoBack />}
       {children}
       {isBottomNav && <BottomNavigation />}
     </Wrapper>
@@ -48,7 +45,6 @@ const Wrapper = styled.div`
   height: 100vh;
   margin: 0 auto;
   padding: 0 5px;
-  overflow-x: hidden;
   background-color: #f1f4f6;
   ${columnFlexbox()};
   flex: 1 1 0%;
