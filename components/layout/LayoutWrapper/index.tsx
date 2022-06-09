@@ -5,8 +5,10 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 
 import PATH from 'constants/path';
-import { Header, FloatingButton } from '@components/base';
-import { isBottomNavigation, isTopNavigation } from 'recoil/atom';
+import { Header } from '@components/base';
+import BottomNavigation from '../BottomNavigation';
+import { columnFlexbox } from '@styles/mixins/_flexbox';
+import { isBottomNavigation } from '@recoil/layout/navigator';
 
 interface LayoutWrapperProps {
   children: ReactNode;
@@ -16,7 +18,6 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
   const { asPath } = useRouter();
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const isTopNav = useRecoilValue(isTopNavigation);
   const isBottomNav = useRecoilValue(isBottomNavigation);
 
   //@Note 페이지 이동 시에도 항상 스크롤 맨 위 고정
@@ -31,12 +32,9 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
 
   return (
     <Wrapper ref={scrollRef}>
-      {/* 로그인 섹션 혹은 인트로 섹션 */}
-      {/* {asPath === PATH.Home && <LoginSection />} */}
-      {isTopNav && <Header />}
+      {asPath === PATH.Home && <Header />}
       {children}
-      {/* {isBottomNav && <BottomNavigation />} */}
-      {/* <FloatingButton /> */}
+      {isBottomNav && <BottomNavigation />}
     </Wrapper>
   );
 };
@@ -45,13 +43,11 @@ const Wrapper = styled.div`
   max-width: 640px;
   width: 100%;
   height: 100vh;
-  min-width: 375px;
-  display: flex;
-  flex-direction: column;
   margin: 0 auto;
+  padding: 0 5px;
+  background-color: #f1f4f6;
+  ${columnFlexbox()};
   flex: 1 1 0%;
-  overflow: auto;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
 `;
 
 export default LayoutWrapper;
