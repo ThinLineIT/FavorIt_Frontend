@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { useSetRecoilState } from 'recoil';
 
 import { Button } from '@components/base';
-import { useSetRecoilState } from 'recoil';
-import { columnFlexbox } from '@styles/mixins/_flexbox';
-import { isLocalGenerator } from '@recoil/generate';
+import { isLocalGenerator } from '@recoil/create';
 import { textStyle } from '@styles/mixins/_text-style';
+import { columnFlexbox } from '@styles/mixins/_flexbox';
+import { smoothAppearDownUp } from '@styles/modules/_keyframes';
 
 const Preview = () => {
   const setGenerator = useSetRecoilState(isLocalGenerator);
@@ -33,6 +34,7 @@ const Base = styled.div`
   padding: 0 10px;
   margin-top: 150px;
   ${columnFlexbox('between', 'center')};
+  animation: ${smoothAppearDownUp} 700ms;
 
   > p {
     ${textStyle(24, '#333C4A')}

@@ -4,35 +4,35 @@ import { useRecoilState } from 'recoil';
 import React, { useEffect } from 'react';
 
 import { GoBack } from '@components/layout';
-import { generatorType, isLocalGenerator } from '@recoil/generate';
+import { generatorType, isLocalGenerator } from '@recoil/create';
 
 // @Note 추후 분리하기
 const Crawling = dynamic(
-  () => import('@components/domain/generate/page-components/Crawling'),
+  () => import('@components/domain/create/page-components/Crawling'),
   { ssr: false },
 );
 const Options = dynamic(
-  () => import('@components/domain/generate/page-components/Options'),
+  () => import('@components/domain/create/page-components/Options'),
   { ssr: false },
 );
 const Price = dynamic(
-  () => import('@components/domain/generate/page-components/Price'),
+  () => import('@components/domain/create/page-components/Price'),
   { ssr: false },
 );
 const Title = dynamic(
-  () => import('@components/domain/generate/page-components/Title'),
+  () => import('@components/domain/create/page-components/Title'),
   { ssr: false },
 );
 const Description = dynamic(
-  () => import('@components/domain/generate/page-components/Description'),
+  () => import('@components/domain/create/page-components/Description'),
   { ssr: false },
 );
 const Date = dynamic(
-  () => import('@components/domain/generate/page-components/Date'),
+  () => import('@components/domain/create/page-components/Date'),
   { ssr: false },
 );
 const Preview = dynamic(
-  () => import('@components/domain/generate/page-components/Preview'),
+  () => import('@components/domain/create/page-components/Preview'),
   { ssr: false },
 );
 

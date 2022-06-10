@@ -1,22 +1,23 @@
 import React from 'react';
 import { useSetRecoilState } from 'recoil';
-import { isLocalGenerator } from '@recoil/generate';
-import { flexbox } from '@styles/mixins/_flexbox';
-import styled from '@emotion/styled';
 
-const Price = () => {
+import styled from '@emotion/styled';
+import { flexbox } from '@styles/mixins/_flexbox';
+import { generatorType, isLocalGenerator } from '@recoil/create';
+
+const Date = () => {
   const setGenerator = useSetRecoilState(isLocalGenerator);
   const handleClick = () => {
-    setGenerator((prev: any) => ({ ...prev, page: prev.page + 1 }));
+    setGenerator((prev: generatorType) => ({ ...prev, page: prev.page + 1 }));
   };
   return (
     <Base onClick={handleClick}>
-      <Input type="number" placeholder="펀딩 목표액을 입력해주세요" />
+      <Input type="date" />
     </Base>
   );
 };
 
-export default Price;
+export default Date;
 
 const Base = styled.div`
   width: 100%;
@@ -29,6 +30,7 @@ const Base = styled.div`
 const Input = styled.input`
   width: 100%;
   padding: 15px;
+  cursor: pointer;
   border-radius: 12px;
   background-color: #ffffff;
 `;

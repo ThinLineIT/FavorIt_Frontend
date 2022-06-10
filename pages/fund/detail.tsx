@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { GoBack } from '@components/layout';
-import { isLocalGenerator } from '@recoil/generate';
+import { isLocalGenerator } from '@recoil/create';
 
 function DetailFundPage() {
   const [generator, setGenerator] = useRecoilState(isLocalGenerator);

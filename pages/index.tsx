@@ -5,13 +5,13 @@ import type { NextPage } from 'next';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { Button } from '@components/base';
-import { isLocalGenerator } from '@recoil/generate';
+import { isLocalGenerator } from '@recoil/create';
+import { canGoBack } from '@recoil/layout/navigator';
 import { LandingBox } from '@components/domain/home';
-import { isTopGoBack } from '@recoil/layout/navigator';
 import { columnFlexbox } from '@styles/mixins/_flexbox';
 
 const Home: NextPage = () => {
-  const setCanGoBack = useSetRecoilState(isTopGoBack);
+  const setCanGoBack = useSetRecoilState(canGoBack);
   const [generator, setGenerator] = useRecoilState(isLocalGenerator);
 
   const useGenerate = () => {
@@ -36,7 +36,7 @@ const Home: NextPage = () => {
     <>
       <Main>
         <LandingBox />
-        <Link href="/fund/generate" as="funding-generate">
+        <Link href="/fund/create">
           <a>
             <Button onClick={useGenerate}>펀딩 만들기</Button>
           </a>

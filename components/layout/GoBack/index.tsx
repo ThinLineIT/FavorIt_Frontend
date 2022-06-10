@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
-import { flexbox } from '@styles/mixins/_flexbox';
 import { useRouter } from 'next/router';
+
+import { flexbox } from '@styles/mixins/_flexbox';
 
 interface BackProps {
   path?: string;

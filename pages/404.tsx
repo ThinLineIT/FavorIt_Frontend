@@ -1,13 +1,18 @@
 import styled from '@emotion/styled';
+
+import { GoBack } from '@components/layout';
 import { columnFlexbox } from 'styles/mixins/_flexbox';
 
 export default function Custom404() {
   return (
-    <PageContainer>
-      <h1>{'(>_<)'}</h1>
-      <br />
-      <p>{"The page you're looking for doesn't exist. Sorry."}</p>
-    </PageContainer>
+    <>
+      <GoBack path="/" />
+      <PageContainer>
+        <h1>{'(>_<)'}</h1>
+        <br />
+        <p>{"The page you're looking for doesn't exist. Sorry."}</p>
+      </PageContainer>
+    </>
   );
 }
 
