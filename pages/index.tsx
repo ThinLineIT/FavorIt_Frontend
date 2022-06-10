@@ -7,10 +7,10 @@ import { Button } from '@components/base';
 import { LandingBox } from '@components/domain/home';
 import { columnFlexbox } from '@styles/mixins/_flexbox';
 
-import { isTopGoBack } from '@recoil/layout/navigator';
+import { canGoBack } from '@recoil/layout/navigator';
 
 const Home: NextPage = () => {
-  const setCanGoBack = useSetRecoilState(isTopGoBack);
+  const setCanGoBack = useSetRecoilState(canGoBack);
 
   useEffect(() => {
     setCanGoBack(false);
@@ -30,8 +30,11 @@ const Home: NextPage = () => {
 export default Home;
 
 const Main = styled.main`
-  ${columnFlexbox()};
+  width: 100%;
+  height: 50%;
+  ${columnFlexbox('between', 'center')};
   row-gap: 12px;
   padding: 0 10px;
+  margin-top: 15rem;
   font-weight: 700;
 `;

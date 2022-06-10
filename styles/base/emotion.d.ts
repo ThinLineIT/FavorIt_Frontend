@@ -1,11 +1,9 @@
 import '@emotion/react';
+import { PaletteTypes, ZIndexesTypes } from './theme';
 
 declare module '@emotion/react' {
   export interface Theme {
-    //
-  }
-
-  export interface Media {
-    //
+    palette: PaletteTypes;
+    zIndexes: ZIndexesTypes;
   }
 }

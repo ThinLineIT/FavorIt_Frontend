@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import type { ReactNode, ReactElement } from 'react';
-import { btnPrimary, btn32 } from '@styles/modules/_buttons';
+import { btnPrimary, btn48 } from '@styles/modules/_buttons';
 
 // @Note
 // 추후 추가적으로 작업
@@ -28,7 +28,7 @@ const Button: React.FC<ButtonProps> = ({
 export default Button;
 
 const StyledButton = styled.button`
-  ${btn32};
+  ${btn48};
   ${btnPrimary};
   width: 100%;
 `;

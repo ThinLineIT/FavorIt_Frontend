@@ -8,7 +8,7 @@ import { flexbox } from 'styles/mixins/_flexbox';
 
 const Overlay = styled.div`
   position: fixed;
-  z-index: 10;
+  z-index: ${({ theme }) => theme.zIndexes.modal_level};
   top: 0;
   left: 0;
   right: 0;
