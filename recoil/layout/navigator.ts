@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 
-export const isTopGoBack = atom<boolean>({
-  key: 'isTopGoBack',
+export const canGoBack = atom<boolean>({
+  key: 'canGoBack',
   default: true,
 });
 

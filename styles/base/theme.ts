@@ -1,50 +1,40 @@
 /* Based on FavorIt Web Design System */
+import { Theme } from '@emotion/react';
 
 const palette = {
-  // Color
-  // //  Default(white, black)
-  // // Color1
-  // // Color2
-  // // Grey
-  // // Enterprise
-  // facebook: '#397DFF',
-  // kakao: '#FFD866',
-  // instagram: '',
+  black: '#000',
+  dark: '#191a20',
+  primary: '#E6F6FF',
+  secondary: '#FFFBA7',
+  tertiary: '#FDA2E3',
+
+  border: '#e0e2e7',
+  background: '#f7f8fa',
+  white: '#fff',
+
+  green: '#22c58b',
+  orange: '#FFB84E',
+  pink_matte: '#EFB2B2',
+  blue_dark: '#92D2FF',
+
+  kakao: '#FEE502',
 } as const;
 
-const fontSize = {
-  //
-} as const;
-
-const fontWeight = {
-  //
-} as const;
-
-const lineHeight = {
-  //
-} as const;
-
-const letterSpacing = {
-  //
-} as const;
-
-const textStyle = {
-  //
+const zIndexes = {
+  gnb_level: 50,
+  overlay_level: 100,
+  sidebar_level: 200,
+  modal_level: 500,
+  toast_level: 600,
 } as const;
 
 export type PaletteTypes = typeof palette;
 export type PaletteKeyTypes = keyof typeof palette;
-export type TextStyleTypes = typeof textStyle;
-export type FontSizeTypes = typeof fontSize;
-export type FontWeightTypes = typeof fontWeight;
-export type LineHeightTypes = typeof lineHeight;
+export type ZIndexesTypes = typeof zIndexes;
 
-const theme = {
+const theme: Theme = {
   palette,
-  textStyle,
-  fontSize,
-  fontWeight,
-  lineHeight,
+  zIndexes,
 };
 
 export default theme;

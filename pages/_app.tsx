@@ -4,7 +4,6 @@ import type { AppProps } from 'next/app';
 import { Global, ThemeProvider } from '@emotion/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
-import 'styles/modal.css';
 import { SEO } from '@components/base';
 import { GlobalStyle, theme } from '@styles/base';
 import { LayoutWrapper } from '@components/layout';
