@@ -4,11 +4,11 @@ import { UseFormRegisterReturn } from 'react-hook-form';
 import { textStyle } from '@styles/mixins/_text-style';
 
 interface TextAreaProps {
-  label: string;
-  labelHidden?: boolean;
-  name?: string;
-  placeholder?: string;
+  name: string;
   register: UseFormRegisterReturn;
+  label?: string;
+  labelHidden?: boolean;
+  placeholder?: string;
   [key: string]: any;
 }
 
@@ -21,38 +21,42 @@ export default function TextArea({
   ...rest
 }: TextAreaProps) {
   return (
-    <div>
+    <Base>
       <Label htmlFor={name} className={labelHidden ? 'visually-hidden' : ''}>
-        {label}
+        {label || name}
       </Label>
       <TextAreaStyled
         id={name}
         {...register}
         placeholder={placeholder}
-        rows={4}
+        rows={1}
         {...rest}
       />
-    </div>
+    </Base>
   );
 }
 
+const Base = styled.div``;
+
 const Label = styled.label`
   display: block;
-  ${textStyle(14)};
   margin-bottom: 0.25rem;
-  color: rgb(55 65 81);
+  ${textStyle(14, '#8B95A1')};
   font-weight: 500;
 `;
 
 const TextAreaStyled = styled.textarea`
-  margin-top: 0.25rem;
   width: 100%;
-  border-radius: 6px;
-  background-color: #fff;
-  border: 1px solid rgb(209 213 219);
-  box-shadow: 0 4px 20px rgba(63, 65, 80, 0.3);
+  resize: none;
+  padding: 10px 1px;
+  border-bottom: 1.5px solid lightgray;
+  ${textStyle(18, '#191e29')}
 
   &:focus {
-    border-color: rgb(99 102 241);
+  }
+
+  &::placeholder {
+    /* color: rgb(156 163 175); */
+    ${textStyle(18, '#191e29')}
   }
 `;

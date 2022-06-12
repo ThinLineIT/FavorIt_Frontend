@@ -9,7 +9,7 @@ const SEO = () => {
 
       {/* 파비콘 */}
       <link rel="icon" href="/assets/images/favicon.ico" type="image/png" />
-      <link rel="icon" href="/favicon-32x32.png" type="image/png" />
+      {/* <link rel="icon" href="/favicon-32x32.png" type="image/png" /> */}
 
       {/* 로봇 방문 허용 */}
       <meta name="robots" content="follow, index" />

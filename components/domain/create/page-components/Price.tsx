@@ -3,20 +3,40 @@ import styled from '@emotion/styled';
 import { useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 
-import Input from '@components/base/Input';
 import { flexbox } from '@styles/mixins/_flexbox';
-import { isLocalGenerator } from '@recoil/create';
-import { smoothAppearDownUp } from '@styles/modules/_keyframes';
+import { Input, ErrorMessage } from '@components/base';
+import {
+  FormType,
+  GeneratorType,
+  isFundingForm,
+  isLocalGenerator,
+} from '@recoil/create';
+import {
+  smoothAppearDownUp,
+  smoothAppearDownUpLarge,
+} from '@styles/modules/_keyframes';
+import { btn48, btnPrimary } from '@styles/modules/_buttons';
 
-interface UploadProductForm {
-  price: string;
+interface UploadFormPrice {
+  price: number;
 }
 
 const Price = () => {
+  const setFundingForm = useSetRecoilState(isFundingForm);
   const setGenerator = useSetRecoilState(isLocalGenerator);
-  const { register, handleSubmit } = useForm<UploadProductForm>();
-  const onValid = () => {
-    setGenerator((prev: any) => ({ ...prev, page: prev.page + 1 }));
+  const {
+    watch,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<UploadFormPrice>();
+  const watchPrice = watch('price');
+  const onValid = (data: UploadFormPrice) => {
+    setFundingForm((prev: FormType) => ({
+      ...prev,
+      product: { ...prev.product, price: data.price },
+    }));
+    setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
   };
 
   return (
@@ -26,16 +46,23 @@ const Price = () => {
           register={register('price', {
             required: '올바른 가격을 입력해 주세요',
             pattern: {
-              value: /^[0-9]+$/i,
+              value: /^[0-9]+$/,
               message: '올바른 가격을 입력해 주세요',
             },
           })}
-          required
-          label="Price"
           name="price"
-          type="number"
           kind="price"
+          type="number"
+          label="상품 가격"
+          placeholder="0"
         />
+
+        {errors?.price?.type === 'pattern' && (
+          <ErrorMessage>{errors.price.message}</ErrorMessage>
+        )}
+        <br />
+
+        {watchPrice != null && <NextButton type="submit">다음</NextButton>}
       </Form>
     </Base>
   );
@@ -53,5 +80,15 @@ const Base = styled.div`
 
 const Form = styled.form`
   width: 100%;
-  animation: ${smoothAppearDownUp} 700ms;
+  display: block;
+  animation: ${smoothAppearDownUp} 300ms;
+`;
+
+const NextButton = styled.button`
+  ${btnPrimary};
+  ${btn48}
+  position: absolute;
+  bottom: 125px;
+  width: 125px;
+  animation: ${smoothAppearDownUpLarge} 700ms;
 `;

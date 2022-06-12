@@ -45,17 +45,17 @@ const Wrapper = styled.div<{ isTopGoBack: boolean; asPath: string }>`
   height: 100vh;
   margin: 0 auto;
   padding: 0 15px;
-  background-color: #f1f4f6;
   ${columnFlexbox()};
   flex: 1 1 0%;
-  margin-top: ${({ isTopGoBack }) => (isTopGoBack ? '3rem' : '0')};
+  background-color: ${({ asPath }) => (asPath === PATH.Home ? '#f1f4f6' : '')};
+  /* padding-top: ${({ isTopGoBack }) => (isTopGoBack ? '3rem' : '0')}; */
 
   // @Note 추후 수정
   // '/' 일 때마다 트랜지션될 필요 없음. 최초의 componentWillMount 에서만 발생하게끔 해야됨
   animation: ${({ asPath }) =>
     asPath === PATH.Home
       ? css`
-          ${smoothAppearUpDown} 700ms
+          ${smoothAppearUpDown} 700ms;
         `
       : ''};
 `;

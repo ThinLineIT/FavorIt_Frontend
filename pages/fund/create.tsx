@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 import React, { useEffect } from 'react';
 
 import { GoBack } from '@components/layout';
-import { generatorType, isLocalGenerator } from '@recoil/create';
+import { GeneratorType, isLocalGenerator } from '@recoil/create';
 
 // @Note 추후 분리하기
 const Crawling = dynamic(
@@ -37,34 +37,13 @@ const Preview = dynamic(
 );
 
 const hocComponents = [
-  {
-    page: 0,
-    component: <Crawling />,
-  },
-  {
-    page: 1,
-    component: <Options />,
-  },
-  {
-    page: 2,
-    component: <Price />,
-  },
-  {
-    page: 3,
-    component: <Title />,
-  },
-  {
-    page: 4,
-    component: <Description />,
-  },
-  {
-    page: 5,
-    component: <Date />,
-  },
-  {
-    page: 6,
-    component: <Preview />,
-  },
+  { page: 0, component: <Crawling /> },
+  { page: 1, component: <Options /> },
+  { page: 2, component: <Price /> },
+  { page: 3, component: <Title /> },
+  { page: 4, component: <Description /> },
+  { page: 5, component: <Date /> },
+  { page: 6, component: <Preview /> },
 ];
 
 const Generate = () => {
@@ -73,9 +52,10 @@ const Generate = () => {
 
   useEffect(() => {
     if (generator.done === true) {
-      router.replace('/fund/detail');
+      router.replace('/fund/123');
     }
-  }, [router, generator, setGenerator]);
+  }, [generator, router]);
+
   // @Note
   // 개별 컴포넌트에 setGenerator를 넘겨 page-number를 +1 해주거나 리셋해준다.
   // 마지막 컴포넌트에서는 generator.done === true로 줘서 완료시킨다.
@@ -85,7 +65,7 @@ const Generate = () => {
       <GoBack
         currying={() => {
           generator.page > 0
-            ? setGenerator((prev: generatorType) => ({
+            ? setGenerator((prev: GeneratorType) => ({
                 ...prev,
                 page: prev.page - 1,
               }))
