@@ -2,13 +2,12 @@ import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
+import { Button } from '@components/base';
 import useMutation from '@apis/useMutation';
 import { textStyle } from '@styles/mixins/_text-style';
-import { columnFlexbox } from '@styles/mixins/_flexbox';
-import { smoothAppearDownUp } from '@styles/modules/_keyframes';
+import { columnFlexbox, flexbox } from '@styles/mixins/_flexbox';
 import { GeneratorType, isFundingForm, isLocalGenerator } from '@recoil/create';
-import { posCenter } from '@styles/mixins/_positions';
-import { Button } from '@components/base';
+import { smoothAppearDownUp } from '@styles/modules/_keyframes';
 
 interface fundingId {
   funding_id: string;
@@ -16,15 +15,6 @@ interface fundingId {
 interface MutationResult {
   data: fundingId;
   message: string;
-}
-
-function Contenteditable() {
-  // console.log(name);
-  return (
-    <div>
-      <input />
-    </div>
-  );
 }
 
 const Preview = () => {
@@ -60,20 +50,7 @@ const Preview = () => {
         <br />
         펀딩 생성을 진행할까요 ?
       </Description>
-
       <Button onClick={onMutate}>좋아요</Button>
-
-      <ReForm>
-        {/* {Object.values(fundingForm).map((el, idx) => {
-          return typeof el === 'string' ? (
-            <Contenteditable key={idx} name={el} />
-          ) : (
-            Object.values(el).map((val, idx) => (
-              <Contenteditable key={idx} name={Object.values(val)} />
-            ))
-          );
-        })} */}
-      </ReForm>
     </Base>
   );
 };
@@ -84,19 +61,11 @@ const Base = styled.div`
   width: 100%;
   height: 100%;
   padding: 0 10px;
-  margin-top: 80px;
-  ${columnFlexbox('between', 'start')};
-  animation: ${smoothAppearDownUp} 700ms;
-
-  > button {
-    margin-bottom: 50px;
-  }
+  margin-top: 150px;
+  ${flexbox('center', 'start')};
 `;
 
 const Description = styled.div`
+  width: 100%;
   ${textStyle(18, '#333C4A')}
-`;
-
-const ReForm = styled.div`
-  ${posCenter()}
 `;

@@ -11,6 +11,7 @@ export type FormType = {
   contents: string;
   due_date: string;
   product: Product;
+  recipient_name: string;
 };
 
 export type GeneratorType = {
@@ -30,6 +31,7 @@ export const isFundingForm = atom<FormType>({
       options: '',
       price: 0,
     },
+    recipient_name: '',
   },
 });
 

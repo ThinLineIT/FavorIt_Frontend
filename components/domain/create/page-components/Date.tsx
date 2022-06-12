@@ -18,20 +18,10 @@ const Date = () => {
   const setGenerator = useSetRecoilState(isLocalGenerator);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const dates = dateRef.current?.value;
-    if (dates) {
-      setFundingForm((prev: FormType) => ({
-        ...prev,
-        due_date: dates,
-      }));
-      setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
-    } else {
-      alert('날짜를 입력해 주세요');
-    }
+    setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
   };
   return (
     <Base onSubmit={handleSubmit}>
-      <Input type="date" ref={dateRef} />
       <NextButton>다음</NextButton>
     </Base>
   );

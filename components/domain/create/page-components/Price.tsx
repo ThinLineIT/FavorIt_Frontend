@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useForm } from 'react-hook-form';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { flexbox } from '@styles/mixins/_flexbox';
 import { Input, ErrorMessage } from '@components/base';
@@ -22,11 +22,12 @@ interface UploadFormPrice {
 }
 
 const Price = () => {
-  const setFundingForm = useSetRecoilState(isFundingForm);
   const setGenerator = useSetRecoilState(isLocalGenerator);
+  const [fundingForm, setFundingForm] = useRecoilState(isFundingForm);
   const {
     watch,
     register,
+    setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<UploadFormPrice>();
@@ -39,12 +40,18 @@ const Price = () => {
     setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
   };
 
+  useEffect(() => {
+    if (fundingForm?.product?.price !== 0) {
+      setValue('price', fundingForm?.product?.price);
+    }
+  }, [fundingForm, setValue]);
+
   return (
     <Base>
       <Form onSubmit={handleSubmit(onValid)}>
         <Input
           register={register('price', {
-            required: '올바른 가격을 입력해 주세요',
+            required: '입력된 가격이 없네요!',
             pattern: {
               value: /^[0-9]+$/,
               message: '올바른 가격을 입력해 주세요',
@@ -57,6 +64,9 @@ const Price = () => {
           placeholder="0"
         />
 
+        {errors?.price?.type === 'required' && (
+          <ErrorMessage>{errors.price.message}</ErrorMessage>
+        )}
         {errors?.price?.type === 'pattern' && (
           <ErrorMessage>{errors.price.message}</ErrorMessage>
         )}
@@ -87,8 +97,6 @@ const Form = styled.form`
 const NextButton = styled.button`
   ${btnPrimary};
   ${btn48}
-  position: absolute;
-  bottom: 125px;
   width: 125px;
   animation: ${smoothAppearDownUpLarge} 700ms;
 `;

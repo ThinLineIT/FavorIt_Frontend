@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useForm } from 'react-hook-form';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { flexbox } from '@styles/mixins/_flexbox';
 import { TextArea, ErrorMessage, Button } from '@components/base';
@@ -22,11 +22,12 @@ interface UploadFormDescription {
 }
 
 const Description = () => {
-  const setFundingForm = useSetRecoilState(isFundingForm);
   const setGenerator = useSetRecoilState(isLocalGenerator);
+  const [fundingForm, setFundingForm] = useRecoilState(isFundingForm);
   const {
     watch,
     register,
+    setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<UploadFormDescription>();
@@ -39,12 +40,18 @@ const Description = () => {
     setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
   };
 
+  useEffect(() => {
+    if (fundingForm?.contents !== '') {
+      setValue('contents', fundingForm?.contents);
+    }
+  }, [fundingForm, setValue]);
+
   return (
     <Base>
       <Form onSubmit={handleSubmit(onValid)}>
         <TextArea
           register={register('contents', {
-            required: '펀딩 내용을 입력해주세요!',
+            required: '입력된 텍스트가 없네요!',
             maxLength: {
               value: 100,
               message: '100자 까지 입력 가능해요',
@@ -55,6 +62,9 @@ const Description = () => {
           placeholder="펀딩 내용을 입력해주세요"
         />
 
+        {errors?.contents?.type === 'required' && (
+          <ErrorMessage>{errors.contents.message}</ErrorMessage>
+        )}
         {errors?.contents?.type === 'maxLength' && (
           <ErrorMessage>{errors.contents.message}</ErrorMessage>
         )}
@@ -85,8 +95,6 @@ const Form = styled.form`
 const NextButton = styled.button`
   ${btnPrimary};
   ${btn48}
-  position: absolute;
-  bottom: 125px;
   width: 125px;
   animation: ${smoothAppearDownUpLarge} 700ms;
 `;

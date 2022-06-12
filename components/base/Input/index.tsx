@@ -42,7 +42,7 @@ export default function Input({
         <Wrapper>
           <InputStyled
             id={name}
-            required={required}
+            // required={required}
             autoComplete="off"
             {...register}
             type={type}

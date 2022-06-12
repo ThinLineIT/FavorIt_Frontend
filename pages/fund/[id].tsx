@@ -12,7 +12,7 @@ import { Suspense, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 
 const Base = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 100%;
   box-sizing: border-box;
 `;
@@ -110,7 +110,7 @@ function FundList({}) {
 
   useEffect(() => {
     // 임의로 로딩 상태 표현
-    setTimeout(() => setLoading(false), 800);
+    setTimeout(() => setLoading(false), 1000);
   }, []);
 
   return (
@@ -119,11 +119,9 @@ function FundList({}) {
       <Base>
         {loading
           ? Array.from({ length: 1 }).map((_, idx) => (
-              <>
-                <DeferredComponent>
-                  <Placeholder key={idx} />
-                </DeferredComponent>
-              </>
+              <DeferredComponent key={idx}>
+                <Placeholder />
+              </DeferredComponent>
             ))
           : Array.from({ length: 1 }).map((_, idx) => <Item key={idx} />)}
       </Base>

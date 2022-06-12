@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { useForm } from 'react-hook-form';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { flexbox } from '@styles/mixins/_flexbox';
 import { textStyle } from '@styles/mixins/_text-style';
@@ -11,22 +11,29 @@ import {
   isFundingForm,
   isLocalGenerator,
 } from '@recoil/create';
-import { smoothAppearDownUp } from '@styles/modules/_keyframes';
+import {
+  smoothAppearDownUp,
+  smoothAppearDownUpLarge,
+} from '@styles/modules/_keyframes';
+import { useEffect } from 'react';
 
 interface UploadFormLink {
   link: string;
 }
 
 const Crawling = () => {
-  const setFundingForm = useSetRecoilState(isFundingForm);
   const setGenerator = useSetRecoilState(isLocalGenerator);
+  const [fundingForm, setFundingForm] = useRecoilState(isFundingForm);
   const {
+    watch,
     register,
+    setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<UploadFormLink>({
     mode: 'onBlur',
   });
+  const watchLink = watch('link');
   const onValid = (data: UploadFormLink) => {
     setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
     setFundingForm((prev: FormType) => ({
@@ -34,6 +41,12 @@ const Crawling = () => {
       product: { ...prev.product, link: data.link },
     }));
   };
+
+  useEffect(() => {
+    if (fundingForm?.product?.link !== '') {
+      setValue('link', fundingForm?.product?.link);
+    }
+  }, [fundingForm, setValue]);
 
   return (
     <Base>
@@ -43,7 +56,7 @@ const Crawling = () => {
           label="상품 링크"
           placeholder="상품 링크를 입력해주세요"
           register={register('link', {
-            required: '올바른 주소를 입력해 주세요',
+            required: '입력된 텍스트가 없네요!',
             pattern: {
               value:
                 /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
@@ -52,26 +65,31 @@ const Crawling = () => {
           })}
         />
 
+        {errors?.link?.type === 'required' && (
+          <ErrorMessage>{errors.link.message}</ErrorMessage>
+        )}
         {errors?.link?.type === 'pattern' && (
           <ErrorMessage>{errors.link.message}</ErrorMessage>
         )}
 
-        <NextButton type="submit" aria-label="추가 옵션 버튼">
-          추가 옵션
-          <svg
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M15 19l-7-7 7-7"
-            ></path>
-          </svg>
-        </NextButton>
+        {watchLink != null && (
+          <NextButton type="submit" aria-label="추가 옵션 버튼">
+            추가 옵션
+            <svg
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M15 19l-7-7 7-7"
+              ></path>
+            </svg>
+          </NextButton>
+        )}
       </Form>
     </Base>
   );
@@ -102,6 +120,7 @@ const NextButton = styled.button`
   padding: 0 1px;
   margin-top: 1rem;
   ${textStyle(16, '#4E5969')};
+  animation: ${smoothAppearDownUpLarge} 700ms;
 
   > svg {
     transform: rotate(180deg);

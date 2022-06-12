@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { flexbox } from '@styles/mixins/_flexbox';
-import { Input, ErrorMessage, Button } from '@components/base';
+import { Input, ErrorMessage } from '@components/base';
 import {
   smoothAppearDownUp,
   smoothAppearDownUpLarge,
@@ -17,11 +17,11 @@ import {
 } from '@recoil/create';
 import { btn48, btnPrimary } from '@styles/modules/_buttons';
 
-interface UploadFormTitle {
-  name: string;
+interface UploadFormRecipientName {
+  recipient_name: string;
 }
 
-const Title = () => {
+const RecipientName = () => {
   const setGenerator = useSetRecoilState(isLocalGenerator);
   const [fundingForm, setFundingForm] = useRecoilState(isFundingForm);
   const {
@@ -30,19 +30,19 @@ const Title = () => {
     setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm<UploadFormTitle>();
-  const watchTitle = watch('name');
-  const onValid = (data: UploadFormTitle) => {
+  } = useForm<UploadFormRecipientName>();
+  const watchTitle = watch('recipient_name');
+  const onValid = (data: UploadFormRecipientName) => {
     setFundingForm((prev: FormType) => ({
       ...prev,
-      name: data.name,
+      recipient_name: data.recipient_name,
     }));
     setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
   };
 
   useEffect(() => {
-    if (fundingForm?.name !== '') {
-      setValue('name', fundingForm?.name);
+    if (fundingForm?.recipient_name !== '') {
+      setValue('recipient_name', fundingForm?.recipient_name);
     }
   }, [fundingForm, setValue]);
 
@@ -50,23 +50,23 @@ const Title = () => {
     <Base>
       <Form onSubmit={handleSubmit(onValid)}>
         <Input
-          register={register('name', {
+          register={register('recipient_name', {
             required: '입력된 텍스트가 없네요!',
             maxLength: {
               value: 20,
               message: '20자 까지 입력 가능해요',
             },
           })}
-          name="title"
-          label="펀딩 제목"
-          placeholder="펀딩 제목을 입력해주세요"
+          name="recipient_name"
+          label="받는 분 성함"
+          placeholder="받으시는 분의 이름을 입력해주세요"
         />
 
-        {errors?.name?.type === 'required' && (
-          <ErrorMessage>{errors.name.message}</ErrorMessage>
+        {errors?.recipient_name?.type === 'required' && (
+          <ErrorMessage>{errors.recipient_name.message}</ErrorMessage>
         )}
-        {errors?.name?.type === 'maxLength' && (
-          <ErrorMessage>{errors.name.message}</ErrorMessage>
+        {errors?.recipient_name?.type === 'maxLength' && (
+          <ErrorMessage>{errors.recipient_name.message}</ErrorMessage>
         )}
         <br />
 
@@ -76,7 +76,7 @@ const Title = () => {
   );
 };
 
-export default Title;
+export default RecipientName;
 
 const Base = styled.div`
   width: 100%;

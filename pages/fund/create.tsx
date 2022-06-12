@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 
 import { GoBack } from '@components/layout';
 import { GeneratorType, isLocalGenerator } from '@recoil/create';
+import styled from '@emotion/styled';
 
 // @Note 추후 분리하기
 const Crawling = dynamic(
@@ -27,6 +28,10 @@ const Description = dynamic(
   () => import('@components/domain/create/page-components/Description'),
   { ssr: false },
 );
+const RecipientName = dynamic(
+  () => import('@components/domain/create/page-components/RecipientName'),
+  { ssr: false },
+);
 const Date = dynamic(
   () => import('@components/domain/create/page-components/Date'),
   { ssr: false },
@@ -42,8 +47,9 @@ const hocComponents = [
   { page: 2, component: <Price /> },
   { page: 3, component: <Title /> },
   { page: 4, component: <Description /> },
-  { page: 5, component: <Date /> },
-  { page: 6, component: <Preview /> },
+  { page: 5, component: <RecipientName /> },
+  { page: 6, component: <Date /> },
+  { page: 7, component: <Preview /> },
 ];
 
 const Generate = () => {

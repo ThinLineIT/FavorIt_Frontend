@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { useForm } from 'react-hook-form';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { flexbox } from '@styles/mixins/_flexbox';
 import { TextArea, ErrorMessage, Button } from '@components/base';
@@ -15,17 +15,19 @@ import {
   isLocalGenerator,
 } from '@recoil/create';
 import { btn48, btnPrimary } from '@styles/modules/_buttons';
+import { useEffect } from 'react';
 
 interface UploadFormOption {
   options: string;
 }
 
 const Option = () => {
-  const setFundingForm = useSetRecoilState(isFundingForm);
   const setGenerator = useSetRecoilState(isLocalGenerator);
+  const [fundingForm, setFundingForm] = useRecoilState(isFundingForm);
   const {
     watch,
     register,
+    setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<UploadFormOption>();
@@ -38,12 +40,18 @@ const Option = () => {
     setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
   };
 
+  useEffect(() => {
+    if (fundingForm?.product?.options !== '') {
+      setValue('options', fundingForm?.product?.options);
+    }
+  }, [fundingForm, setValue]);
+
   return (
     <Base>
       <Form onSubmit={handleSubmit(onValid)}>
         <TextArea
           register={register('options', {
-            required: '올바른 옵션을 입력해주세요',
+            required: '입력된 텍스트가 없네요!',
             maxLength: {
               value: 60,
               message: '60자 까지 입력 가능해요',
@@ -54,6 +62,9 @@ const Option = () => {
           placeholder="상품 옵션을 입력해주세요"
         />
 
+        {errors?.options?.type === 'required' && (
+          <ErrorMessage>{errors.options.message}</ErrorMessage>
+        )}
         {errors?.options?.type === 'maxLength' && (
           <ErrorMessage>{errors.options.message}</ErrorMessage>
         )}
@@ -84,8 +95,6 @@ const Form = styled.form`
 const NextButton = styled.button`
   ${btnPrimary};
   ${btn48}
-  position: absolute;
-  bottom: 125px;
   width: 125px;
   animation: ${smoothAppearDownUpLarge} 700ms;
 `;
