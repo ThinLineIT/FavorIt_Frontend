@@ -1,5 +1,5 @@
 import { detailApi } from '@apis/fundApi';
-import { DeferredComponent } from '@components/base';
+import { Button, DeferredComponent } from '@components/base';
 import Skeleton from '@components/base/Skeleton';
 import GenerateFallback from '@components/domain/create/fallback';
 import { GoBack } from '@components/layout';
@@ -95,12 +95,20 @@ const Placeholder: React.FC = () => (
 );
 
 const Item: React.FC = () => {
+  const copyTextUrl = () => {
+    const { href } = window.location;
+    navigator.clipboard.writeText(href).then(() => {
+      alert('링크를 복사했습니다.');
+    });
+  };
+
   return (
     <MainBase>
       <Info>
         <Title>펀딩을 생성했습니다!</Title>
-        <Description>친구들에게 공유해보세요</Description>
+        <Description>링크를 공유하여 펀딩을 받으세요</Description>
       </Info>
+      <Button onClick={copyTextUrl}>링크 복사</Button>
     </MainBase>
   );
 };
@@ -110,7 +118,7 @@ function FundList({}) {
 
   useEffect(() => {
     // 임의로 로딩 상태 표현
-    setTimeout(() => setLoading(false), 1000);
+    setTimeout(() => setLoading(false), 1200);
   }, []);
 
   return (

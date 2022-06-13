@@ -1,4 +1,4 @@
-export { default as Date } from './Date';
+export { default as Dates } from './Dates';
 export { default as Title } from './Title';
 export { default as Price } from './Price';
 export { default as Options } from './Options';

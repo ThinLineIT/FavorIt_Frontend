@@ -32,8 +32,8 @@ const RecipientName = dynamic(
   () => import('@components/domain/create/page-components/RecipientName'),
   { ssr: false },
 );
-const Date = dynamic(
-  () => import('@components/domain/create/page-components/Date'),
+const Dates = dynamic(
+  () => import('@components/domain/create/page-components/Dates'),
   { ssr: false },
 );
 const Preview = dynamic(
@@ -48,7 +48,7 @@ const hocComponents = [
   { page: 3, component: <Title /> },
   { page: 4, component: <Description /> },
   { page: 5, component: <RecipientName /> },
-  { page: 6, component: <Date /> },
+  { page: 6, component: <Dates /> },
   { page: 7, component: <Preview /> },
 ];
 

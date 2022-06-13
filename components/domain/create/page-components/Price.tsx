@@ -18,7 +18,7 @@ import {
 import { btn48, btnPrimary } from '@styles/modules/_buttons';
 
 interface UploadFormPrice {
-  price: number;
+  price: string;
 }
 
 const Price = () => {
@@ -33,16 +33,40 @@ const Price = () => {
   } = useForm<UploadFormPrice>();
   const watchPrice = watch('price');
   const onValid = (data: UploadFormPrice) => {
+    const purePrice = +data.price.split(',').join('');
     setFundingForm((prev: FormType) => ({
       ...prev,
-      product: { ...prev.product, price: data.price },
+      product: { ...prev.product, price: purePrice },
     }));
     setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
+  };
+  // @Note
+  // 재사용성을 위해 추후 분리할 예정
+  const handlePriceType = (watch: string) => {
+    const pureString = watch && watch.split(',').join('');
+    if (isNaN(Number(pureString))) {
+      return;
+    }
+    if (Number(pureString) >= 1000) {
+      setValue(
+        'price',
+        Number(pureString).toLocaleString('en', {
+          maximumFractionDigits: 3,
+        }),
+      );
+      return;
+    }
+    setValue('price', pureString);
   };
 
   useEffect(() => {
     if (fundingForm?.product?.price !== 0) {
-      setValue('price', fundingForm?.product?.price);
+      setValue(
+        'price',
+        (fundingForm?.product?.price).toLocaleString('en', {
+          maximumFractionDigits: 3,
+        }),
+      );
     }
   }, [fundingForm, setValue]);
 
@@ -53,15 +77,16 @@ const Price = () => {
           register={register('price', {
             required: '입력된 가격이 없네요!',
             pattern: {
-              value: /^[0-9]+$/,
+              value: /\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2})?/,
               message: '올바른 가격을 입력해 주세요',
             },
           })}
           name="price"
           kind="price"
-          type="number"
+          type="text"
           label="상품 가격"
           placeholder="0"
+          onKeyUp={() => handlePriceType(watchPrice)}
         />
 
         {errors?.price?.type === 'required' && (

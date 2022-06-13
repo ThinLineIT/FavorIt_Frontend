@@ -30,9 +30,7 @@ const Crawling = () => {
     setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm<UploadFormLink>({
-    mode: 'onBlur',
-  });
+  } = useForm<UploadFormLink>();
   const watchLink = watch('link');
   const onValid = (data: UploadFormLink) => {
     setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));

@@ -21,6 +21,7 @@ interface InputProps {
   labelHidden?: boolean;
   placeholder?: string;
   kind?: 'text' | 'phone' | 'price';
+  onKeyUp?: () => void;
 }
 
 export default function Input({
@@ -32,6 +33,7 @@ export default function Input({
   labelHidden = false,
   placeholder,
   kind = 'text',
+  onKeyUp,
 }: InputProps) {
   return (
     <Base>
@@ -59,6 +61,7 @@ export default function Input({
             {...register}
             type={type}
             placeholder={placeholder}
+            onKeyUp={onKeyUp}
           />
           <Currency>
             <span>원</span>
