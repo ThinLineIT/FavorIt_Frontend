@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import DatePicker from 'react-datepicker';
+import DatePicker, { registerLocale } from 'react-datepicker';
+import { ko } from 'date-fns/esm/locale';
+registerLocale('ko', ko);
 import { useSetRecoilState } from 'recoil';
 
 import styled from '@emotion/styled';
@@ -38,21 +40,21 @@ const Dates = () => {
         due_date: dateToString(startDate),
       }));
       setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
-    } else {
-      alert('날짜를 입력해 주세요');
     }
   };
 
   return (
     <Base>
       <Form onSubmit={handleSubmit}>
+        <Description>언제까지 펀딩할까요?</Description>
+        <br />
         <SelectorForm>
-          <Description>언제까지 펀딩할까요?</Description>
-          <DateInput>2022년 6월 13일 부터</DateInput>
           <DateInput>
             <DatePicker
+              inline
+              locale={ko}
               selectsEnd
-              dateFormat="yyyy년 MM월 dd일까지"
+              dateFormat="yyyy년 MM월 dd (eee)"
               selected={endDate}
               startDate={startDate}
               minDate={startDate}
@@ -60,10 +62,6 @@ const Dates = () => {
             />
           </DateInput>
         </SelectorForm>
-        <div>
-          <br />
-        </div>
-        <NextButton>다음</NextButton>
       </Form>
     </Base>
   );
@@ -87,7 +85,7 @@ const Form = styled.form`
 
 const SelectorForm = styled.div`
   width: 100%;
-  height: 150px;
+  height: 350px;
   border: 2px dashed #8b95a1;
   border-radius: 6px;
   display: flex;
@@ -97,7 +95,8 @@ const SelectorForm = styled.div`
 `;
 
 const Description = styled.p`
-  ${textStyle(18, '#8B95A1')};
+  ${textStyle(18, '#191e29')};
+  text-align: center;
 `;
 
 const DateInput = styled.label`

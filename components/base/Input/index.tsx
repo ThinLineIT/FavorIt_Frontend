@@ -60,8 +60,8 @@ export default function Input({
             autoComplete="off"
             {...register}
             type={type}
-            placeholder={placeholder}
             onKeyUp={onKeyUp}
+            placeholder={placeholder}
           />
           <Currency>
             <span>원</span>
@@ -77,6 +77,7 @@ export default function Input({
             autoComplete="off"
             {...register}
             type={type}
+            onKeyUp={onKeyUp}
             placeholder={placeholder}
           />
         </PhoneWrapper>
