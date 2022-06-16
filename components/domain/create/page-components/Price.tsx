@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
-import { flexbox } from '@styles/mixins/_flexbox';
 import { Input, ErrorMessage } from '@components/base';
+import { btn48, btnPrimary } from '@styles/modules/_buttons';
 import {
   FormType,
   GeneratorType,
@@ -15,7 +15,19 @@ import {
   smoothAppearDownUp,
   smoothAppearDownUpLarge,
 } from '@styles/modules/_keyframes';
-import { btn48, btnPrimary } from '@styles/modules/_buttons';
+
+const Form = styled.form`
+  width: 100%;
+  display: block;
+  animation: ${smoothAppearDownUp} 300ms;
+`;
+
+const NextButton = styled.button`
+  ${btnPrimary};
+  ${btn48}
+  width: 125px;
+  animation: ${smoothAppearDownUpLarge} 700ms;
+`;
 
 interface UploadFormPrice {
   price: string;
@@ -71,57 +83,34 @@ const Price = () => {
   }, [fundingForm, setValue]);
 
   return (
-    <Base>
-      <Form onSubmit={handleSubmit(onValid)}>
-        <Input
-          register={register('price', {
-            required: '입력된 가격이 없네요!',
-            pattern: {
-              value: /\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2})?/,
-              message: '올바른 가격을 입력해 주세요',
-            },
-          })}
-          name="price"
-          kind="price"
-          type="text"
-          label="상품 가격"
-          placeholder="0"
-          onKeyUp={() => handlePriceType(watchPrice)}
-        />
+    <Form onSubmit={handleSubmit(onValid)}>
+      <Input
+        register={register('price', {
+          required: '입력된 가격이 없네요!',
+          pattern: {
+            value: /\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2})?/,
+            message: '올바른 가격을 입력해 주세요',
+          },
+        })}
+        name="price"
+        kind="price"
+        type="text"
+        label="상품 가격"
+        placeholder="0"
+        onKeyUp={() => handlePriceType(watchPrice)}
+      />
 
-        {errors?.price?.type === 'required' && (
-          <ErrorMessage>{errors.price.message}</ErrorMessage>
-        )}
-        {errors?.price?.type === 'pattern' && (
-          <ErrorMessage>{errors.price.message}</ErrorMessage>
-        )}
-        <br />
+      {errors?.price?.type === 'required' && (
+        <ErrorMessage>{errors.price.message}</ErrorMessage>
+      )}
+      {errors?.price?.type === 'pattern' && (
+        <ErrorMessage>{errors.price.message}</ErrorMessage>
+      )}
+      <br />
 
-        {watchPrice != null && <NextButton type="submit">다음</NextButton>}
-      </Form>
-    </Base>
+      {watchPrice != null && <NextButton type="submit">다음</NextButton>}
+    </Form>
   );
 };
 
 export default Price;
-
-const Base = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 0 10px;
-  margin-top: 150px;
-  ${flexbox('center', 'start')};
-`;
-
-const Form = styled.form`
-  width: 100%;
-  display: block;
-  animation: ${smoothAppearDownUp} 300ms;
-`;
-
-const NextButton = styled.button`
-  ${btnPrimary};
-  ${btn48}
-  width: 125px;
-  animation: ${smoothAppearDownUpLarge} 700ms;
-`;

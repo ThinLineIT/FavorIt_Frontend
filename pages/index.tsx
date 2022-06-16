@@ -10,6 +10,18 @@ import { canGoBack } from '@recoil/layout/navigator';
 import { LandingBox } from '@components/domain/home';
 import { columnFlexbox } from '@styles/mixins/_flexbox';
 
+const Main = styled.main`
+  ${columnFlexbox('around', 'center')};
+  row-gap: 12px;
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+
+  > a {
+    width: 100%;
+  }
+`;
+
 const Home: NextPage = () => {
   const setCanGoBack = useSetRecoilState(canGoBack);
   const resetForm = useResetRecoilState(isFundingForm);
@@ -56,17 +68,3 @@ const Home: NextPage = () => {
 };
 
 export default Home;
-
-const Main = styled.main`
-  width: 100%;
-  height: 50%;
-  ${columnFlexbox('between', 'center')};
-  row-gap: 12px;
-  padding: 0 10px;
-  margin-top: 15rem;
-  font-weight: 700;
-
-  > a {
-    width: 100%;
-  }
-`;

@@ -1,21 +1,33 @@
-import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
-import { flexbox } from '@styles/mixins/_flexbox';
+import { btn48, btnPrimary } from '@styles/modules/_buttons';
 import { TextArea, ErrorMessage, Button } from '@components/base';
-import {
-  smoothAppearDownUp,
-  smoothAppearDownUpLarge,
-} from '@styles/modules/_keyframes';
 import {
   FormType,
   GeneratorType,
   isFundingForm,
   isLocalGenerator,
 } from '@recoil/create';
-import { btn48, btnPrimary } from '@styles/modules/_buttons';
+import {
+  smoothAppearDownUp,
+  smoothAppearDownUpLarge,
+} from '@styles/modules/_keyframes';
+
+const Form = styled.form`
+  width: 100%;
+  display: block;
+  animation: ${smoothAppearDownUp} 300ms;
+`;
+
+const NextButton = styled.button`
+  ${btnPrimary};
+  ${btn48}
+  width: 125px;
+  animation: ${smoothAppearDownUpLarge} 700ms;
+`;
 
 interface UploadFormDescription {
   contents: string;
@@ -47,54 +59,31 @@ const Description = () => {
   }, [fundingForm, setValue]);
 
   return (
-    <Base>
-      <Form onSubmit={handleSubmit(onValid)}>
-        <TextArea
-          register={register('contents', {
-            required: '입력된 텍스트가 없네요!',
-            maxLength: {
-              value: 100,
-              message: '100자 까지 입력 가능해요',
-            },
-          })}
-          name="contents"
-          label="펀딩 콘텐츠"
-          placeholder="펀딩 내용을 입력해주세요"
-        />
+    <Form onSubmit={handleSubmit(onValid)}>
+      <TextArea
+        register={register('contents', {
+          required: '입력된 텍스트가 없네요!',
+          maxLength: {
+            value: 100,
+            message: '100자 까지 입력 가능해요',
+          },
+        })}
+        name="contents"
+        label="펀딩 콘텐츠"
+        placeholder="펀딩 내용을 입력해주세요"
+      />
 
-        {errors?.contents?.type === 'required' && (
-          <ErrorMessage>{errors.contents.message}</ErrorMessage>
-        )}
-        {errors?.contents?.type === 'maxLength' && (
-          <ErrorMessage>{errors.contents.message}</ErrorMessage>
-        )}
-        <br />
+      {errors?.contents?.type === 'required' && (
+        <ErrorMessage>{errors.contents.message}</ErrorMessage>
+      )}
+      {errors?.contents?.type === 'maxLength' && (
+        <ErrorMessage>{errors.contents.message}</ErrorMessage>
+      )}
+      <br />
 
-        {watchContents != null && <NextButton type="submit">다음</NextButton>}
-      </Form>
-    </Base>
+      {watchContents != null && <NextButton type="submit">다음</NextButton>}
+    </Form>
   );
 };
 
 export default Description;
-
-const Base = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 0 10px;
-  margin-top: 150px;
-  ${flexbox('center', 'start')};
-`;
-
-const Form = styled.form`
-  width: 100%;
-  display: block;
-  animation: ${smoothAppearDownUp} 300ms;
-`;
-
-const NextButton = styled.button`
-  ${btnPrimary};
-  ${btn48}
-  width: 125px;
-  animation: ${smoothAppearDownUpLarge} 700ms;
-`;

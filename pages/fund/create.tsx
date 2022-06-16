@@ -6,6 +6,7 @@ import React, { useEffect } from 'react';
 import { GoBack } from '@components/layout';
 import { GeneratorType, isLocalGenerator } from '@recoil/create';
 import styled from '@emotion/styled';
+import { flexbox } from '@styles/mixins/_flexbox';
 
 // @Note 추후 분리하기
 const Crawling = dynamic(
@@ -52,6 +53,14 @@ const hocComponents = [
   { page: 7, component: <Preview /> },
 ];
 
+const Base = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 0 20px;
+  margin-top: 100px;
+  ${flexbox('center', 'start')};
+`;
+
 const Generate = () => {
   const router = useRouter();
   const [generator, setGenerator] = useRecoilState(isLocalGenerator);
@@ -78,7 +87,7 @@ const Generate = () => {
             : router.replace('/');
         }}
       />
-      {hocComponents[generator.page].component}
+      <Base>{hocComponents[generator.page].component}</Base>
     </>
   );
 };

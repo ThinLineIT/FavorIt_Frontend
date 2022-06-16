@@ -28,7 +28,7 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  padding: 20px 10px;
+  padding: 25px 15px;
   flex-direction: column;
   box-shadow: rgb(0 0 0 / 4%) 0px 4px 16px 0px;
   border-radius: 4px;
@@ -67,7 +67,7 @@ const Placeholder: React.FC = () => (
   // <Item /> 에 대응하는 Placeholder 제작
   <Container>
     <ImageWrapper>
-      <Skeleton width={100} height={100} unit="%" />
+      <Skeleton width={100} height={100} unit="%" rounded />
     </ImageWrapper>
     <Info>
       <Skeleton width={270} height={29} rounded />
@@ -118,7 +118,7 @@ function FundList({}) {
 
   useEffect(() => {
     // 임의로 로딩 상태 표현
-    setTimeout(() => setLoading(false), 1200);
+    setTimeout(() => setLoading(false), 2800);
   }, []);
 
   return (

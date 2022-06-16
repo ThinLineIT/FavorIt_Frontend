@@ -3,8 +3,8 @@ import DatePicker from 'react-datepicker';
 import { useSetRecoilState } from 'recoil';
 
 import styled from '@emotion/styled';
-import { flexbox } from '@styles/mixins/_flexbox';
 import 'react-datepicker/dist/react-datepicker.css';
+import { textStyle } from '@styles/mixins/_text-style';
 import { btn48, btnPrimary } from '@styles/modules/_buttons';
 import { smoothAppearDownUp } from '@styles/modules/_keyframes';
 import {
@@ -13,7 +13,6 @@ import {
   isFundingForm,
   isLocalGenerator,
 } from '@recoil/create';
-import { textStyle } from '@styles/mixins/_text-style';
 
 const Dates = () => {
   const [endDate, setEndDate] = useState(new Date());
@@ -44,40 +43,30 @@ const Dates = () => {
   };
 
   return (
-    <Base>
-      <Form onSubmit={handleSubmit}>
-        <SelectorForm>
-          <Description>언제까지 펀딩할까요?</Description>
-          <DateInput>2022년 6월 13일 부터</DateInput>
-          <DateInput>
-            <DatePicker
-              selectsEnd
-              dateFormat="yyyy년 MM월 dd일까지"
-              selected={endDate}
-              startDate={startDate}
-              minDate={startDate}
-              onChange={(date: Date) => setEndDate(date)}
-            />
-          </DateInput>
-        </SelectorForm>
-        <div>
-          <br />
-        </div>
-        <NextButton>다음</NextButton>
-      </Form>
-    </Base>
+    <Form onSubmit={handleSubmit}>
+      <SelectorForm>
+        <Description>언제까지 펀딩할까요?</Description>
+        <DateInput>2022년 6월 13일 부터</DateInput>
+        <DateInput>
+          <DatePicker
+            selectsEnd
+            dateFormat="yyyy년 MM월 dd일까지"
+            selected={endDate}
+            startDate={startDate}
+            minDate={startDate}
+            onChange={(date: Date) => setEndDate(date)}
+          />
+        </DateInput>
+      </SelectorForm>
+      <div>
+        <br />
+      </div>
+      <NextButton>다음</NextButton>
+    </Form>
   );
 };
 
 export default Dates;
-
-const Base = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 0 10px;
-  margin-top: 150px;
-  ${flexbox('center', 'start')};
-`;
 
 const Form = styled.form`
   width: 100%;

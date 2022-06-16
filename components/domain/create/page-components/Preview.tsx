@@ -16,6 +16,25 @@ import { smoothAppearDownUp } from '@styles/modules/_keyframes';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
+const Base = styled.div`
+  width: 100%;
+  height: 100%;
+  ${columnFlexbox('start', 'center')};
+`;
+
+const Description = styled.div`
+  width: 100%;
+  ${textStyle(18, '#333C4A')}
+`;
+
+const Previews = styled.form`
+  width: 100%;
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 8px;
+  ${columnFlexbox()}
+`;
+
 interface fundingId {
   funding_id: string;
 }
@@ -131,26 +150,3 @@ const Preview = () => {
 };
 
 export default Preview;
-
-const Base = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 0 10px;
-  margin-top: 100px;
-  ${columnFlexbox('start', 'center')};
-
-  animation: ${smoothAppearDownUp} 300ms;
-`;
-
-const Description = styled.div`
-  width: 100%;
-  ${textStyle(18, '#333C4A')}
-`;
-
-const Previews = styled.form`
-  width: 100%;
-  background-color: #fff;
-  border-radius: 15px;
-  padding: 8px;
-  ${columnFlexbox()}
-`;

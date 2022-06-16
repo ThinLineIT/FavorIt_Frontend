@@ -1,21 +1,33 @@
-import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
-import { flexbox } from '@styles/mixins/_flexbox';
 import { Input, ErrorMessage } from '@components/base';
-import {
-  smoothAppearDownUp,
-  smoothAppearDownUpLarge,
-} from '@styles/modules/_keyframes';
+import { btn48, btnPrimary } from '@styles/modules/_buttons';
 import {
   FormType,
   GeneratorType,
   isFundingForm,
   isLocalGenerator,
 } from '@recoil/create';
-import { btn48, btnPrimary } from '@styles/modules/_buttons';
+import {
+  smoothAppearDownUp,
+  smoothAppearDownUpLarge,
+} from '@styles/modules/_keyframes';
+
+const Form = styled.form`
+  width: 100%;
+  display: block;
+  animation: ${smoothAppearDownUp} 300ms;
+`;
+
+const NextButton = styled.button`
+  ${btnPrimary};
+  ${btn48}
+  width: 125px;
+  animation: ${smoothAppearDownUpLarge} 700ms;
+`;
 
 interface UploadFormRecipientName {
   recipient_name: string;
@@ -47,54 +59,31 @@ const RecipientName = () => {
   }, [fundingForm, setValue]);
 
   return (
-    <Base>
-      <Form onSubmit={handleSubmit(onValid)}>
-        <Input
-          register={register('recipient_name', {
-            required: '입력된 텍스트가 없네요!',
-            maxLength: {
-              value: 20,
-              message: '20자 까지 입력 가능해요',
-            },
-          })}
-          name="recipient_name"
-          label="받는 분 성함"
-          placeholder="받으시는 분의 이름을 입력해주세요"
-        />
+    <Form onSubmit={handleSubmit(onValid)}>
+      <Input
+        register={register('recipient_name', {
+          required: '입력된 텍스트가 없네요!',
+          maxLength: {
+            value: 20,
+            message: '20자 까지 입력 가능해요',
+          },
+        })}
+        name="recipient_name"
+        label="받는 분 성함"
+        placeholder="받으시는 분의 이름을 입력해주세요"
+      />
 
-        {errors?.recipient_name?.type === 'required' && (
-          <ErrorMessage>{errors.recipient_name.message}</ErrorMessage>
-        )}
-        {errors?.recipient_name?.type === 'maxLength' && (
-          <ErrorMessage>{errors.recipient_name.message}</ErrorMessage>
-        )}
-        <br />
+      {errors?.recipient_name?.type === 'required' && (
+        <ErrorMessage>{errors.recipient_name.message}</ErrorMessage>
+      )}
+      {errors?.recipient_name?.type === 'maxLength' && (
+        <ErrorMessage>{errors.recipient_name.message}</ErrorMessage>
+      )}
+      <br />
 
-        {watchTitle != null && <NextButton type="submit">다음</NextButton>}
-      </Form>
-    </Base>
+      {watchTitle != null && <NextButton type="submit">다음</NextButton>}
+    </Form>
   );
 };
 
 export default RecipientName;
-
-const Base = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 0 10px;
-  margin-top: 150px;
-  ${flexbox('center', 'start')};
-`;
-
-const Form = styled.form`
-  width: 100%;
-  display: block;
-  animation: ${smoothAppearDownUp} 300ms;
-`;
-
-const NextButton = styled.button`
-  ${btnPrimary};
-  ${btn48}
-  width: 125px;
-  animation: ${smoothAppearDownUpLarge} 700ms;
-`;

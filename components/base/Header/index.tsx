@@ -7,6 +7,7 @@ import { textStyle } from 'styles/mixins/_text-style';
 const Base = styled.header`
   position: fixed;
   top: 0;
+  /* z-index: ${({ theme }) => theme.zIndexes.gnb_level}; */
   padding-left: 0.8rem;
   max-width: 640px;
   width: 100%;
