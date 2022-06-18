@@ -1,15 +1,100 @@
-import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import type { ReactNode } from 'react';
-import { useRecoilValue } from 'recoil';
 import { useRouter } from 'next/router';
-import { useEffect, useRef } from 'react';
+import { useRecoilValue } from 'recoil';
+import { useEffect, useRef, useState } from 'react';
 
 import PATH from '@constants/path';
 import { Header } from '@components/base';
 import { canGoBack } from '@recoil/layout/navigator';
-import { columnFlexbox } from '@styles/mixins/_flexbox';
+import { columnFlexbox, flexbox } from '@styles/mixins/_flexbox';
 import { smoothAppearUpDown } from '@styles/modules/_keyframes';
+
+const Wrapper = styled.div`
+  max-width: 640px;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  min-width: 320px;
+  overflow: hidden;
+  position: relative;
+  background-image: url('assets/images/background.svg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+`;
+
+const Base = styled.div<{
+  isTopGoBack: boolean;
+  asPath: string;
+  isFullHeight: boolean;
+}>`
+  ${columnFlexbox()};
+  flex-grow: 1;
+  flex-shrink: 0;
+
+  position: absolute;
+  left: 0;
+  bottom: 0;
+
+  width: 100%;
+  height: ${({ isFullHeight }) =>
+    isFullHeight ? '100%' : 'calc(100% - 98px)'};
+
+  background-color: #ffffff;
+  border-radius: ${({ isFullHeight }) =>
+    isFullHeight ? '0' : '50px 50px 0px 0px'};
+
+  box-shadow: ${({ isFullHeight }) =>
+    isFullHeight
+      ? 'none'
+      : `0px 4px 4px rgba(255, 255, 255, 0.25),
+    inset 0px 4px 4px rgba(219, 219, 219, 0.25)`};
+
+  transition: height 200ms ease-out, border-radius 200ms ease-out,
+    box-shadow 200ms ease-out;
+
+  // @Note 추후 수정
+  // '/' 일 때마다 트랜지션될 필요 없음. 최초의 componentWillMount 에서만 발생하게끔 해야됨
+  animation: ${({ asPath }) =>
+    asPath === PATH.Home
+      ? css`
+          ${smoothAppearUpDown} 700ms;
+        `
+      : ''};
+`;
+
+const Divider = styled.span`
+  display: inline-block;
+  z-index: ${({ theme }) => theme.zIndexes.toast_level};
+  ${flexbox()};
+  width: 100%;
+  height: 45px;
+  border-radius: 50px 50px 0px 0px;
+  cursor: pointer;
+
+  &::before {
+    content: '';
+    width: 125px;
+    border: 1.5px solid lightgray;
+    border-radius: 2px;
+    opacity: 0.3;
+    transition: opacity 300ms ease-in-out;
+  }
+
+  &:hover {
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  &:active {
+    &::before {
+      opacity: 1;
+    }
+  }
+`;
 
 interface LayoutWrapperProps {
   children: ReactNode;
@@ -17,9 +102,9 @@ interface LayoutWrapperProps {
 
 const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
   const { asPath } = useRouter();
-  const scrollRef = useRef<HTMLDivElement>(null);
-
   const isTopGoBack = useRecoilValue(canGoBack);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isFullHeight, setIsFullHeight] = useState(false);
 
   // //@Note 페이지 이동 시에도 항상 스크롤 맨 위 고정
   useEffect(() => {
@@ -32,32 +117,20 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
   }, [asPath]);
 
   return (
-    <Wrapper ref={scrollRef} isTopGoBack={isTopGoBack} asPath={asPath}>
+    <Wrapper ref={scrollRef}>
       {asPath === PATH.Home && <Header />}
-      {children}
+      <Base
+        asPath={asPath}
+        isTopGoBack={isTopGoBack}
+        isFullHeight={isFullHeight}
+      >
+        {asPath === PATH.Home && (
+          <Divider onClick={() => setIsFullHeight((prev) => !prev)} />
+        )}
+        {children}
+      </Base>
     </Wrapper>
   );
 };
-
-const Wrapper = styled.div<{ isTopGoBack: boolean; asPath: string }>`
-  max-width: 640px;
-  width: 100%;
-  height: 100vh;
-  margin: 0 auto;
-  padding: 0 15px;
-  background-color: #f1f4f6;
-  ${columnFlexbox()};
-  flex: 1 1 0%;
-  margin-top: ${({ isTopGoBack }) => (isTopGoBack ? '3rem' : '0')};
-
-  // @Note 추후 수정
-  // '/' 일 때마다 트랜지션될 필요 없음. 최초의 componentWillMount 에서만 발생하게끔 해야됨
-  animation: ${({ asPath }) =>
-    asPath === PATH.Home
-      ? css`
-          ${smoothAppearUpDown} 700ms
-        `
-      : ''};
-`;
 
 export default LayoutWrapper;

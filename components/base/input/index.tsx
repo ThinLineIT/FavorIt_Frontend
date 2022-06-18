@@ -12,82 +12,12 @@ import { textStyle } from '@styles/mixins/_text-style';
 // don't deal with events
 // easier inputs
 
-interface InputProps {
-  label: string;
-  labelHidden?: boolean;
-  name: string;
-  kind?: 'text' | 'phone' | 'price';
-  register: UseFormRegisterReturn;
-  required: boolean;
-  type: string;
-  placeholder?: string;
-}
-
-export default function Input({
-  label,
-  labelHidden = false,
-  name,
-  kind = 'text',
-  register,
-  type,
-  required,
-  placeholder,
-}: InputProps) {
-  return (
-    <Base>
-      <Label htmlFor={name} className={labelHidden ? 'visually-hidden' : ''}>
-        {label}
-      </Label>
-      {kind === 'text' ? (
-        <Wrapper>
-          <InputStyled
-            id={name}
-            required={required}
-            autoComplete="off"
-            {...register}
-            type={type}
-            placeholder={placeholder}
-          />
-        </Wrapper>
-      ) : null}
-      {kind === 'price' ? (
-        <Wrapper>
-          <InputStyled
-            id={name}
-            required={required}
-            autoComplete="off"
-            {...register}
-            type={type}
-            placeholder={placeholder}
-          />
-          <Currency>
-            <span>KRW</span>
-          </Currency>
-        </Wrapper>
-      ) : null}
-      {kind === 'phone' ? (
-        <PhoneWrapper>
-          <CountryCode>+82</CountryCode>
-          <InputStyled
-            id={name}
-            required={required}
-            autoComplete="off"
-            {...register}
-            type={type}
-            placeholder={placeholder}
-          />
-        </PhoneWrapper>
-      ) : null}
-    </Base>
-  );
-}
-
 const Base = styled.div``;
 
 const Label = styled.label`
   display: block;
   margin-bottom: 0.25rem;
-  ${textStyle(14, 'rgb(55 65 81)')};
+  ${textStyle(14, '#8B95A1')};
   font-weight: 500;
 `;
 
@@ -95,22 +25,34 @@ const Wrapper = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  border-radius: 6px;
 `;
 
 const InputStyled = styled.input`
   width: 100%;
   appearance: none;
-  border: 1px solid lightgray;
-  border-radius: 6px;
-  padding: 10px 12px;
-  background-color: #fff;
-  box-shadow: 0 4px 20px rgba(63, 65, 80, 0.3);
-  &:focus {
-    border-color: rgb(55 65 81, 0.7);
+  border-bottom: 1.5px solid lightgray;
+  padding: 2px;
+  ${textStyle(18, '#191e29')}
+
+  /* Chrome, Safari, Edge, Opera */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
+
+  /* Firefox */
+  &[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  &:focus {
+    /* border-color: rgb(55 65 81, 0.7); */
+  }
+
   &::placeholder {
-    color: rgb(156 163 175);
+    /* color: rgb(156 163 175); */
+    ${textStyle(18, '#191e29')}
   }
 `;
 
@@ -120,9 +62,10 @@ const Currency = styled.div`
   pointer-events: none;
   display: flex;
   align-items: center;
-  padding-right: 0.75rem;
+  padding-right: 2px;
+
   > span {
-    color: rgb(107 114 128);
+    ${textStyle(18, '#191e29')}
   }
 `;
 
@@ -144,3 +87,76 @@ const CountryCode = styled.span`
   background-color: rgb(249 250 251);
   user-select: none;
 `;
+
+interface InputProps {
+  name: string;
+  register: UseFormRegisterReturn;
+  type?: string;
+  label?: string;
+  required?: boolean;
+  labelHidden?: boolean;
+  placeholder?: string;
+  kind?: 'text' | 'phone' | 'price';
+  onKeyUp?: () => void;
+}
+
+export default function Input({
+  name,
+  register,
+  type = 'text',
+  label,
+  required = true,
+  labelHidden = false,
+  placeholder,
+  kind = 'text',
+  onKeyUp,
+}: InputProps) {
+  return (
+    <Base>
+      <Label htmlFor={name} className={labelHidden ? 'visually-hidden' : ''}>
+        {label || name}
+      </Label>
+      {kind === 'text' ? (
+        <Wrapper>
+          <InputStyled
+            id={name}
+            // required={required}
+            autoComplete="off"
+            {...register}
+            type={type}
+            placeholder={placeholder}
+          />
+        </Wrapper>
+      ) : null}
+      {kind === 'price' ? (
+        <Wrapper>
+          <InputStyled
+            id={name}
+            required={required}
+            autoComplete="off"
+            {...register}
+            type={type}
+            placeholder={placeholder}
+            onKeyUp={onKeyUp}
+          />
+          <Currency>
+            <span>원</span>
+          </Currency>
+        </Wrapper>
+      ) : null}
+      {kind === 'phone' ? (
+        <PhoneWrapper>
+          <CountryCode>+82</CountryCode>
+          <InputStyled
+            id={name}
+            required={required}
+            autoComplete="off"
+            {...register}
+            type={type}
+            placeholder={placeholder}
+          />
+        </PhoneWrapper>
+      ) : null}
+    </Base>
+  );
+}
