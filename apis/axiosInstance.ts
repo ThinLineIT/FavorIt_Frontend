@@ -1,12 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: '',
-  params: {
-    api_key: '',
-    token: '',
-    // ...
-  },
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
 });
 
 export default axiosInstance;
