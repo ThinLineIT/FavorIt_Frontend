@@ -96,28 +96,6 @@ const Dates = () => {
   };
 
   return (
-<<<<<<< HEAD
-    <Base>
-      <Form onSubmit={handleSubmit}>
-        <Description>언제까지 펀딩할까요?</Description>
-        <br />
-        <SelectorForm>
-          <DateInput>
-            <DatePicker
-              inline
-              locale={ko}
-              selectsEnd
-              dateFormat="yyyy년 MM월 dd (eee)"
-              selected={endDate}
-              startDate={startDate}
-              minDate={startDate}
-              onChange={(date: Date) => setEndDate(date)}
-            />
-          </DateInput>
-        </SelectorForm>
-      </Form>
-    </Base>
-=======
     <Form onSubmit={handleSubmit}>
       <DatePicker
         startDate={startDate}
@@ -137,68 +115,7 @@ const Dates = () => {
       />
       <NextButton>다음</NextButton>
     </Form>
->>>>>>> generate-design-to-be
   );
 };
 
 export default Dates;
-<<<<<<< HEAD
-
-const Base = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 0 10px;
-  margin-top: 150px;
-  ${flexbox('center', 'start')};
-`;
-
-const Form = styled.form`
-  width: 100%;
-  display: block;
-  animation: ${smoothAppearDownUp} 300ms;
-`;
-
-const SelectorForm = styled.div`
-  width: 100%;
-  height: 350px;
-  border: 2px dashed #8b95a1;
-  border-radius: 6px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-`;
-
-const Description = styled.p`
-  ${textStyle(18, '#191e29')};
-  text-align: center;
-`;
-
-const DateInput = styled.label`
-  padding: 5px 8px;
-  border: 1px solid gray;
-  border-radius: 12px;
-  ${textStyle(14)}
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  ${textStyle(13, '#8B95A1')};
-  user-select: none;
-
-  &:first-of-type {
-    pointer-events: none;
-    user-select: none;
-  }
-
-  &::after {
-  }
-`;
-
-const NextButton = styled.button`
-  ${btnPrimary};
-  ${btn48}
-  width: 125px;
-`;
-=======
->>>>>>> generate-design-to-be
