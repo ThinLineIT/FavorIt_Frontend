@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   min-width: 320px;
   overflow: hidden;
   position: relative;
-  background-image: url('assets/images/background.svg');
+  background-image: url('/assets/images/background.svg');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -104,7 +104,6 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
   const { asPath } = useRouter();
   const isTopGoBack = useRecoilValue(canGoBack);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [isDivider, setIsDivider] = useState(false);
   const [isFullHeight, setIsFullHeight] = useState(false);
 
   // //@Note 페이지 이동 시에도 항상 스크롤 맨 위 고정
@@ -115,6 +114,10 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
       block: 'start',
       inline: 'nearest',
     });
+  }, [asPath]);
+
+  useEffect(() => {
+    asPath !== PATH.Home && setIsFullHeight(false);
   }, [asPath]);
 
   return (

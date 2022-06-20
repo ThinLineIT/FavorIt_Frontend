@@ -2,7 +2,7 @@ import { atom } from 'recoil';
 
 type Product = {
   link: string;
-  options: string;
+  option: string;
   price: number;
 };
 
@@ -11,7 +11,6 @@ export type FormType = {
   contents: string;
   due_date: string;
   product: Product;
-  recipient_name: string;
 };
 
 export type GeneratorType = {
@@ -28,10 +27,9 @@ export const isFundingForm = atom<FormType>({
     due_date: '',
     product: {
       link: '',
-      options: '',
+      option: '',
       price: 0,
     },
-    recipient_name: '',
   },
 });
 

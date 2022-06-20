@@ -30,7 +30,7 @@ const NextButton = styled.button`
 `;
 
 interface UploadFormOption {
-  options: string;
+  option: string;
 }
 
 const Option = () => {
@@ -43,25 +43,25 @@ const Option = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<UploadFormOption>();
-  const watchOptions = watch('options');
+  const watchOptions = watch('option');
   const onValid = (data: UploadFormOption) => {
     setFundingForm((prev: FormType) => ({
       ...prev,
-      product: { ...prev.product, options: data.options },
+      product: { ...prev.product, option: data.option },
     }));
     setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
   };
 
   useEffect(() => {
-    if (fundingForm?.product?.options !== '') {
-      setValue('options', fundingForm?.product?.options);
+    if (fundingForm?.product?.option !== '') {
+      setValue('option', fundingForm?.product?.option);
     }
   }, [fundingForm, setValue]);
 
   return (
     <Form onSubmit={handleSubmit(onValid)}>
       <TextArea
-        register={register('options', {
+        register={register('option', {
           required: '입력된 텍스트가 없네요!',
           maxLength: {
             value: 60,
@@ -73,11 +73,11 @@ const Option = () => {
         placeholder="상품 옵션을 입력해주세요"
       />
 
-      {errors?.options?.type === 'required' && (
-        <ErrorMessage>{errors.options.message}</ErrorMessage>
+      {errors?.option?.type === 'required' && (
+        <ErrorMessage>{errors.option.message}</ErrorMessage>
       )}
-      {errors?.options?.type === 'maxLength' && (
-        <ErrorMessage>{errors.options.message}</ErrorMessage>
+      {errors?.option?.type === 'maxLength' && (
+        <ErrorMessage>{errors.option.message}</ErrorMessage>
       )}
       <br />
 
