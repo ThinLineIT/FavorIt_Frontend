@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { useSetRecoilState } from 'recoil';
+import { getMonth, getDate } from 'date-fns';
 
 import styled from '@emotion/styled';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -13,10 +14,62 @@ import {
   isFundingForm,
   isLocalGenerator,
 } from '@recoil/create';
+import { flexbox } from '@styles/mixins/_flexbox';
+
+const Form = styled.form`
+  width: 100%;
+  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  animation: ${smoothAppearDownUp} 300ms;
+`;
+
+const DateWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  position: relative;
+`;
+
+const Description = styled.p`
+  ${textStyle(18, '#8B95A1')};
+  text-align: center;
+`;
+
+const DateInput = styled.label`
+  ${flexbox()}
+  ${textStyle(13, '#8B95A1')};
+  padding: 5px 8px;
+`;
+
+const NextButton = styled.button`
+  ${btnPrimary};
+  ${btn48}
+  width: 125px;
+  margin-top: 200px;
+`;
+
+const MyContainer = ({ className, children }: any) => {
+  return (
+    <>
+      <Description>언제까지 펀딩할까요?</Description>
+      <DateWrapper>{children}</DateWrapper>
+    </>
+  );
+};
 
 const Dates = () => {
-  const [endDate, setEndDate] = useState(new Date());
   const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const onChange = (dates: any) => {
+    const [start, end] = dates;
+    setStartDate(start);
+    setEndDate(end);
+  };
   const setFundingForm = useSetRecoilState(isFundingForm);
   const setGenerator = useSetRecoilState(isLocalGenerator);
   const dateToString = (date: Date) => {
@@ -31,87 +84,36 @@ const Dates = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (startDate) {
+    if (endDate) {
       setFundingForm((prev: FormType) => ({
         ...prev,
-        due_date: dateToString(startDate),
+        due_date: dateToString(endDate),
       }));
       setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
-    } else {
-      alert('날짜를 입력해 주세요');
     }
   };
 
   return (
     <Form onSubmit={handleSubmit}>
-      <SelectorForm>
-        <Description>언제까지 펀딩할까요?</Description>
-        <DateInput>2022년 6월 13일 부터</DateInput>
-        <DateInput>
-          <DatePicker
-            selectsEnd
-            dateFormat="yyyy년 MM월 dd일까지"
-            selected={endDate}
-            startDate={startDate}
-            minDate={startDate}
-            onChange={(date: Date) => setEndDate(date)}
-          />
-        </DateInput>
-      </SelectorForm>
-      <div>
-        <br />
-      </div>
+      <DatePicker
+        startDate={startDate}
+        minDate={new Date()}
+        selected={startDate}
+        endDate={endDate}
+        selectsRange
+        inline
+        onChange={onChange}
+        // calendarContainer={MyContainer}
+        // dayClassName={(d) =>
+        //   getDate(d) === getDate(startDate) &&
+        //   getMonth(d) === getMonth(startDate)
+        //     ? 'normal-day selected-day'
+        //     : 'normal-day'
+        // }
+      />
       <NextButton>다음</NextButton>
     </Form>
   );
 };
 
 export default Dates;
-
-const Form = styled.form`
-  width: 100%;
-  display: block;
-  animation: ${smoothAppearDownUp} 300ms;
-`;
-
-const SelectorForm = styled.div`
-  width: 100%;
-  height: 150px;
-  border: 2px dashed #8b95a1;
-  border-radius: 6px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-`;
-
-const Description = styled.p`
-  ${textStyle(18, '#8B95A1')};
-`;
-
-const DateInput = styled.label`
-  padding: 5px 8px;
-  border: 1px solid gray;
-  border-radius: 12px;
-  ${textStyle(14)}
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  ${textStyle(13, '#8B95A1')};
-  user-select: none;
-
-  &:first-of-type {
-    pointer-events: none;
-    user-select: none;
-  }
-
-  &::after {
-  }
-`;
-
-const NextButton = styled.button`
-  ${btnPrimary};
-  ${btn48}
-  width: 125px;
-`;

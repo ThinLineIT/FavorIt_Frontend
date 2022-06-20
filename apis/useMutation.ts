@@ -21,11 +21,8 @@ export default function useMutation<T = any>(
     fetch(url, {
       method: 'POST',
       headers: {
-        'Access-Control-Allow-Origin': 'http://localhost:3000/fund/create',
-        Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU1MDQ3MjA3LCJpYXQiOjE2NTUwNDY5MDcsImp0aSI6Ijk4N2U4NjU0YjU4MDRhYjQ4MzhjZjIwYWM1YTZlNjgzIiwidXNlcl9pZCI6MX0.9Kk1oODZGXs0fK_GZFwz_bVyd-KyK7pkNBY5fDpRbkk',
+        Authorization: `Bearer `,
       },
       body: JSON.stringify(data),
     })
