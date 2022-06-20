@@ -53,9 +53,9 @@ const RecipientName = () => {
   };
 
   useEffect(() => {
-    if (fundingForm?.recipient_name !== '') {
-      setValue('recipient_name', fundingForm?.recipient_name);
-    }
+    // if (fundingForm?.recipient_name !== '') {
+    //   setValue('recipient_name', fundingForm?.recipient_name);
+    // }
   }, [fundingForm, setValue]);
 
   return (
