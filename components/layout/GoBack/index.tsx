@@ -41,7 +41,7 @@ export default GoBack;
 
 const Base = styled.div`
   position: fixed;
-  top: 0;
+  bottom: 20px;
   max-width: 640px;
   width: 100%;
   height: 3rem;
