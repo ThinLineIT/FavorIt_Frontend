@@ -3,12 +3,12 @@ import styled from '@emotion/styled';
 import type { ReactNode } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
-import Portal from 'components/Portal';
+import Portal from '@components/base/Portal';
 import { flexbox } from 'styles/mixins/_flexbox';
 
 const Overlay = styled.div`
   position: fixed;
-  z-index: 10;
+  z-index: ${({ theme }) => theme.zIndexes.modal_level};
   top: 0;
   left: 0;
   right: 0;

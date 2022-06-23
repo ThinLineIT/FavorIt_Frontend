@@ -8,7 +8,7 @@ export const btnBase = css`
   ${inlineFlexbox()};
   padding: 0 8px;
   font-weight: 700;
-  border-radius: 4px;
+  border-radius: 10px;
 
   &:disabled {
     cursor: not-allowed;
@@ -19,12 +19,12 @@ export const btnBase = css`
 // NOTE: Button Styles
 export const btnPrimary = css`
   ${btnBase};
-  color: #fff;
-  background-color: #3da5f5;
+  color: #ffffff;
+  background-color: #3182f6;
   transition: background-color 200ms ease-in-out;
 
   &:not(:disabled):hover {
-    background-color: #3186c4;
+    background-color: #3da5f5;
   }
 `;
 

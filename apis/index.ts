@@ -1,12 +1,2 @@
-import axios from 'axios';
-
-const axiosInstance = axios.create({
-  baseURL: '',
-  params: {
-    api_key: '',
-    token: '',
-    // ...
-  },
-});
-
-export default axiosInstance;
+export { default as useMutation } from './useMutation';
+export { default as axiosInstance } from './axiosInstance';

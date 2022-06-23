@@ -19,7 +19,7 @@
       "@apis/*": ["apis/*"],
       "@components/*": ["components/*"],
       "@constants/*": ["constants/*"],
-      "@hpublic/*": ["hpublic/*"],
+      "@public/*": ["public/*"],
       "@hooks/*": ["hooks/*"],
       "@recoil/*": ["recoil/*"],
       "@styles/*": ["styles/*"],

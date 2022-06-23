@@ -250,6 +250,57 @@ const GlobalStyle = () => css`
   address {
     font-style: normal;
   }
+
+  .modal-enter {
+    opacity: 0;
+  }
+
+  .modal-enter-active {
+    opacity: 1;
+    transition: opacity 200ms;
+  }
+
+  .modal-exit {
+    opacity: 1;
+  }
+
+  .modal-exit-active {
+    opacity: 0;
+    transition: opacity 200ms;
+  }
+
+  .visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  .normal-day {
+    background: white !important;
+    color: black !important;
+    width: 28px;
+    height: 28px;
+    text-align: center;
+    padding: 2px !important;
+  }
+
+  .selected-day {
+    background: #ffe0b2 !important;
+    border-radius: 50% !important;
+    font-weight: 700;
+  }
+
+  .selected-endDate {
+    background: #ffb84e !important;
+    border-radius: 50% !important;
+    font-weight: 700;
+  }
 `;
 
 export default GlobalStyle;
