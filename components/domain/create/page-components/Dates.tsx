@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import DatePicker from 'react-datepicker';
+import DatePicker, { registerLocale } from 'react-datepicker';
+import { ko } from 'date-fns/esm/locale';
+registerLocale('ko', ko);
 import { useSetRecoilState } from 'recoil';
 import { getMonth, getDate } from 'date-fns';
 
