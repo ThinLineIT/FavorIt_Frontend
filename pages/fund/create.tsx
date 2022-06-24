@@ -94,7 +94,7 @@ const Generate = () => {
 
   useEffect(() => {
     if (generator.done === true) {
-      router.replace('/funding/1');
+      router.replace('/fund/1');
     }
   }, [generator, router]);
 
