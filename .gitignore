@@ -36,9 +36,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 
-<<<<<<< HEAD
-.env 
-=======
-
 .env
->>>>>>> generate-design-to-be
