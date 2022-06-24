@@ -29,7 +29,7 @@ export default function TextArea({
         id={name}
         {...register}
         placeholder={placeholder}
-        rows={1}
+        rows={2}
         {...rest}
       />
     </Base>
@@ -48,15 +48,14 @@ const Label = styled.label`
 const TextAreaStyled = styled.textarea`
   width: 100%;
   resize: none;
-  padding: 10px 1px;
-  border-bottom: 1.5px solid lightgray;
+  padding: 12px;
+  box-shadow: -1px 1px 2px rgba(255, 255, 255, 0.25),
+    inset 1px 1px 2px rgba(0, 0, 0, 0.25) !important;
+  border-radius: 10px;
   ${textStyle(18, '#191e29')}
-
-  &:focus {
-  }
 
   &::placeholder {
     /* color: rgb(156 163 175); */
-    ${textStyle(18, '#191e29')}
+    ${textStyle(18, '#727272')}
   }
 `;

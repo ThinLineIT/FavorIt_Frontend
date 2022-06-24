@@ -67,23 +67,25 @@ const Pagination = styled.div`
   column-gap: 26px;
 `;
 
-const Chapter = styled.div<{ active: boolean }>`
-  width: 22px;
-  height: 22px;
+const Chapter = styled.div<{ active: boolean; done: boolean }>`
+  width: 24px;
+  height: 24px;
   position: relative;
   border: 1px solid #92d2ff;
   border-radius: calc((22px + 22px) / 2);
-  background-color: ${({ active }) => (active ? '#92d2ff' : '#fff')};
-  transform: ${({ active }) => (active ? 'scale(1.4)' : '')};
+  background-color: ${({ active, done }) =>
+    active || done ? (active && !done ? '#E6F6FF' : '#92d2ff') : '#fff'};
+
+  transform: ${({ active }) => (active ? 'scale(1.4)' : 'none')};
   transition: background-color 200ms ease-in-out, transform 200ms ease-in-out;
 
   &:not(:last-child)::after {
     content: '';
+    display: block;
     position: absolute;
     top: 50%;
-    left: calc(50% + 11px);
-    width: 26px;
-    display: block;
+    left: calc(50% + (24px / 2));
+    width: 25px;
     border: 0.5px solid #92d2ff;
   }
 `;
@@ -107,7 +109,11 @@ const Generate = () => {
       <Base>
         <Pagination>
           {hocComponents.map((ctx, idx) => (
-            <Chapter key={idx} active={generator.page === idx} />
+            <Chapter
+              key={idx}
+              active={generator.page === idx}
+              done={generator.page > idx}
+            />
           ))}
         </Pagination>
         {hocComponents[generator.page].component}

@@ -126,7 +126,7 @@ const InputStyled = styled.input`
 
   &::placeholder {
     /* color: rgb(156 163 175); */
-    ${textStyle(18, '#191e29')}
+    ${textStyle(18, '#727272')}
   }
 `;
 
