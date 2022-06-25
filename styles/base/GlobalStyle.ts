@@ -280,27 +280,6 @@ const GlobalStyle = () => css`
     white-space: nowrap !important;
     border: 0 !important;
   }
-
-  .normal-day {
-    background: white !important;
-    color: black !important;
-    width: 28px;
-    height: 28px;
-    text-align: center;
-    padding: 2px !important;
-  }
-
-  .selected-day {
-    background: #ffe0b2 !important;
-    border-radius: 50% !important;
-    font-weight: 700;
-  }
-
-  .selected-endDate {
-    background: #ffb84e !important;
-    border-radius: 50% !important;
-    font-weight: 700;
-  }
 `;
 
 export default GlobalStyle;
