@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   min-width: 320px;
   overflow: hidden;
   position: relative;
-  background-image: url('assets/images/background.svg');
+  background-image: url('/assets/images/background.svg');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -114,6 +114,10 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
       block: 'start',
       inline: 'nearest',
     });
+  }, [asPath]);
+
+  useEffect(() => {
+    asPath !== PATH.Home && setIsFullHeight(false);
   }, [asPath]);
 
   return (

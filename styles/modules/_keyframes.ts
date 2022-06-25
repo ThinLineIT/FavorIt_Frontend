@@ -22,21 +22,32 @@ export const smoothAppearUpDown = keyframes`
   }
 `;
 
+export const smoothAppearDownUpLarge = keyframes`
+from {
+   opacity: 0;
+   transform: translateY(25%);
+ }
+ to {
+   opacity: 1;
+   transform: translateY(0);
+ }
+`;
+
 export const errorAppear = keyframes`
   0% {
     opacity: 0;
-    transform: translateX(-18%);
+    transform: translateX(-5%);
   }
   25% {
     opacity: 0.35;
-    transform: translateX(18%);
+    transform: translateX(5%);
   }
   50% {
   opacity:1;
-  transform: translateX(-5%);
+  transform: translateX(-1.5%);
   }
   75% {
-    transform: translateX(5%);
+    transform: translateX(1.5%);
   }
   100%{
     transform: translateX(0);

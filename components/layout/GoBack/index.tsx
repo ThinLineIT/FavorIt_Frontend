@@ -3,8 +3,14 @@ import { useRouter } from 'next/router';
 
 import { flexbox } from '@styles/mixins/_flexbox';
 
+interface BackProps {
+  path?: string;
+  currying?: () => void;
+}
+
 const Base = styled.div`
   position: fixed;
+  bottom: 20px;
   max-width: 640px;
   width: 100%;
   height: 3rem;
@@ -22,11 +28,6 @@ const Button = styled.button`
     color: #74747b;
   }
 `;
-
-interface BackProps {
-  path?: string;
-  currying?: () => void;
-}
 
 function GoBack({ path, currying }: BackProps) {
   const router = useRouter();

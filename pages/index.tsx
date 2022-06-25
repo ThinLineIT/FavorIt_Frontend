@@ -2,9 +2,10 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 import styled from '@emotion/styled';
 import type { NextPage } from 'next';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { Button } from '@components/base';
+import { isFundingForm, isLocalGenerator } from '@recoil/create';
 import { canGoBack } from '@recoil/layout/navigator';
 import { LandingBox } from '@components/domain/home';
 import { columnFlexbox } from '@styles/mixins/_flexbox';
@@ -23,6 +24,18 @@ const Main = styled.main`
 
 const Home: NextPage = () => {
   const setCanGoBack = useSetRecoilState(canGoBack);
+  const resetForm = useResetRecoilState(isFundingForm);
+  const [generator, setGenerator] = useRecoilState(isLocalGenerator);
+  const useGenerate = () => {
+    if (generator.proceed) {
+    }
+    resetForm();
+    setGenerator((prev) => ({
+      ...prev,
+      done: false,
+      page: 0,
+    }));
+  };
 
   useEffect(() => {
     setCanGoBack(false);
@@ -33,8 +46,8 @@ const Home: NextPage = () => {
     <>
       <Main>
         <LandingBox />
-        <Link href="/">
-          <a aria-hidden>
+        <Link href="/fund/create">
+          <a onClick={useGenerate} aria-hidden>
             <Button type="button" aria-label="펀딩 생성 버튼">
               펀딩 만들기
             </Button>

@@ -6,9 +6,9 @@ import { textStyle } from 'styles/mixins/_text-style';
 
 export const btnBase = css`
   ${inlineFlexbox()};
-  padding: 12px;
+  padding: 0 8px;
   font-weight: 700;
-  border-radius: 8px;
+  border-radius: 10px;
 
   &:disabled {
     cursor: not-allowed;
