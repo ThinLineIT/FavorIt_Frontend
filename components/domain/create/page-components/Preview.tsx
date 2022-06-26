@@ -46,7 +46,7 @@ const Preview = () => {
   }, [data, setGenerator]);
 
   return (
-    <Base>
+    <Base role="tabpanel" aria-label="펀딩 정보 프리뷰" id="pagination-tab-6">
       <Description>
         반가워요 유저님! <br />
         작성하신 내용을 확인해주세요

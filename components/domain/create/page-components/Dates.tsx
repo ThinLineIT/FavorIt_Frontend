@@ -63,7 +63,12 @@ const Dates = () => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form
+      onSubmit={handleSubmit}
+      role="tabpanel"
+      id="pagination-tab-5"
+      aria-label="펀딩 기간 입력"
+    >
       <Calendar startDate={startDate} endDate={endDate} onChange={onChange} />
       <NextButton>다음</NextButton>
     </Form>

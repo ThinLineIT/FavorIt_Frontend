@@ -3,42 +3,6 @@ import { useRouter } from 'next/router';
 
 import { flexbox } from '@styles/mixins/_flexbox';
 
-interface BackProps {
-  path?: string;
-  currying?: () => void;
-}
-
-function GoBack({ path, currying }: BackProps) {
-  const router = useRouter();
-  const onClick = () => {
-    if (path) {
-      router.push(path);
-    }
-    router.back();
-  };
-  return (
-    <Base>
-      <Button onClick={currying ? currying : onClick}>
-        <svg
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M15 19l-7-7 7-7"
-          ></path>
-        </svg>
-      </Button>
-    </Base>
-  );
-}
-
-export default GoBack;
-
 const Base = styled.div`
   position: fixed;
   bottom: 20px;
@@ -59,3 +23,43 @@ const Button = styled.button`
     color: #74747b;
   }
 `;
+
+interface BackProps {
+  path?: string;
+  currying?: () => void;
+}
+
+function GoBack({ path, currying }: BackProps) {
+  const router = useRouter();
+  const onClick = () => {
+    if (path) {
+      router.push(path);
+    }
+    router.back();
+  };
+  return (
+    <Base>
+      <h1 className="visually-hidden">뒤로 가기 버튼</h1>
+      <Button
+        onClick={currying ? currying : onClick}
+        aria-label="뒤로 가기 버튼"
+      >
+        <svg
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M15 19l-7-7 7-7"
+          ></path>
+        </svg>
+      </Button>
+    </Base>
+  );
+}
+
+export default GoBack;

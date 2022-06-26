@@ -59,7 +59,12 @@ const Description = () => {
   }, [fundingForm, setValue]);
 
   return (
-    <Form onSubmit={handleSubmit(onValid)}>
+    <Form
+      onSubmit={handleSubmit(onValid)}
+      role="tabpanel"
+      id="pagination-tab-4"
+      aria-label="펀딩 내용 입력"
+    >
       <TextArea
         register={register('contents', {
           required: '입력된 텍스트가 없네요!',

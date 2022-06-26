@@ -59,7 +59,12 @@ const Option = () => {
   }, [fundingForm, setValue]);
 
   return (
-    <Form onSubmit={handleSubmit(onValid)}>
+    <Form
+      onSubmit={handleSubmit(onValid)}
+      role="tabpanel"
+      id="pagination-tab-1"
+      aria-label="상품 옵션 입력"
+    >
       <TextArea
         register={register('option', {
           required: '입력된 텍스트가 없네요!',

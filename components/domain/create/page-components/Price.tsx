@@ -83,7 +83,12 @@ const Price = () => {
   }, [fundingForm, setValue]);
 
   return (
-    <Form onSubmit={handleSubmit(onValid)}>
+    <Form
+      onSubmit={handleSubmit(onValid)}
+      role="tabpanel"
+      id="pagination-tab-2"
+      aria-label="상품 가격 입력"
+    >
       <Input
         register={register('price', {
           required: '입력된 가격이 없네요!',

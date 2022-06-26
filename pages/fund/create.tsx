@@ -1,13 +1,12 @@
 import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
+import styled from '@emotion/styled';
 import { useRecoilState } from 'recoil';
+import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 
 import { GoBack } from '@components/layout';
-import { GeneratorType, isLocalGenerator } from '@recoil/create';
-import styled from '@emotion/styled';
 import { columnFlexbox, flexbox } from '@styles/mixins/_flexbox';
-import { posCenter, posCenterX } from '@styles/mixins/_positions';
+import { GeneratorType, isLocalGenerator } from '@recoil/create';
 
 // @Note 추후 분리하기
 const Crawling = dynamic(
@@ -106,13 +105,16 @@ const Generate = () => {
   // 이에 대해서는 hoc를 활용해보려고 생각중
   return (
     <>
-      <Base>
+      <Base role="region">
+        <h1 className="visually-hidden">펀딩 생성</h1>
         <Pagination>
           {hocComponents.map((ctx, idx) => (
             <Chapter
               key={idx}
-              active={generator.page === idx}
+              role="tab"
               done={generator.page > idx}
+              active={generator.page === idx}
+              aria-labelledby={`pagination-tab-${idx}`}
             />
           ))}
         </Pagination>

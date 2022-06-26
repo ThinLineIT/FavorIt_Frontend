@@ -71,7 +71,12 @@ const Crawling = () => {
   }, [fundingForm, setValue]);
 
   return (
-    <Form onSubmit={handleSubmit(onValid)}>
+    <Form
+      onSubmit={handleSubmit(onValid)}
+      role="tabpanel"
+      id="pagination-tab-0"
+      aria-label="상품 링크 입력"
+    >
       <Input
         name="link"
         label="상품 링크"
