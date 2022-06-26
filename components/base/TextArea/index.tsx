@@ -26,6 +26,7 @@ export default function TextArea({
         {label || name}
       </Label>
       <TextAreaStyled
+        autoFocus
         id={name}
         {...register}
         placeholder={placeholder}
