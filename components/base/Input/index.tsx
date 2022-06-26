@@ -43,8 +43,9 @@ export default function Input({
       {kind === 'text' ? (
         <Wrapper>
           <InputStyled
+            autoFocus
             id={name}
-            // required={required}
+            required={required}
             autoComplete="off"
             {...register}
             type={type}
@@ -55,6 +56,7 @@ export default function Input({
       {kind === 'price' ? (
         <Wrapper>
           <InputStyled
+            autoFocus
             id={name}
             required={required}
             autoComplete="off"
@@ -72,6 +74,7 @@ export default function Input({
         <PhoneWrapper>
           <CountryCode>+82</CountryCode>
           <InputStyled
+            autoFocus
             id={name}
             required={required}
             autoComplete="off"
