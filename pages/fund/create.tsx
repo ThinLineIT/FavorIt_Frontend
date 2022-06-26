@@ -69,6 +69,7 @@ const Pagination = styled.div`
 const Chapter = styled.div<{ active: boolean; done: boolean }>`
   width: 24px;
   height: 24px;
+  cursor: pointer;
   position: relative;
   border: 1px solid #92d2ff;
   border-radius: calc((22px + 22px) / 2);
@@ -95,41 +96,48 @@ const Generate = () => {
 
   useEffect(() => {
     if (generator.done === true) {
-      router.replace('/fund/1');
+      router.replace('/fund/get-started');
     }
   }, [generator, router]);
 
-  // @Note
-  // 개별 컴포넌트에 setGenerator를 넘겨 page-number를 +1 해주거나 리셋해준다.
-  // 마지막 컴포넌트에서는 generator.done === true로 줘서 완료시킨다.
-  // 이에 대해서는 hoc를 활용해보려고 생각중
   return (
     <>
       <Base role="region">
         <h1 className="visually-hidden">펀딩 생성</h1>
-        <Pagination>
-          {hocComponents.map((ctx, idx) => (
-            <Chapter
-              key={idx}
-              role="tab"
-              done={generator.page > idx}
-              active={generator.page === idx}
-              aria-labelledby={`pagination-tab-${idx}`}
-            />
-          ))}
-        </Pagination>
+        {generator.page !== 6 && (
+          <Pagination role="tablist">
+            {Array.from({ length: 6 }).map((_, idx) => (
+              <Chapter
+                key={idx}
+                role="tab"
+                done={generator.page > idx}
+                id={`pagination-tab-${idx}`}
+                active={generator.page === idx}
+                onClick={() =>
+                  generator.page > idx &&
+                  setGenerator((prev: GeneratorType) => ({
+                    ...prev,
+                    page: idx,
+                  }))
+                }
+              />
+            ))}
+          </Pagination>
+        )}
         {hocComponents[generator.page].component}
       </Base>
-      <GoBack
-        currying={() => {
-          generator.page > 0
-            ? setGenerator((prev: GeneratorType) => ({
-                ...prev,
-                page: prev.page - 1,
-              }))
-            : router.replace('/');
-        }}
-      />
+      {generator.page !== 6 && (
+        <GoBack
+          currying={() => {
+            generator.page > 0
+              ? setGenerator((prev: GeneratorType) => ({
+                  ...prev,
+                  page: prev.page - 1,
+                }))
+              : router.replace('/');
+          }}
+        />
+      )}
     </>
   );
 };

@@ -2,14 +2,14 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import type { ReactNode } from 'react';
 import { useRouter } from 'next/router';
-import { useRecoilValue } from 'recoil';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import PATH from '@constants/path';
 import { Header } from '@components/base';
-import { canGoBack } from '@recoil/layout/navigator';
-import { columnFlexbox, flexbox } from '@styles/mixins/_flexbox';
+import { canGoBack, isMainFullHeight } from '@recoil/layout';
 import { smoothAppearUpDown } from '@styles/modules/_keyframes';
+import { columnFlexbox, flexbox } from '@styles/mixins/_flexbox';
 
 const Wrapper = styled.div`
   max-width: 640px;
@@ -52,8 +52,8 @@ const Base = styled.div<{
       : `0px 4px 4px rgba(255, 255, 255, 0.25),
     inset 0px 4px 4px rgba(219, 219, 219, 0.25)`};
 
-  transition: height 200ms ease-out, border-radius 200ms ease-out,
-    box-shadow 200ms ease-out;
+  transition: height 100ms ease-out, border-radius 100ms ease-out,
+    box-shadow 100ms ease-out;
 
   // @Note 추후 수정
   // '/' 일 때마다 트랜지션될 필요 없음. 최초의 componentWillMount 에서만 발생하게끔 해야됨
@@ -104,7 +104,7 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
   const { asPath } = useRouter();
   const isTopGoBack = useRecoilValue(canGoBack);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [isFullHeight, setIsFullHeight] = useState(false);
+  const [isFullHeight, setIsFullHeight] = useRecoilState(isMainFullHeight);
 
   // //@Note 페이지 이동 시에도 항상 스크롤 맨 위 고정
   useEffect(() => {
@@ -117,8 +117,8 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
   }, [asPath]);
 
   useEffect(() => {
-    asPath !== PATH.Home && setIsFullHeight(false);
-  }, [asPath]);
+    asPath === PATH.Home && setIsFullHeight(false);
+  }, [asPath, setIsFullHeight]);
 
   return (
     <Wrapper ref={scrollRef}>

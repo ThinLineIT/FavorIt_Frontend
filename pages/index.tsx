@@ -6,7 +6,7 @@ import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { Button } from '@components/base';
 import { isFundingForm, isLocalGenerator } from '@recoil/create';
-import { canGoBack } from '@recoil/layout/navigator';
+import { canGoBack } from '@recoil/layout';
 import { LandingBox } from '@components/domain/home';
 import { columnFlexbox } from '@styles/mixins/_flexbox';
 

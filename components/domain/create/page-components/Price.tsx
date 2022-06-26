@@ -86,7 +86,7 @@ const Price = () => {
     <Form
       onSubmit={handleSubmit(onValid)}
       role="tabpanel"
-      id="pagination-tab-2"
+      aria-labelledby="pagination-tab-2"
       aria-label="상품 가격 입력"
     >
       <Input

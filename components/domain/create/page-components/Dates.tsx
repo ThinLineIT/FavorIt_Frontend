@@ -1,7 +1,7 @@
 import ko from 'date-fns/locale/ko';
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
-import { useSetRecoilState } from 'recoil';
+import React, { useEffect, useState } from 'react';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { registerLocale } from 'react-datepicker';
 
 registerLocale('ko', ko);
@@ -43,9 +43,9 @@ const NextButton = styled.button`
 const Dates = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState<Date | null>(null);
-  const setFundingForm = useSetRecoilState(isFundingForm);
+  const [fundingForm, setFundingForm] = useRecoilState(isFundingForm);
   const setGenerator = useSetRecoilState(isLocalGenerator);
-  const onChange = (dates: any) => {
+  const onChange = (dates: Date[]) => {
     const [start, end] = dates;
     setStartDate(start);
     setEndDate(end);
@@ -62,11 +62,17 @@ const Dates = () => {
     }
   };
 
+  useEffect(() => {
+    if (fundingForm?.due_date !== '') {
+      setEndDate(() => new Date(fundingForm?.due_date));
+    }
+  }, [fundingForm?.due_date]);
+
   return (
     <Form
       onSubmit={handleSubmit}
       role="tabpanel"
-      id="pagination-tab-5"
+      aria-labelledby="pagination-tab-5"
       aria-label="펀딩 기간 입력"
     >
       <Calendar startDate={startDate} endDate={endDate} onChange={onChange} />

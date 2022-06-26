@@ -109,7 +109,7 @@ const InputStyled = styled.input`
   appearance: none;
   border-bottom: 1.5px solid lightgray;
   padding: 2px;
-  ${textStyle(18, '#191e29')}
+  ${textStyle(16, '#191e29')}
 
   /* Chrome, Safari, Edge, Opera */
   &::-webkit-outer-spin-button,
@@ -129,7 +129,7 @@ const InputStyled = styled.input`
 
   &::placeholder {
     /* color: rgb(156 163 175); */
-    ${textStyle(18, '#727272')}
+    ${textStyle(16, '#727272')}
   }
 `;
 

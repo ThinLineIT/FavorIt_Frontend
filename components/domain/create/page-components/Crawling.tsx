@@ -74,7 +74,7 @@ const Crawling = () => {
     <Form
       onSubmit={handleSubmit(onValid)}
       role="tabpanel"
-      id="pagination-tab-0"
+      aria-labelledby="pagination-tab-0"
       aria-label="상품 링크 입력"
     >
       <Input

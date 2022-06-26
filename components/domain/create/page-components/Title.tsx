@@ -62,7 +62,7 @@ const Title = () => {
     <Form
       onSubmit={handleSubmit(onValid)}
       role="tabpanel"
-      id="pagination-tab-3"
+      aria-labelledby="pagination-tab-3"
       aria-label="펀딩 제목 입력"
     >
       <Input
