@@ -28,11 +28,6 @@ const Home: NextPage = () => {
   const [generator, setGenerator] = useRecoilState(isLocalGenerator);
   const useGenerate = () => {
     if (generator.proceed) {
-<<<<<<< HEAD
-      // @Note
-      // 펀딩 만들던 곳으로 모셔다 드릴게요 => 라우팅, phase2에서 구현 예정
-=======
->>>>>>> dev
     }
     resetForm();
     setGenerator((prev) => ({

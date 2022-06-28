@@ -53,18 +53,10 @@ const TextAreaStyled = styled.textarea`
   box-shadow: -1px 1px 2px rgba(255, 255, 255, 0.25),
     inset 1px 1px 2px rgba(0, 0, 0, 0.25) !important;
   border-radius: 10px;
-<<<<<<< HEAD
   ${textStyle(16, '#191e29')}
 
   &::placeholder {
     /* color: rgb(156 163 175); */
     ${textStyle(16, '#727272')}
-=======
-  ${textStyle(18, '#191e29')}
-
-  &::placeholder {
-    /* color: rgb(156 163 175); */
-    ${textStyle(18, '#727272')}
->>>>>>> dev
   }
 `;

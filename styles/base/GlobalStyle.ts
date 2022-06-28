@@ -280,7 +280,6 @@ const GlobalStyle = () => css`
     white-space: nowrap !important;
     border: 0 !important;
   }
-<<<<<<< HEAD
 
   // calendar
   .react-datepicker {
@@ -327,8 +326,6 @@ const GlobalStyle = () => css`
   .react-datepicker__day--today {
     font-weight: normal !important;
   }
-=======
->>>>>>> dev
 `;
 
 export default GlobalStyle;
