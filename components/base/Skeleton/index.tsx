@@ -33,7 +33,7 @@ const pulseAnimation = css`
 
 const Base = styled.div<Props>`
   ${({ color }) => color && `background-color: ${color}`};
-  ${({ rounded }) => rounded && 'border-radius: 8px'};
+  ${({ rounded }) => rounded && 'border-radius: 10px'};
   ${({ circle }) => circle && 'border-radius: 50%'};
   ${({ width, height }) => (width || height) && 'display: block'};
   ${({ animation }) => animation && pulseAnimation};

@@ -60,7 +60,7 @@ const Crawling = () => {
     setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
     setFundingForm((prev: FormType) => ({
       ...prev,
-      product: { ...prev.product, link: data.link },
+      product: { ...prev.product, link: data.link.trim() },
     }));
   };
 
@@ -71,7 +71,12 @@ const Crawling = () => {
   }, [fundingForm, setValue]);
 
   return (
-    <Form onSubmit={handleSubmit(onValid)}>
+    <Form
+      onSubmit={handleSubmit(onValid)}
+      role="tabpanel"
+      aria-labelledby="pagination-tab-0"
+      aria-label="상품 링크 입력"
+    >
       <Input
         name="link"
         label="상품 링크"

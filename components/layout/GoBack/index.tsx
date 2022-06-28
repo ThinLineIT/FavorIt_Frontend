@@ -3,17 +3,13 @@ import { useRouter } from 'next/router';
 
 import { flexbox } from '@styles/mixins/_flexbox';
 
-interface BackProps {
-  path?: string;
-  currying?: () => void;
-}
-
 const Base = styled.div`
   position: fixed;
-  bottom: 20px;
+  bottom: 0px;
   max-width: 640px;
   width: 100%;
-  height: 3rem;
+  height: 5rem;
+  padding-top: 20px;
   background-color: #fff;
   ${flexbox('start', 'center')}
 `;
@@ -29,6 +25,11 @@ const Button = styled.button`
   }
 `;
 
+interface BackProps {
+  path?: string;
+  currying?: () => void;
+}
+
 function GoBack({ path, currying }: BackProps) {
   const router = useRouter();
   const onClick = () => {
@@ -39,7 +40,11 @@ function GoBack({ path, currying }: BackProps) {
   };
   return (
     <Base>
-      <Button onClick={currying ? currying : onClick}>
+      <h1 className="visually-hidden">뒤로 가기 버튼</h1>
+      <Button
+        onClick={currying ? currying : onClick}
+        aria-label="뒤로 가기 버튼"
+      >
         <svg
           fill="none"
           stroke="currentColor"

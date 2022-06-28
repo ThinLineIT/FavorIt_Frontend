@@ -47,7 +47,7 @@ const Option = () => {
   const onValid = (data: UploadFormOption) => {
     setFundingForm((prev: FormType) => ({
       ...prev,
-      product: { ...prev.product, option: data.option },
+      product: { ...prev.product, option: data.option.trim() },
     }));
     setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
   };
@@ -59,7 +59,12 @@ const Option = () => {
   }, [fundingForm, setValue]);
 
   return (
-    <Form onSubmit={handleSubmit(onValid)}>
+    <Form
+      onSubmit={handleSubmit(onValid)}
+      role="tabpanel"
+      aria-labelledby="pagination-tab-1"
+      aria-label="상품 옵션 입력"
+    >
       <TextArea
         register={register('option', {
           required: '입력된 텍스트가 없네요!',
