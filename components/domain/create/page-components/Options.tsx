@@ -47,7 +47,7 @@ const Option = () => {
   const onValid = (data: UploadFormOption) => {
     setFundingForm((prev: FormType) => ({
       ...prev,
-      product: { ...prev.product, option: data.option },
+      product: { ...prev.product, option: data.option.trim() },
     }));
     setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
   };

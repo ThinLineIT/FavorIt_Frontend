@@ -47,7 +47,7 @@ const Title = () => {
   const onValid = (data: UploadFormTitle) => {
     setFundingForm((prev: FormType) => ({
       ...prev,
-      name: data.name,
+      name: data.name.trim(),
     }));
     setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
   };

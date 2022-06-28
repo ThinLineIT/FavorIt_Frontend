@@ -37,7 +37,7 @@ const NextButton = styled.button`
   ${btnPrimary};
   ${btn48}
   width: 125px;
-  margin-top: 200px;
+  margin-top: 25px;
 `;
 
 const Dates = () => {
