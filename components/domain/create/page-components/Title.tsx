@@ -34,6 +34,8 @@ interface UploadFormTitle {
 }
 
 const Title = () => {
+  console.log('Title');
+
   const setGenerator = useSetRecoilState(isLocalGenerator);
   const [fundingForm, setFundingForm] = useRecoilState(isFundingForm);
   const {

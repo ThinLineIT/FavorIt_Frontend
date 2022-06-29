@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useForm } from 'react-hook-form';
+import React, { useEffect } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { TextArea, ErrorMessage } from '@components/base';
@@ -21,7 +21,6 @@ const Form = styled.form`
   display: block;
   animation: ${smoothAppearDownUp} 300ms;
 `;
-
 const NextButton = styled.button`
   ${btnPrimary};
   ${btn48}
@@ -91,4 +90,4 @@ const Option = () => {
   );
 };
 
-export default Option;
+export default React.memo(Option);

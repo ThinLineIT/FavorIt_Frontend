@@ -32,7 +32,6 @@ const Form = styled.form`
     ${flexbox()}
   }
 `;
-
 const NextButton = styled.button`
   ${btnPrimary};
   ${btn48}
@@ -50,7 +49,6 @@ const Dates = () => {
     setStartDate(start);
     setEndDate(end);
   };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (endDate) {
@@ -81,4 +79,4 @@ const Dates = () => {
   );
 };
 
-export default Dates;
+export default React.memo(Dates);
