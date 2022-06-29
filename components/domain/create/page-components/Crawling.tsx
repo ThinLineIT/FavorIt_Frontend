@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useForm } from 'react-hook-form';
+import React, { useEffect } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { textStyle } from '@styles/mixins/_text-style';
@@ -21,7 +21,6 @@ const Form = styled.form`
   display: block;
   animation: ${smoothAppearDownUp} 300ms;
 `;
-
 const NextButton = styled.button`
   display: inline-flex;
   justify-content: space-between;
@@ -120,4 +119,4 @@ const Crawling = () => {
   );
 };
 
-export default Crawling;
+export default React.memo(Crawling);

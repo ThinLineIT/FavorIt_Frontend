@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
@@ -138,7 +138,6 @@ const Preview = () => {
     'http://3.35.218.213/api/funding',
   );
   const onMutate = () => create(fundingForm);
-
   useEffect(() => {
     if (data?.data?.funding_id) {
       setGenerator((prev: GeneratorType) => ({
@@ -192,4 +191,4 @@ const Preview = () => {
   );
 };
 
-export default Preview;
+export default React.memo(Preview);

@@ -21,7 +21,6 @@ const Form = styled.form`
   display: block;
   animation: ${smoothAppearDownUp} 300ms;
 `;
-
 const NextButton = styled.button`
   ${btnPrimary};
   ${btn48}
@@ -46,7 +45,7 @@ const Price = () => {
   } = useForm<UploadFormPrice>({ mode: 'onChange' });
   const watchPrice = watch('price');
   const onValid = (data: UploadFormPrice) => {
-    const purePrice = +data.price.split(',').join('');
+    const purePrice = Number(data.price.split(',').join(''));
     setFundingForm((prev: FormType) => ({
       ...prev,
       product: { ...prev.product, price: purePrice },
@@ -115,4 +114,4 @@ const Price = () => {
   );
 };
 
-export default Price;
+export default React.memo(Price);

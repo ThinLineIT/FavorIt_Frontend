@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { btn48, btnPrimary } from '@styles/modules/_buttons';
-import { TextArea, ErrorMessage, Button } from '@components/base';
+import { TextArea, ErrorMessage } from '@components/base';
 import {
   FormType,
   GeneratorType,
@@ -21,7 +21,6 @@ const Form = styled.form`
   display: block;
   animation: ${smoothAppearDownUp} 300ms;
 `;
-
 const NextButton = styled.button`
   ${btnPrimary};
   ${btn48}
@@ -91,4 +90,4 @@ const Description = () => {
   );
 };
 
-export default Description;
+export default React.memo(Description);

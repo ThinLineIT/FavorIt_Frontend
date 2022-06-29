@@ -91,6 +91,8 @@ const Chapter = styled.div<{ active: boolean; done: boolean }>`
 `;
 
 const Generate = () => {
+  console.log('create');
+
   const router = useRouter();
   const [generator, setGenerator] = useRecoilState(isLocalGenerator);
 
