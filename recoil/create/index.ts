@@ -31,7 +31,7 @@ export type GeneratorType = {
   page: number;
   done: boolean;
   proceed: boolean;
-  funding_id?: number;
+  funding_id?: string;
 };
 
 export const isLocalGenerator = atom<GeneratorType>({

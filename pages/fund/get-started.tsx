@@ -1,15 +1,13 @@
+import Image from 'next/image';
 import styled from '@emotion/styled';
-import { useSetRecoilState } from 'recoil';
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 import { GoBack } from '@components/layout';
-import { isMainFullHeight } from '@recoil/layout';
-import { DeferredComponent } from '@components/base';
+import siteMetadata from '@constants/sitemap';
 import { textStyle } from '@styles/mixins/_text-style';
 import { smoothAppearDownUp } from '@styles/modules/_keyframes';
 import { columnFlexbox, flexbox } from '@styles/mixins/_flexbox';
-import GenerateFallback from '@components/domain/create/fallback';
-import { useRouter } from 'next/router';
+import CongImage from '@public/assets/images/congratulations.svg';
 
 const MainBase = styled.div`
   width: 100%;
@@ -18,10 +16,8 @@ const MainBase = styled.div`
   margin-top: 50px;
   animation: ${smoothAppearDownUp} 700ms;
 `;
-const Icon = styled.div`
-  width: 100%;
-  height: 200px;
-  background-color: #d3d3d33a;
+const Header = styled.header`
+  ${flexbox()}
 `;
 const Title = styled.h4`
   ${textStyle(18)}
@@ -44,7 +40,6 @@ const Button = styled.button`
   ${textStyle(14, '#ffb84e')}
     font-weight: 700;
 `;
-
 const LinkButton = styled(Button)`
   span {
     margin-right: 10px;
@@ -56,57 +51,34 @@ const DetailButton = styled(Button)`
   }
 `;
 
-const Item = (id: any) => {
+function FundList() {
   const router = useRouter();
+  const { id } = router.query;
+
   const copyTextUrl = () => {
-    const { href } = window.location;
-    navigator.clipboard.writeText(href).then(() => {
+    const baseUrl = `${siteMetadata.siteUrl}fund/detail/${id}`;
+    navigator.clipboard.writeText(baseUrl).then(() => {
+      // 추후 토스트 메시지를 통해 유저에게 알리기
       alert('링크를 복사했습니다.');
     });
   };
 
   return (
     <MainBase>
-      <Icon />
+      <Header aria-label="펀딩 이미지">
+        <Image src={CongImage} width={158} height={112} alt="funding image" />
+      </Header>
       <Title>
         펀딩이 시작되었습니다. <br /> 링크를 공유하여 펀딩을 받으세요!
       </Title>
       <ButtonGroup>
         <LinkButton onClick={copyTextUrl}>링크 복사</LinkButton>
-        <DetailButton onClick={() => router.replace(`/fund/detail/${id?.id}`)}>
+        <DetailButton onClick={() => router.replace(`/fund/detail/${id}`)}>
           펀딩 보기
         </DetailButton>
       </ButtonGroup>
+      <GoBack path="/" />
     </MainBase>
-  );
-};
-
-function FundList() {
-  const router = useRouter();
-  const { id } = router.query;
-
-  const [loading, setLoading] = useState<boolean>(true);
-  const setIsFullHeight = useSetRecoilState(isMainFullHeight);
-
-  useEffect(() => {
-    // 임의로 로딩 상태 표현
-    setIsFullHeight(true);
-    setTimeout(() => setLoading(false), 2800);
-  }, [setIsFullHeight]);
-
-  return (
-    <>
-      {loading ? (
-        Array.from({ length: 1 }).map((_, idx) => (
-          <DeferredComponent key={idx}>
-            <GenerateFallback />
-          </DeferredComponent>
-        ))
-      ) : (
-        <Item id={id} />
-      )}
-      {loading ? null : <GoBack path="/" />}
-    </>
   );
 }
 

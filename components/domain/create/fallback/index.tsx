@@ -2,6 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 import Skeleton from '@components/base/Skeleton';
+import { DeferredComponent } from '@components/base';
 
 const Container = styled.div`
   width: 100%;
@@ -27,33 +28,35 @@ const Info = styled.div`
 
 const GenerateFallback = () => {
   return (
-    <Container>
-      <ImageWrapper>
-        <Skeleton width={100} height={100} unit="%" rounded />
-      </ImageWrapper>
-      <Info>
-        <Skeleton width={270} height={29} rounded />
-        <div style={{ height: '8px' }} />
-        <Skeleton width={300} height={19} rounded />
-        <div style={{ height: '30px' }} />
-        <Skeleton width={200} height={29} rounded />
-        <div style={{ height: '8px' }} />
-        <Skeleton width={300} height={19} rounded />
-        <div style={{ height: '30px' }} />
-        <Skeleton width={150} height={29} rounded />
-        <div style={{ height: '8px' }} />
-        <Skeleton width={200} height={19} rounded />
-        <div style={{ height: '30px' }} />
-        <Skeleton width={150} height={29} rounded />
-        <div style={{ height: '8px' }} />
-        <Skeleton width={200} height={19} rounded />
-        <div style={{ height: '30px' }} />
-        <Skeleton width={210} height={29} rounded />
-        <div style={{ height: '8px' }} />
-        <Skeleton width={270} height={19} rounded />
-        <div style={{ height: '30px' }} />
-      </Info>
-    </Container>
+    <DeferredComponent>
+      <Container>
+        <ImageWrapper>
+          <Skeleton width={100} height={100} unit="%" rounded />
+        </ImageWrapper>
+        <Info>
+          <Skeleton width={270} height={29} rounded />
+          <div style={{ height: '8px' }} />
+          <Skeleton width={300} height={19} rounded />
+          <div style={{ height: '30px' }} />
+          <Skeleton width={200} height={29} rounded />
+          <div style={{ height: '8px' }} />
+          <Skeleton width={300} height={19} rounded />
+          <div style={{ height: '30px' }} />
+          <Skeleton width={150} height={29} rounded />
+          <div style={{ height: '8px' }} />
+          <Skeleton width={200} height={19} rounded />
+          <div style={{ height: '30px' }} />
+          <Skeleton width={150} height={29} rounded />
+          <div style={{ height: '8px' }} />
+          <Skeleton width={200} height={19} rounded />
+          <div style={{ height: '30px' }} />
+          <Skeleton width={210} height={29} rounded />
+          <div style={{ height: '8px' }} />
+          <Skeleton width={270} height={19} rounded />
+          <div style={{ height: '30px' }} />
+        </Info>
+      </Container>
+    </DeferredComponent>
   );
 };
 

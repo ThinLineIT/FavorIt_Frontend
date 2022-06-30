@@ -11,6 +11,8 @@ function DetailFundPage() {
   const [generator, setGenerator] = useRecoilState(isLocalGenerator);
 
   useEffect(() => {
+    // 디테일 페이지 fetch 로직 추가
+
     return () => {
       setGenerator((prev) => ({ ...prev, done: false }));
     };
