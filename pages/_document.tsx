@@ -15,6 +15,10 @@ export default class MyDocument extends Document {
     return (
       <Html lang="ko">
         <Head>
+          <meta
+            httpEquiv="Content-Security-Policy"
+            content="upgrade-insecure-requests"
+          />
           {/* 폰트 */}
           <link
             rel="stylesheet"

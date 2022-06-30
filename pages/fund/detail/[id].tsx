@@ -3,8 +3,11 @@ import { useRecoilState } from 'recoil';
 
 import { GoBack } from '@components/layout';
 import { isLocalGenerator } from '@recoil/create';
+import { useRouter } from 'next/router';
 
 function DetailFundPage() {
+  const router = useRouter();
+  const { id } = router.query;
   const [generator, setGenerator] = useRecoilState(isLocalGenerator);
 
   useEffect(() => {
@@ -15,7 +18,7 @@ function DetailFundPage() {
   return (
     <>
       <GoBack path="/" />
-      <div style={{ width: '100%' }}>detail</div>
+      <div style={{ width: '100%' }}>detail_{id}</div>
     </>
   );
 }

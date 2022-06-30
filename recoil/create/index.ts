@@ -13,12 +13,6 @@ export type FormType = {
   product: Product;
 };
 
-export type GeneratorType = {
-  page: number;
-  done: boolean;
-  proceed: boolean;
-};
-
 export const isFundingForm = atom<FormType>({
   key: 'isFundingForm',
   default: {
@@ -32,6 +26,13 @@ export const isFundingForm = atom<FormType>({
     },
   },
 });
+
+export type GeneratorType = {
+  page: number;
+  done: boolean;
+  proceed: boolean;
+  funding_id?: number;
+};
 
 export const isLocalGenerator = atom<GeneratorType>({
   key: 'isLocalGenerator',

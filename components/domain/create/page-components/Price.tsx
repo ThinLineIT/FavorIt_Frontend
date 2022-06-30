@@ -109,7 +109,7 @@ const Price = () => {
       {errors?.price?.type === 'pattern' && (
         <ErrorMessage>{errors.price.message}</ErrorMessage>
       )}
-      {watchPrice != null && <NextButton type="submit">다음</NextButton>}
+      <NextButton type="submit">다음</NextButton>
     </Form>
   );
 };

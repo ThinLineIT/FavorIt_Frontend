@@ -56,7 +56,7 @@ const DetailButton = styled(Button)`
   }
 `;
 
-const Item: React.FC = () => {
+const Item = (id: any) => {
   const router = useRouter();
   const copyTextUrl = () => {
     const { href } = window.location;
@@ -73,7 +73,7 @@ const Item: React.FC = () => {
       </Title>
       <ButtonGroup>
         <LinkButton onClick={copyTextUrl}>링크 복사</LinkButton>
-        <DetailButton onClick={() => router.push('/fund/detail')}>
+        <DetailButton onClick={() => router.replace(`/fund/detail/${id?.id}`)}>
           펀딩 보기
         </DetailButton>
       </ButtonGroup>
@@ -81,7 +81,10 @@ const Item: React.FC = () => {
   );
 };
 
-function FundList({}) {
+function FundList() {
+  const router = useRouter();
+  const { id } = router.query;
+
   const [loading, setLoading] = useState<boolean>(true);
   const setIsFullHeight = useSetRecoilState(isMainFullHeight);
 
@@ -100,7 +103,7 @@ function FundList({}) {
           </DeferredComponent>
         ))
       ) : (
-        <Item />
+        <Item id={id} />
       )}
       {loading ? null : <GoBack path="/" />}
     </>

@@ -144,6 +144,7 @@ const Preview = () => {
         ...prev,
         done: true,
         proceed: false,
+        funding_id: Number(data?.data?.funding_id),
       }));
     }
   }, [data, setGenerator]);

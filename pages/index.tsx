@@ -48,7 +48,7 @@ const Home: NextPage = () => {
         <h1 className="visually-hidden">난 이걸로 부탁해, 선물펀딩 FavorIt</h1>
         <LandingBox />
         <Link href="/fund/create">
-          <a onClick={useGenerate} aria-hidden>
+          <a onClick={useGenerate}>
             <Button type="button" aria-label="펀딩 생성 버튼">
               펀딩 만들기
             </Button>
