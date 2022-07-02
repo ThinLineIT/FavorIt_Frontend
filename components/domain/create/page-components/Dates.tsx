@@ -7,7 +7,7 @@ import { registerLocale } from 'react-datepicker';
 registerLocale('ko', ko);
 
 import { dateToString } from '@util/index';
-import { Calendar } from '@components/base';
+import { Calendar, ErrorMessage } from '@components/base';
 import { flexbox } from '@styles/mixins/_flexbox';
 import { btn48, btnPrimary } from '@styles/modules/_buttons';
 import { smoothAppearDownUp } from '@styles/modules/_keyframes';
@@ -40,6 +40,7 @@ const NextButton = styled.button`
 `;
 
 const Dates = () => {
+  const [error, setError] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [fundingForm, setFundingForm] = useRecoilState(isFundingForm);
@@ -57,6 +58,8 @@ const Dates = () => {
         due_date: dateToString(endDate),
       }));
       setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
+    } else {
+      setError(true);
     }
   };
 
@@ -74,6 +77,9 @@ const Dates = () => {
       aria-label="펀딩 기간 입력"
     >
       <Calendar startDate={startDate} endDate={endDate} onChange={onChange} />
+      {error && (
+        <ErrorMessage isCenter>유효한 기한을 입력해주세요</ErrorMessage>
+      )}
       <NextButton>다음</NextButton>
     </Form>
   );

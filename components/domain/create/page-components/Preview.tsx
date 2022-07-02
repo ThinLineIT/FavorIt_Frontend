@@ -1,13 +1,102 @@
 import Image from 'next/image';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
+import GenerateFallback from '../fallback';
 import useMutation from '@apis/useMutation';
+import { isMainFullHeight } from '@recoil/layout';
 import GiftImage from '@public/assets/images/gift.svg';
 import { textStyle } from '@styles/mixins/_text-style';
 import { columnFlexbox, flexbox } from '@styles/mixins/_flexbox';
 import { GeneratorType, isFundingForm, isLocalGenerator } from '@recoil/create';
+
+type fundingId = {
+  funding_id: string;
+};
+interface MutationResult {
+  data: fundingId;
+  message: string;
+}
+
+const Preview = () => {
+  const [didSubmit, setDidSubmit] = useState(false);
+  const fundingForm = useRecoilValue(isFundingForm);
+  const setGenerator = useSetRecoilState(isLocalGenerator);
+  const setIsFullHeight = useSetRecoilState(isMainFullHeight);
+  const [create, { loading, data }] = useMutation<MutationResult>(
+    'http://3.35.218.213/api/funding',
+  );
+  const onMutate = () => create(fundingForm);
+
+  useEffect(() => {
+    if (loading) setIsFullHeight(true);
+  }, [loading, setIsFullHeight]);
+
+  useEffect(() => {
+    if (data?.data?.funding_id) {
+      setDidSubmit(true);
+      setGenerator((prev: GeneratorType) => ({
+        ...prev,
+        done: true,
+        proceed: false,
+        funding_id: data?.data?.funding_id,
+      }));
+    }
+  }, [data?.data?.funding_id, setGenerator]);
+
+  const PreviewContent = (
+    <Base aria-label="펀딩 정보 프리뷰">
+      <Section>
+        <Header aria-label="펀딩 이미지">
+          <Image src={GiftImage} width={96} height={92} alt="funding image" />
+        </Header>
+        <Main>
+          <Title>{fundingForm.name}</Title>
+          <Link href={fundingForm.product.link} target="_blank">
+            상품 보러 가기
+          </Link>
+          <Description>{fundingForm.contents}</Description>
+          <DatesCard>
+            <progress value="80" max="100" id="progressDates"></progress>
+            <span>{fundingForm.due_date}</span>
+          </DatesCard>
+          <PriceCard>
+            <progress value="60" max="100" id="progressPrices"></progress>
+            <span>{fundingForm.product.price} 원</span>
+          </PriceCard>
+        </Main>
+        <Footer>
+          <BackButton
+            onClick={() =>
+              setGenerator((prev: GeneratorType) => ({
+                ...prev,
+                page: prev.page - 1,
+              }))
+            }
+          >
+            <span>&#60;-</span>
+            <p>내용 수정</p>
+          </BackButton>
+          <NextButton onClick={onMutate}>
+            <p>펀딩 시작</p>
+            <span>-&#62;</span>
+          </NextButton>
+        </Footer>
+      </Section>
+    </Base>
+  );
+
+  return (
+    <>
+      {loading && !didSubmit && <GenerateFallback />}
+      {!loading && didSubmit && null}
+      {!loading && !didSubmit && PreviewContent}
+    </>
+  );
+};
+
+export default React.memo(Preview);
 
 const Base = styled.div`
   width: 100%;
@@ -122,73 +211,3 @@ const NextButton = styled(Button)`
     margin-left: 10px;
   }
 `;
-
-interface fundingId {
-  funding_id: string;
-}
-interface MutationResult {
-  data: fundingId;
-  message: string;
-}
-
-const Preview = () => {
-  const fundingForm = useRecoilValue(isFundingForm);
-  const setGenerator = useSetRecoilState(isLocalGenerator);
-  const [create, { loading, data, error }] = useMutation<MutationResult>(
-    'http://3.35.218.213/api/funding',
-  );
-  const onMutate = () => create(fundingForm);
-  useEffect(() => {
-    if (data?.data?.funding_id) {
-      setGenerator((prev: GeneratorType) => ({
-        ...prev,
-        done: true,
-        proceed: false,
-      }));
-    }
-  }, [data, setGenerator]);
-
-  return (
-    <Base aria-label="펀딩 정보 프리뷰">
-      <Section>
-        <Header aria-label="펀딩 이미지">
-          <Image src={GiftImage} width={96} height={92} alt="funding image" />
-        </Header>
-        <Main>
-          <Title>{fundingForm.name}</Title>
-          <Link href={fundingForm.product.link} target="_blank">
-            상품 보러 가기
-          </Link>
-          <Description>{fundingForm.contents}</Description>
-          <DatesCard>
-            <progress value="80" max="100" id="progressDates"></progress>
-            <span>{fundingForm.due_date}</span>
-          </DatesCard>
-          <PriceCard>
-            <progress value="60" max="100" id="progressPrices"></progress>
-            <span>{fundingForm.product.price} 원</span>
-          </PriceCard>
-        </Main>
-        <Footer>
-          <BackButton
-            onClick={() =>
-              setGenerator((prev: GeneratorType) => ({
-                ...prev,
-                page: prev.page - 1,
-              }))
-            }
-          >
-            <span>&#60;-</span>
-            <p>내용 수정</p>
-          </BackButton>
-          <NextButton onClick={onMutate}>
-            <p>펀딩 시작</p>
-            <span>-&#62;</span>
-          </NextButton>
-        </Footer>
-      </Section>
-    </Base>
-  );
-};
-
-export default React.memo(Preview);

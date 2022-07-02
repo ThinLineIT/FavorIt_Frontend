@@ -36,13 +36,11 @@ const Option = () => {
   const setGenerator = useSetRecoilState(isLocalGenerator);
   const [fundingForm, setFundingForm] = useRecoilState(isFundingForm);
   const {
-    watch,
     register,
     setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<UploadFormOption>();
-  const watchOptions = watch('option');
   const onValid = (data: UploadFormOption) => {
     setFundingForm((prev: FormType) => ({
       ...prev,
@@ -85,7 +83,7 @@ const Option = () => {
       )}
       <br />
 
-      {watchOptions != null && <NextButton type="submit">다음</NextButton>}
+      <NextButton type="submit">다음</NextButton>
     </Form>
   );
 };

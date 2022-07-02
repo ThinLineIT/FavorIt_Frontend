@@ -36,13 +36,11 @@ const Description = () => {
   const setGenerator = useSetRecoilState(isLocalGenerator);
   const [fundingForm, setFundingForm] = useRecoilState(isFundingForm);
   const {
-    watch,
     register,
     setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<UploadFormDescription>();
-  const watchContents = watch('contents');
   const onValid = (data: UploadFormDescription) => {
     setFundingForm((prev: FormType) => ({
       ...prev,
@@ -85,7 +83,7 @@ const Description = () => {
       )}
       <br />
 
-      {watchContents != null && <NextButton type="submit">다음</NextButton>}
+      <NextButton type="submit">다음</NextButton>
     </Form>
   );
 };

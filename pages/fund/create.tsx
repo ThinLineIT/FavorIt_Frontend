@@ -56,7 +56,6 @@ const Base = styled.div`
   margin-top: 50px;
   ${columnFlexbox('start', 'center')};
 `;
-
 const Pagination = styled.div`
   width: 100%;
   ${flexbox()};
@@ -65,7 +64,6 @@ const Pagination = styled.div`
   margin-bottom: 50px;
   column-gap: 26px;
 `;
-
 const Chapter = styled.div<{ active: boolean; done: boolean }>`
   width: 24px;
   height: 24px;
@@ -91,14 +89,15 @@ const Chapter = styled.div<{ active: boolean; done: boolean }>`
 `;
 
 const Generate = () => {
-  console.log('create');
-
   const router = useRouter();
   const [generator, setGenerator] = useRecoilState(isLocalGenerator);
 
   useEffect(() => {
     if (generator.done === true) {
-      router.replace('/fund/get-started');
+      router.replace({
+        pathname: '/fund/get-started',
+        query: { id: generator?.funding_id },
+      });
     }
   }, [generator, router]);
 

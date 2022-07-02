@@ -48,13 +48,11 @@ const Crawling = () => {
   const setGenerator = useSetRecoilState(isLocalGenerator);
   const [fundingForm, setFundingForm] = useRecoilState(isFundingForm);
   const {
-    watch,
     register,
     setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<UploadFormLink>();
-  const watchLink = watch('link');
   const onValid = (data: UploadFormLink) => {
     setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
     setFundingForm((prev: FormType) => ({
@@ -97,24 +95,22 @@ const Crawling = () => {
         <ErrorMessage>{errors.link.message}</ErrorMessage>
       )}
 
-      {watchLink != null && (
-        <NextButton type="submit" aria-label="추가 옵션 버튼">
-          추가 옵션
-          <svg
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M15 19l-7-7 7-7"
-            ></path>
-          </svg>
-        </NextButton>
-      )}
+      <NextButton type="submit" aria-label="추가 옵션 버튼">
+        추가 옵션
+        <svg
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M15 19l-7-7 7-7"
+          ></path>
+        </svg>
+      </NextButton>
     </Form>
   );
 };

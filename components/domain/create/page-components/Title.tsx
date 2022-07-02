@@ -34,18 +34,14 @@ interface UploadFormTitle {
 }
 
 const Title = () => {
-  console.log('Title');
-
   const setGenerator = useSetRecoilState(isLocalGenerator);
   const [fundingForm, setFundingForm] = useRecoilState(isFundingForm);
   const {
-    watch,
     register,
     setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<UploadFormTitle>();
-  const watchTitle = watch('name');
   const onValid = (data: UploadFormTitle) => {
     setFundingForm((prev: FormType) => ({
       ...prev,
@@ -88,9 +84,9 @@ const Title = () => {
       )}
       <br />
 
-      {watchTitle != null && <NextButton type="submit">다음</NextButton>}
+      <NextButton type="submit">다음</NextButton>
     </Form>
   );
 };
 
-export default Title;
+export default React.memo(Title);
