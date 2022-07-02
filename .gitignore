@@ -36,4 +36,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 
-.env 
+.env
+<<<<<<< HEAD
+=======
+
+>>>>>>> 157519e050f42994216c1ce4de6c9fc80fa2dd85

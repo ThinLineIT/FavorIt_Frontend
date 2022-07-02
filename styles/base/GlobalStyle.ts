@@ -280,6 +280,52 @@ const GlobalStyle = () => css`
     white-space: nowrap !important;
     border: 0 !important;
   }
+
+  // calendar
+  .react-datepicker {
+    border: none !important;
+  }
+  .react-datepicker__header {
+    background-color: transparent !important;
+    border-bottom: none !important;
+  }
+  .react-datepicker__day--in-range {
+    background-color: #fffba7 !important;
+    border-radius: 50% !important;
+    color: black !important;
+  }
+  .react-datepicker__day--in-selecting-range {
+    background: #fffba7 !important;
+    color: black !important;
+    border-radius: 50% !important;
+  }
+  .react-datepicker__day--in-selecting-range:hover {
+    color: black !important;
+  }
+  .react-datepicker__day--selected {
+    background: #ffe0b2 !important;
+    color: black !important;
+  }
+  .react-datepicker__day--selected:hover {
+    background: #ffe0b2 !important;
+    border-radius: 50%;
+    color: black !important;
+  }
+  .react-datepicker__day--selecting-range-start {
+    background: #ffe0b2 !important;
+    border-radius: 50%;
+  }
+  .react-datepicker__day--range-start {
+    background: #ffe0b2 !important;
+    border-radius: 50%;
+  }
+  .react-datepicker__day--range-end {
+    background: #ffb84e !important;
+    border-radius: 50% !important;
+  }
+  .react-datepicker__day--today {
+    font-weight: normal !important;
+  }
 `;
 
 export default GlobalStyle;

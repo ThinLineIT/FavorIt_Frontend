@@ -21,11 +21,11 @@ const Form = styled.form`
   display: block;
   animation: ${smoothAppearDownUp} 300ms;
 `;
-
 const NextButton = styled.button`
   ${btnPrimary};
   ${btn48}
   width: 125px;
+  margin-top: 25px;
   animation: ${smoothAppearDownUpLarge} 700ms;
 `;
 
@@ -42,10 +42,10 @@ const Price = () => {
     setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm<UploadFormPrice>();
+  } = useForm<UploadFormPrice>({ mode: 'onChange' });
   const watchPrice = watch('price');
   const onValid = (data: UploadFormPrice) => {
-    const purePrice = +data.price.split(',').join('');
+    const purePrice = Number(data.price.split(',').join(''));
     setFundingForm((prev: FormType) => ({
       ...prev,
       product: { ...prev.product, price: purePrice },
@@ -55,19 +55,17 @@ const Price = () => {
   // @Note
   // 재사용성을 위해 추후 분리할 예정
   const handlePriceType = (watch: string) => {
-    const pureString = watch && watch.split(',').join('');
-    if (isNaN(Number(pureString))) {
-      return;
-    }
-    if (Number(pureString) >= 1000) {
-      setValue(
-        'price',
-        Number(pureString).toLocaleString('en', {
-          maximumFractionDigits: 3,
-        }),
-      );
-      return;
-    }
+    const comma = (str: string) => {
+      str = String(str);
+      return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+    };
+
+    const unComma = (str: string) => {
+      str = String(str);
+      return str.replace(/[^\d]+/g, '');
+    };
+
+    const pureString = watch && comma(unComma(watch));
     setValue('price', pureString);
   };
 
@@ -83,7 +81,12 @@ const Price = () => {
   }, [fundingForm, setValue]);
 
   return (
-    <Form onSubmit={handleSubmit(onValid)}>
+    <Form
+      onSubmit={handleSubmit(onValid)}
+      role="tabpanel"
+      aria-labelledby="pagination-tab-2"
+      aria-label="상품 가격 입력"
+    >
       <Input
         register={register('price', {
           required: '입력된 가격이 없네요!',
@@ -106,11 +109,9 @@ const Price = () => {
       {errors?.price?.type === 'pattern' && (
         <ErrorMessage>{errors.price.message}</ErrorMessage>
       )}
-      <br />
-
-      {watchPrice != null && <NextButton type="submit">다음</NextButton>}
+      <NextButton type="submit">다음</NextButton>
     </Form>
   );
 };
 
-export default Price;
+export default React.memo(Price);

@@ -6,20 +6,22 @@ import { textStyle } from '@styles/mixins/_text-style';
 
 type Props = {
   children: ReactNode;
+  isCenter?: boolean;
 };
 
-const ErrorMessage = ({ children }: Props) => {
-  return <Error>{children}</Error>;
+const ErrorMessage = ({ children, isCenter }: Props) => {
+  return <Error isCenter>{children}</Error>;
 };
 
 export default ErrorMessage;
 
-const Error = styled.span`
+const Error = styled.span<{ isCenter?: boolean }>`
   ${textStyle(12, '#F04452')}
   font-weight: 700;
   width: 100%;
   padding-top: 12px;
   padding-left: 1px;
   display: block;
+  text-align: ${({ isCenter }) => (isCenter ? 'center' : '')};
   animation: ${errorAppear} 450ms;
 `;

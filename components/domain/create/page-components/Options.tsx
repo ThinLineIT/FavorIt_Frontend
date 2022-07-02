@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useForm } from 'react-hook-form';
+import React, { useEffect } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { TextArea, ErrorMessage } from '@components/base';
@@ -21,7 +21,6 @@ const Form = styled.form`
   display: block;
   animation: ${smoothAppearDownUp} 300ms;
 `;
-
 const NextButton = styled.button`
   ${btnPrimary};
   ${btn48}
@@ -37,17 +36,15 @@ const Option = () => {
   const setGenerator = useSetRecoilState(isLocalGenerator);
   const [fundingForm, setFundingForm] = useRecoilState(isFundingForm);
   const {
-    watch,
     register,
     setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<UploadFormOption>();
-  const watchOptions = watch('option');
   const onValid = (data: UploadFormOption) => {
     setFundingForm((prev: FormType) => ({
       ...prev,
-      product: { ...prev.product, option: data.option },
+      product: { ...prev.product, option: data.option.trim() },
     }));
     setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
   };
@@ -59,7 +56,12 @@ const Option = () => {
   }, [fundingForm, setValue]);
 
   return (
-    <Form onSubmit={handleSubmit(onValid)}>
+    <Form
+      onSubmit={handleSubmit(onValid)}
+      role="tabpanel"
+      aria-labelledby="pagination-tab-1"
+      aria-label="상품 옵션 입력"
+    >
       <TextArea
         register={register('option', {
           required: '입력된 텍스트가 없네요!',
@@ -81,9 +83,9 @@ const Option = () => {
       )}
       <br />
 
-      {watchOptions != null && <NextButton type="submit">다음</NextButton>}
+      <NextButton type="submit">다음</NextButton>
     </Form>
   );
 };
 
-export default Option;
+export default React.memo(Option);

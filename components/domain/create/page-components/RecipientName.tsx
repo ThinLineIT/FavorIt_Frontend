@@ -53,9 +53,7 @@ const RecipientName = () => {
   };
 
   useEffect(() => {
-    // if (fundingForm?.recipient_name !== '') {
-    //   setValue('recipient_name', fundingForm?.recipient_name);
-    // }
+    // phrase 1에서는 사용안하기로 했습니다. 추후 사용될 예정
   }, [fundingForm, setValue]);
 
   return (

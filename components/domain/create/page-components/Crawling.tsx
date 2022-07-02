@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useForm } from 'react-hook-form';
+import React, { useEffect } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { textStyle } from '@styles/mixins/_text-style';
@@ -21,7 +21,6 @@ const Form = styled.form`
   display: block;
   animation: ${smoothAppearDownUp} 300ms;
 `;
-
 const NextButton = styled.button`
   display: inline-flex;
   justify-content: space-between;
@@ -49,18 +48,16 @@ const Crawling = () => {
   const setGenerator = useSetRecoilState(isLocalGenerator);
   const [fundingForm, setFundingForm] = useRecoilState(isFundingForm);
   const {
-    watch,
     register,
     setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<UploadFormLink>();
-  const watchLink = watch('link');
   const onValid = (data: UploadFormLink) => {
     setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
     setFundingForm((prev: FormType) => ({
       ...prev,
-      product: { ...prev.product, link: data.link },
+      product: { ...prev.product, link: data.link.trim() },
     }));
   };
 
@@ -71,7 +68,12 @@ const Crawling = () => {
   }, [fundingForm, setValue]);
 
   return (
-    <Form onSubmit={handleSubmit(onValid)}>
+    <Form
+      onSubmit={handleSubmit(onValid)}
+      role="tabpanel"
+      aria-labelledby="pagination-tab-0"
+      aria-label="상품 링크 입력"
+    >
       <Input
         name="link"
         label="상품 링크"
@@ -93,26 +95,24 @@ const Crawling = () => {
         <ErrorMessage>{errors.link.message}</ErrorMessage>
       )}
 
-      {watchLink != null && (
-        <NextButton type="submit" aria-label="추가 옵션 버튼">
-          추가 옵션
-          <svg
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M15 19l-7-7 7-7"
-            ></path>
-          </svg>
-        </NextButton>
-      )}
+      <NextButton type="submit" aria-label="추가 옵션 버튼">
+        추가 옵션
+        <svg
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M15 19l-7-7 7-7"
+          ></path>
+        </svg>
+      </NextButton>
     </Form>
   );
 };
 
-export default Crawling;
+export default React.memo(Crawling);

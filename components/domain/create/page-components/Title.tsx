@@ -37,17 +37,15 @@ const Title = () => {
   const setGenerator = useSetRecoilState(isLocalGenerator);
   const [fundingForm, setFundingForm] = useRecoilState(isFundingForm);
   const {
-    watch,
     register,
     setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<UploadFormTitle>();
-  const watchTitle = watch('name');
   const onValid = (data: UploadFormTitle) => {
     setFundingForm((prev: FormType) => ({
       ...prev,
-      name: data.name,
+      name: data.name.trim(),
     }));
     setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
   };
@@ -59,7 +57,12 @@ const Title = () => {
   }, [fundingForm, setValue]);
 
   return (
-    <Form onSubmit={handleSubmit(onValid)}>
+    <Form
+      onSubmit={handleSubmit(onValid)}
+      role="tabpanel"
+      aria-labelledby="pagination-tab-3"
+      aria-label="펀딩 제목 입력"
+    >
       <Input
         register={register('name', {
           required: '입력된 텍스트가 없네요!',
@@ -81,9 +84,9 @@ const Title = () => {
       )}
       <br />
 
-      {watchTitle != null && <NextButton type="submit">다음</NextButton>}
+      <NextButton type="submit">다음</NextButton>
     </Form>
   );
 };
 
-export default Title;
+export default React.memo(Title);
