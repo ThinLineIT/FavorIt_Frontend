@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
+import { useResetRecoilState } from 'recoil';
 
 import { GoBack } from '@components/layout';
 import siteMetadata from '@constants/sitemap';
@@ -8,6 +9,8 @@ import { textStyle } from '@styles/mixins/_text-style';
 import { smoothAppearDownUp } from '@styles/modules/_keyframes';
 import { columnFlexbox, flexbox } from '@styles/mixins/_flexbox';
 import CongImage from '@public/assets/images/congratulations.svg';
+import { isLocalGenerator } from '@recoil/create';
+import { useEffect } from 'react';
 
 const MainBase = styled.div`
   width: 100%;
@@ -54,6 +57,11 @@ const DetailButton = styled(Button)`
 function FundList() {
   const router = useRouter();
   const { id } = router.query;
+  const resetGenerator = useResetRecoilState(isLocalGenerator);
+
+  useEffect(() => {
+    resetGenerator();
+  }, [resetGenerator]);
 
   const copyTextUrl = () => {
     const baseUrl = `${siteMetadata.siteUrl}fund/detail/${id}`;
