@@ -9,7 +9,7 @@ const useLoadFunding = (fundId?: string | string[]) => {
   const { isLoading, error, data } = useQuery<
     AxiosResponse<FundDetailTypes>,
     AxiosError
-  >([`funding-${fundId}`, fundId], queryFn);
+  >([`funding`, 'detail', fundId], queryFn);
 
   return {
     isLoading,

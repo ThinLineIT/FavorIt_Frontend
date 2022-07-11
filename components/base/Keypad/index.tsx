@@ -16,7 +16,6 @@ const Keypad = ({ ...restProps }) => {
   );
 };
 
-Keypad.displayName = 'Input';
 export default Keypad;
 
 const KeypadWrapper = styled.div`
@@ -33,4 +32,5 @@ const Key = styled.span`
   font-weight: 400;
   font-size: 25px;
   line-height: 30px;
+  user-select: none;
 `;

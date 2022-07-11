@@ -3,11 +3,8 @@ import { useMutation } from 'react-query';
 import { useCallback, useState } from 'react';
 
 import { addPayments } from '@apis/fundApi';
+import { addPresentTypes } from '@apis/types';
 import { deleteComma, numericOnlyWithComma } from '@util/helper/formatter';
-
-export type addPresentTypes = {
-  amount: number;
-};
 
 const useAddPresent = (router: NextRouter, fundId?: string | string[]) => {
   const [price, SetPrice] = useState('');
@@ -20,14 +17,23 @@ const useAddPresent = (router: NextRouter, fundId?: string | string[]) => {
     mutate({ amount: Number(deleteComma(price)) });
   }, [mutate, price]);
 
-  const handleKeyClick = useCallback((event: any) => {
-    const name = event?.target?.innerHTML;
-    if (name !== '&lt;-') {
-      SetPrice((prev) => numericOnlyWithComma(prev + name));
-    } else {
-      SetPrice('');
-    }
-  }, []);
+  const handleKeyClick = useCallback(
+    (event: React.MouseEvent<HTMLSpanElement>) => {
+      if (event.target instanceof HTMLSpanElement) {
+        const keyName = event?.target?.innerHTML;
+
+        if (keyName !== '&lt;-') {
+          SetPrice((prev) => numericOnlyWithComma(prev + keyName));
+        } else {
+          SetPrice((prev) => {
+            const editedPrice = deleteComma(prev).slice(0, -1);
+            return editedPrice;
+          });
+        }
+      }
+    },
+    [],
+  );
 
   const handleUpdateForm = () => {
     setInputSuccess(false);

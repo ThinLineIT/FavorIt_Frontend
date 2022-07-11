@@ -21,3 +21,7 @@ export interface FundDetailTypes {
 export interface FundSuccessPayload {
   data: FundDetailTypes[];
 }
+
+export type addPresentTypes = {
+  amount: number;
+};

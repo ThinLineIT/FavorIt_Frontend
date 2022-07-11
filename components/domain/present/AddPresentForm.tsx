@@ -51,7 +51,7 @@ const AddPresentForm = ({ router, fundId }: AddPresentFormProps) => {
           {!inputSuccess ? '다음' : '선물하기'}
         </CustomGoNext>
       </ButtonGroup>
-      {!inputSuccess && <CustomKeypad onClick={handleKeyClick} />}
+      <CustomKeypad onClick={handleKeyClick} inputSuccess={inputSuccess} />
     </>
   );
 };
@@ -112,4 +112,9 @@ const CustomGoNext = styled.button<{ disabled?: boolean }>`
   line-height: 11px;
 `;
 
-const CustomKeypad = styled(Keypad)``;
+const CustomKeypad = styled(Keypad)<{ inputSuccess?: boolean }>`
+  /* overflow: hidden; */
+  opacity: ${({ inputSuccess }) => (inputSuccess ? 0 : 1)};
+
+  transition: opacity 200ms ease-in-out;
+`;
