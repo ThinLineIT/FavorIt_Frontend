@@ -14,7 +14,11 @@ import { useEffect } from 'react';
 
 function FundList() {
   const router = useRouter();
-  const { id } = router.query;
+  const { id, name, price } = router.query;
+  console.log(router.query);
+
+  const isFromPresent = Boolean(name || price);
+
   const resetGenerator = useResetRecoilState(isLocalGenerator);
 
   useEffect(() => {
@@ -22,7 +26,7 @@ function FundList() {
   }, [resetGenerator]);
 
   const copyTextUrl = () => {
-    const baseUrl = `${siteMetadata.siteUrl}fund/detail/${id}`;
+    const baseUrl = `${siteMetadata.siteUrl}fund/${id}`;
     navigator.clipboard.writeText(baseUrl).then(() => {
       // 추후 토스트 메시지를 통해 유저에게 알리기
       alert('링크를 복사했습니다.');
@@ -35,11 +39,13 @@ function FundList() {
         <Image src={CongImage} width={158} height={112} alt="funding image" />
       </Header>
       <Title>
-        펀딩이 시작되었습니다. <br /> 링크를 공유하여 펀딩을 받으세요!
+        {!isFromPresent
+          ? '펀딩이 시작되었습니다. \n 링크를 공유하여 펀딩을 받으세요!'
+          : `${name}에 \n ${price} 원을 선물했어요!`}
       </Title>
       <ButtonGroup>
         <LinkButton onClick={copyTextUrl}>링크 복사</LinkButton>
-        <DetailButton onClick={() => router.replace(`/fund/detail/${id}`)}>
+        <DetailButton onClick={() => router.replace(`/fund/${id}`)}>
           펀딩 보기
         </DetailButton>
       </ButtonGroup>

@@ -19,7 +19,7 @@ const Present = () => {
       <PresentHeader>
         <b>{data?.name}</b>에 선물하기
       </PresentHeader>
-      <AddPresentForm fundId={fundId} router={router} />
+      <AddPresentForm fundId={fundId} fundName={data?.name} router={router} />
     </Root>
   );
 };

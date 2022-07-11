@@ -24,8 +24,10 @@ const Preview = () => {
   const fundingForm = useRecoilValue(isFundingForm);
   const setGenerator = useSetRecoilState(isLocalGenerator);
   const setIsFullHeight = useSetRecoilState(isMainFullHeight);
+
+  //@TODO react-query 사용하기 => 리팩토링하기
   const [create, { loading, data }] = useMutation<MutationResult>(
-    'http://3.35.218.213/api/funding',
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/funding`,
   );
   const onMutate = () => create(fundingForm);
 

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { NextRouter } from 'next/router';
 import styled from '@emotion/styled';
+import { jsx, css, keyframes } from '@emotion/react';
 
 import { flexbox } from '@styles/mixins/_flexbox';
 import useAddPresent from './hooks/useAddPresent';
@@ -9,9 +10,10 @@ import Keypad from '@components/base/Keypad';
 export type AddPresentFormProps = {
   router: NextRouter;
   fundId?: string | string[];
+  fundName?: string;
 };
 
-const AddPresentForm = ({ router, fundId }: AddPresentFormProps) => {
+const AddPresentForm = ({ router, fundId, fundName }: AddPresentFormProps) => {
   const {
     price,
     isSuccess,
@@ -25,9 +27,12 @@ const AddPresentForm = ({ router, fundId }: AddPresentFormProps) => {
 
   useEffect(() => {
     if (isSuccess) {
-      router.replace('/');
+      router.replace({
+        pathname: '/fund/get-started',
+        query: { id: fundId, name: fundName, price },
+      });
     }
-  }, [isSuccess, router]);
+  }, [fundId, fundName, isSuccess, price, router]);
 
   return (
     <>
@@ -46,6 +51,7 @@ const AddPresentForm = ({ router, fundId }: AddPresentFormProps) => {
           이전
         </CustomGoBack>
         <CustomGoNext
+          disabled={!price}
           onClick={!inputSuccess ? handleInputSuccess : handleSubmit}
         >
           {!inputSuccess ? '다음' : '선물하기'}
@@ -57,6 +63,21 @@ const AddPresentForm = ({ router, fundId }: AddPresentFormProps) => {
 };
 
 export default AddPresentForm;
+
+const bounce = keyframes`
+  0% {
+    transform: translate3d(0, 500px, 0);
+    opacity: 0;
+  }
+  75% {
+    transform: translate3d(0, 330px, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, 300px, 0);
+    opacity: 1;
+  }
+`;
 
 const InputWrapper = styled.div<{ price?: boolean }>`
   width: 80%;
@@ -89,12 +110,18 @@ const PriceLabel = styled.span`
   line-height: 17px;
 `;
 const ButtonGroup = styled.div<{ inputSuccess?: boolean }>`
+  ${flexbox('between', 'center')};
   z-index: 10;
   width: 100%;
   height: 4rem;
   position: absolute;
-  bottom: ${({ inputSuccess }) => (inputSuccess ? '0px' : '300px')};
-  ${flexbox('between', 'center')};
+  bottom: 300px;
+  transform: ${({ inputSuccess }) =>
+    inputSuccess ? 'translate3d(0, 300px, 0)' : ''};
+  animation-name: ${({ inputSuccess }) => (inputSuccess ? bounce : '')};
+  animation-duration: 1.8s;
+  animation-iteration-count: initial;
+  transition: transform 1s ease;
 `;
 const CustomGoBack = styled.button`
   flex: 50%;
@@ -113,8 +140,8 @@ const CustomGoNext = styled.button<{ disabled?: boolean }>`
 `;
 
 const CustomKeypad = styled(Keypad)<{ inputSuccess?: boolean }>`
-  /* overflow: hidden; */
   opacity: ${({ inputSuccess }) => (inputSuccess ? 0 : 1)};
-
-  transition: opacity 200ms ease-in-out;
+  transform: ${({ inputSuccess }) =>
+    inputSuccess ? 'translate3d(0, 100%, 0)' : 'translate3d(0, 0, 0)'};
+  transition: opacity 1.2s ease, visibility 1.2s ease, transform 1.2s ease;
 `;
