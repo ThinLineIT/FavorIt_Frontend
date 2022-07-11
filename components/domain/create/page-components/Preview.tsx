@@ -25,7 +25,7 @@ const Preview = () => {
   const setGenerator = useSetRecoilState(isLocalGenerator);
   const setIsFullHeight = useSetRecoilState(isMainFullHeight);
 
-  //@TODO react-query 사용하기 => 리팩토링하기
+  //@ react-query 사용하기 => 리팩토링하기
   const [create, { loading, data }] = useMutation<MutationResult>(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/funding`,
   );
@@ -45,7 +45,7 @@ const Preview = () => {
         funding_id: data?.data?.funding_id,
       }));
     }
-  }, [data?.data?.funding_id, setGenerator]);
+  }, [data, setGenerator]);
 
   const PreviewContent = (
     <Base aria-label="펀딩 정보 프리뷰">

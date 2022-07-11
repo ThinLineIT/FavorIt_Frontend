@@ -1,6 +1,9 @@
 import { clientAuthApi as ax } from './auth';
 import { addPresentTypes } from './types';
 
+export const addFundApi = (data: addPresentTypes) =>
+  ax.post(`/api/funding`, data);
+
 export const detailFundApi = (fundId?: string | string[]) =>
   ax.get(`/api/funding/${fundId}`);
 

@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { clientAuthApi as ax } from './auth';
+
 interface UseMutationState<T> {
   loading: boolean;
   data?: T;
@@ -18,16 +20,17 @@ export default function useMutation<T = any>(
   });
   function mutation(data: any) {
     setState((prev) => ({ ...prev, loading: true }));
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_ACCESS_TOKEN}`,
-      },
-      body: JSON.stringify(data),
-    })
+    // fetch(url, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     Authorization: `Bearer ${process.env.NEXT_PUBLIC_ACCESS_TOKEN}`,
+    //   },
+    //   body: JSON.stringify(data),
+    // })
+    ax.post(url, data)
       // eslint-disable-next-line @typescript-eslint/no-empty-function
-      .then((res) => res.json().catch(() => {}))
+      .then((res) => res.data)
       .then((data) => setState((prev) => ({ ...prev, data, loading: false })))
       .catch((error) =>
         setState((prev) => ({ ...prev, error, loading: false })),
