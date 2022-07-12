@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
+import { useResetRecoilState } from 'recoil';
 
 import { GoBack } from '@components/layout';
 import siteMetadata from '@constants/sitemap';
@@ -8,6 +9,46 @@ import { textStyle } from '@styles/mixins/_text-style';
 import { smoothAppearDownUp } from '@styles/modules/_keyframes';
 import { columnFlexbox, flexbox } from '@styles/mixins/_flexbox';
 import CongImage from '@public/assets/images/congratulations.svg';
+import { isLocalGenerator } from '@recoil/create';
+import { useEffect } from 'react';
+
+function FundList() {
+  const router = useRouter();
+  const { id } = router.query;
+  const resetGenerator = useResetRecoilState(isLocalGenerator);
+
+  useEffect(() => {
+    resetGenerator();
+  }, [resetGenerator]);
+
+  const copyTextUrl = () => {
+    const baseUrl = `${siteMetadata.siteUrl}fund/detail/${id}`;
+    navigator.clipboard.writeText(baseUrl).then(() => {
+      // 추후 토스트 메시지를 통해 유저에게 알리기
+      alert('링크를 복사했습니다.');
+    });
+  };
+
+  return (
+    <MainBase>
+      <Header aria-label="펀딩 이미지">
+        <Image src={CongImage} width={158} height={112} alt="funding image" />
+      </Header>
+      <Title>
+        펀딩이 시작되었습니다. <br /> 링크를 공유하여 펀딩을 받으세요!
+      </Title>
+      <ButtonGroup>
+        <LinkButton onClick={copyTextUrl}>링크 복사</LinkButton>
+        <DetailButton onClick={() => router.replace(`/fund/detail/${id}`)}>
+          펀딩 보기
+        </DetailButton>
+      </ButtonGroup>
+      <GoBack path="/" />
+    </MainBase>
+  );
+}
+
+export default FundList;
 
 const MainBase = styled.div`
   width: 100%;
@@ -50,36 +91,3 @@ const DetailButton = styled(Button)`
     margin-left: 10px;
   }
 `;
-
-function FundList() {
-  const router = useRouter();
-  const { id } = router.query;
-
-  const copyTextUrl = () => {
-    const baseUrl = `${siteMetadata.siteUrl}fund/detail/${id}`;
-    navigator.clipboard.writeText(baseUrl).then(() => {
-      // 추후 토스트 메시지를 통해 유저에게 알리기
-      alert('링크를 복사했습니다.');
-    });
-  };
-
-  return (
-    <MainBase>
-      <Header aria-label="펀딩 이미지">
-        <Image src={CongImage} width={158} height={112} alt="funding image" />
-      </Header>
-      <Title>
-        펀딩이 시작되었습니다. <br /> 링크를 공유하여 펀딩을 받으세요!
-      </Title>
-      <ButtonGroup>
-        <LinkButton onClick={copyTextUrl}>링크 복사</LinkButton>
-        <DetailButton onClick={() => router.replace(`/fund/detail/${id}`)}>
-          펀딩 보기
-        </DetailButton>
-      </ButtonGroup>
-      <GoBack path="/" />
-    </MainBase>
-  );
-}
-
-export default FundList;

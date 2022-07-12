@@ -1,3 +1,12 @@
-import axiosInstance from '@apis/axiosInstance';
+import { clientAuthApi as ax } from './auth';
+import { addPresentTypes } from '@components/domain/present/hooks/useAddPresent';
 
-export const detailApi = () => axiosInstance.get('/fund/detail');
+export const detailFundApi = (fundId?: string | string[]) =>
+  ax.get(`/api/funding/${fundId}`);
+
+export const addPayments = (
+  data: addPresentTypes,
+  fundId?: string | string[],
+) => {
+  return ax.post(`/api/funding/${fundId}/payment`, data);
+};
