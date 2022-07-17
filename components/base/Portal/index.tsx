@@ -1,15 +1,14 @@
-import type { ReactNode } from 'react';
+import { ReactNode, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
-interface Props {
-  children: ReactNode;
-  selector?: string;
-}
+const Portal = ({ children }: { children: ReactNode }) => {
+  const portalRef = useRef<HTMLElement>(document.getElementById('portal'));
 
-const Portal: React.FC<Props> = ({ children, selector }) => {
-  const rootElement = selector && document.querySelector(selector);
+  if (portalRef.current !== null) {
+    return createPortal(<>{children}</>, portalRef.current);
+  }
 
-  return <>{rootElement ? createPortal(children, rootElement) : children}</>;
+  return null;
 };
 
 export default Portal;

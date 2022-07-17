@@ -6,12 +6,11 @@ import { getCookie, setCookie } from 'cookies-next';
 export const clientAuthApi = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
 });
-// TODO 타입 정의 custom
+// TODO: 타입 정의 custom
 clientAuthApi.interceptors.request.use((config) => {
+  const accessToken = getCookie(COOKIE.ACCESS_TOKEN);
   if (config.headers) {
-    config.headers['Authorization'] = `Bearer ${getCookie(
-      COOKIE.ACCESS_TOKEN,
-    )}` as string;
+    config.headers['Authorization'] = `Bearer ${accessToken}` as string;
   }
   return config;
 });

@@ -39,7 +39,7 @@ export type ModalProps = {
   selector?: string;
 };
 
-function Modal({ children, isOpen, onClose, selector }: ModalProps) {
+function Modal({ children, isOpen, onClose }: ModalProps) {
   const nodeRef = useRef(null);
   return (
     <CSSTransition
@@ -49,7 +49,7 @@ function Modal({ children, isOpen, onClose, selector }: ModalProps) {
       classNames="modal"
       unmountOnExit
     >
-      <Portal selector={selector}>
+      <Portal>
         <Overlay>
           <Dim onClick={onClose} />
           <Container ref={nodeRef}>{children}</Container>
