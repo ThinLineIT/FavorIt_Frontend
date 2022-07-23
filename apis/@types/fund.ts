@@ -4,6 +4,13 @@ interface ProductTypes {
   price: number;
 }
 
+export type addFundFormType = {
+  name: string;
+  contents: string;
+  due_date: string;
+  product: ProductTypes;
+};
+
 export interface FundDetailTypes {
   data: {
     name: string;
@@ -22,6 +29,13 @@ export interface FundSuccessPayload {
   data: FundDetailTypes[];
 }
 
-export type addPresentTypes = {
+export type formGeneratorType = {
+  page: number;
+  done: boolean;
+  proceed: boolean;
+  funding_id?: string;
+};
+
+export type addPaymentTypes = {
   amount: number;
 };

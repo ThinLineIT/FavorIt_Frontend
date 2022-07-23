@@ -5,16 +5,12 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { textStyle } from '@styles/mixins/_text-style';
 import { Input, ErrorMessage } from '@components/base';
-import {
-  FormType,
-  GeneratorType,
-  isFundingForm,
-  isLocalGenerator,
-} from '@recoil/create';
+import { isFundingForm, isLocalGenerator } from '@recoil/create';
 import {
   smoothAppearDownUp,
   smoothAppearDownUpLarge,
 } from '@styles/modules/_keyframes';
+import { addFundFormType, formGeneratorType } from '@apis/@types/fund';
 
 const Form = styled.form`
   width: 100%;
@@ -54,8 +50,11 @@ const Crawling = () => {
     formState: { errors },
   } = useForm<UploadFormLink>();
   const onValid = (data: UploadFormLink) => {
-    setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
-    setFundingForm((prev: FormType) => ({
+    setGenerator((prev: formGeneratorType) => ({
+      ...prev,
+      page: prev.page + 1,
+    }));
+    setFundingForm((prev: addFundFormType) => ({
       ...prev,
       product: { ...prev.product, link: data.link.trim() },
     }));

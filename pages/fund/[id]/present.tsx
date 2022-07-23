@@ -11,7 +11,6 @@ const Present = () => {
   const { id: fundId } = router?.query;
   const { data, isLoading } = useLoadFunding(fundId);
 
-  // @TODO: Suspense 적용하기
   if (isLoading) return <GenerateFallback />;
 
   return (
@@ -33,6 +32,7 @@ const Root = styled.div`
   position: relative;
   ${columnFlexbox('start', 'start')};
 `;
+
 const PresentHeader = styled.header`
   margin-left: 33px;
   margin-right: 44px;

@@ -1,11 +1,8 @@
-import axios from 'axios';
-import { getCookie } from 'cookies-next';
 import { clientAuthApi as ax } from './auth';
-import { addPresentTypes } from './types';
+import { addFundFormType, addPaymentTypes } from './@types/fund';
 
-export const addFundApi = (data: addPresentTypes) =>
-  ax.post(`/api/funding`, data);
-import { COOKIE } from '@util/cookie';
+export const addFundApi = async (data: addFundFormType) =>
+  await ax.post(`/api/funding`, data);
 
 export const detailFundApi = async (fundId?: string | string[]) => {
   try {
@@ -18,7 +15,15 @@ export const detailFundApi = async (fundId?: string | string[]) => {
   }
 };
 
-export const addPayments = (
-  data: addPresentTypes,
+export const addPayments = async (
+  data: addPaymentTypes,
   fundId?: string | string[],
-) => ax.post(`/api/funding/${fundId}/payment`, data);
+) => await ax.post(`/api/funding/${fundId}/present`, data);
+
+export const getBanksApi = async () =>
+  await ax.post('/api/funding/options/bank');
+
+export const getCheckBanksApi = async (data: any) =>
+  await ax.post('/api/funding/verification/bank-account', {
+    data,
+  });

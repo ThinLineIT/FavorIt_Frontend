@@ -1,19 +1,8 @@
 import { atom } from 'recoil';
 
-type Product = {
-  link: string;
-  option: string;
-  price: number;
-};
+import { addFundFormType, formGeneratorType } from '@apis/@types/fund';
 
-export type FormType = {
-  name: string;
-  contents: string;
-  due_date: string;
-  product: Product;
-};
-
-export const isFundingForm = atom<FormType>({
+export const isFundingForm = atom<addFundFormType>({
   key: 'isFundingForm',
   default: {
     name: '',
@@ -27,14 +16,7 @@ export const isFundingForm = atom<FormType>({
   },
 });
 
-export type GeneratorType = {
-  page: number;
-  done: boolean;
-  proceed: boolean;
-  funding_id?: string;
-};
-
-export const isLocalGenerator = atom<GeneratorType>({
+export const isLocalGenerator = atom<formGeneratorType>({
   key: 'isLocalGenerator',
   default: {
     page: 0,

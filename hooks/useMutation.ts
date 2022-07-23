@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { clientAuthApi as ax } from './auth';
+import { clientAuthApi as ax } from '../apis/auth';
 
 interface UseMutationState<T> {
   loading: boolean;

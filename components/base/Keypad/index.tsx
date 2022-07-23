@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-import { KEYPAD_LABELS } from '@constants/static/fund';
+import { KEYPAD_LABELS } from '@constants/static/keypad';
 import { flexbox } from '@styles/mixins/_flexbox';
 
 const Keypad = ({ ...restProps }) => {

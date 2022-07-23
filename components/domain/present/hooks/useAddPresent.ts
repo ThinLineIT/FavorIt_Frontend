@@ -3,14 +3,14 @@ import { useMutation } from 'react-query';
 import { useCallback, useState } from 'react';
 
 import { addPayments } from '@apis/fundApi';
-import { addPresentTypes } from '@apis/types';
+import { addPaymentTypes } from '@apis/@types/fund';
 import { deleteComma, numericOnlyWithComma } from '@util/helper/formatter';
 
 const useAddPresent = (router: NextRouter, fundId?: string | string[]) => {
   const [price, SetPrice] = useState('');
   const [inputSuccess, setInputSuccess] = useState(false);
 
-  const queryFn = (data: addPresentTypes) => addPayments(data, fundId);
+  const queryFn = (data: addPaymentTypes) => addPayments(data, fundId);
   const { mutate, isLoading, isSuccess } = useMutation(queryFn);
 
   const handleSubmit = useCallback(() => {

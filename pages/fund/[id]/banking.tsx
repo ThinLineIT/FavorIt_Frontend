@@ -3,12 +3,9 @@ import styled from '@emotion/styled';
 
 import BankCardList from '@components/domain/banking/BankCardList';
 import useLoadBanks from '@components/domain/banking/hooks/useLoadBank';
-import AddPresentForm from '@components/domain/present/AddPresentForm';
-import { useRouter } from 'next/router';
 import AddBankingForm from '@components/domain/banking/AddBankingForm';
 
 function Banking() {
-  const router = useRouter();
   const [bankName, setBankName] = useState('');
   const [isSetBank, setIsSetBank] = useState(false);
   const { banks, isLoading } = useLoadBanks();

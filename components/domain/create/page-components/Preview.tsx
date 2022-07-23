@@ -4,12 +4,13 @@ import styled from '@emotion/styled';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import GenerateFallback from '../fallback';
-import useMutation from '@apis/useMutation';
+import useMutation from '@hooks/useMutation';
 import { isMainFullHeight } from '@recoil/layout';
 import GiftImage from '@public/assets/images/gift.svg';
 import { textStyle } from '@styles/mixins/_text-style';
 import { columnFlexbox, flexbox } from '@styles/mixins/_flexbox';
-import { GeneratorType, isFundingForm, isLocalGenerator } from '@recoil/create';
+import { isFundingForm, isLocalGenerator } from '@recoil/create';
+import { formGeneratorType } from '@apis/@types/fund';
 
 type fundingId = {
   funding_id: string;
@@ -38,7 +39,7 @@ const Preview = () => {
   useEffect(() => {
     if (data?.data?.funding_id) {
       setDidSubmit(true);
-      setGenerator((prev: GeneratorType) => ({
+      setGenerator((prev: formGeneratorType) => ({
         ...prev,
         done: true,
         proceed: false,
@@ -71,7 +72,7 @@ const Preview = () => {
         <Footer>
           <BackButton
             onClick={() =>
-              setGenerator((prev: GeneratorType) => ({
+              setGenerator((prev: formGeneratorType) => ({
                 ...prev,
                 page: prev.page - 1,
               }))

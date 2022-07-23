@@ -5,16 +5,12 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { btn48, btnPrimary } from '@styles/modules/_buttons';
 import { TextArea, ErrorMessage } from '@components/base';
-import {
-  FormType,
-  GeneratorType,
-  isFundingForm,
-  isLocalGenerator,
-} from '@recoil/create';
+import { isFundingForm, isLocalGenerator } from '@recoil/create';
 import {
   smoothAppearDownUp,
   smoothAppearDownUpLarge,
 } from '@styles/modules/_keyframes';
+import { addFundFormType, formGeneratorType } from '@apis/@types/fund';
 
 const Form = styled.form`
   width: 100%;
@@ -42,11 +38,14 @@ const Description = () => {
     formState: { errors },
   } = useForm<UploadFormDescription>();
   const onValid = (data: UploadFormDescription) => {
-    setFundingForm((prev: FormType) => ({
+    setFundingForm((prev: addFundFormType) => ({
       ...prev,
       contents: data.contents.trim(),
     }));
-    setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
+    setGenerator((prev: formGeneratorType) => ({
+      ...prev,
+      page: prev.page + 1,
+    }));
   };
 
   useEffect(() => {

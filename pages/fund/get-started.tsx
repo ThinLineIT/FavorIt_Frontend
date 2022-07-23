@@ -1,21 +1,20 @@
 import Image from 'next/image';
-import styled from '@emotion/styled';
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useResetRecoilState } from 'recoil';
+import styled from '@emotion/styled';
 
 import { GoBack } from '@components/layout';
 import siteMetadata from '@constants/sitemap';
+import { isLocalGenerator } from '@recoil/create';
 import { textStyle } from '@styles/mixins/_text-style';
 import { smoothAppearDownUp } from '@styles/modules/_keyframes';
 import { columnFlexbox, flexbox } from '@styles/mixins/_flexbox';
 import CongImage from '@public/assets/images/congratulations.svg';
-import { isLocalGenerator } from '@recoil/create';
-import { useEffect } from 'react';
 
 function FundList() {
   const router = useRouter();
   const { id, name, price } = router.query;
-  console.log(router.query);
 
   const isFromPresent = Boolean(name || price);
 
@@ -63,19 +62,23 @@ const MainBase = styled.div`
   margin-top: 50px;
   animation: ${smoothAppearDownUp} 700ms;
 `;
+
 const Header = styled.header`
   ${flexbox()}
 `;
+
 const Title = styled.h4`
   ${textStyle(18)}
   text-align: center;
   padding: 2rem 1rem;
 `;
+
 const ButtonGroup = styled.footer`
   width: 100%;
   ${columnFlexbox()}
   row-gap: .5rem;
 `;
+
 const Button = styled.button`
   width: 150px;
   height: 50px;
@@ -87,11 +90,13 @@ const Button = styled.button`
   ${textStyle(14, '#ffb84e')}
     font-weight: 700;
 `;
+
 const LinkButton = styled(Button)`
   span {
     margin-right: 10px;
   }
 `;
+
 const DetailButton = styled(Button)`
   span {
     margin-left: 10px;
