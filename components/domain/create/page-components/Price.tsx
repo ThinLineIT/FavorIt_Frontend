@@ -5,16 +5,12 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { Input, ErrorMessage } from '@components/base';
 import { btn48, btnPrimary } from '@styles/modules/_buttons';
-import {
-  FormType,
-  GeneratorType,
-  isFundingForm,
-  isLocalGenerator,
-} from '@recoil/create';
+import { isFundingForm, isLocalGenerator } from '@recoil/create';
 import {
   smoothAppearDownUp,
   smoothAppearDownUpLarge,
 } from '@styles/modules/_keyframes';
+import { addFundFormType, formGeneratorType } from '@apis/@types/fund';
 
 const Form = styled.form`
   width: 100%;
@@ -46,11 +42,14 @@ const Price = () => {
   const watchPrice = watch('price');
   const onValid = (data: UploadFormPrice) => {
     const purePrice = Number(data.price.split(',').join(''));
-    setFundingForm((prev: FormType) => ({
+    setFundingForm((prev: addFundFormType) => ({
       ...prev,
       product: { ...prev.product, price: purePrice },
     }));
-    setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
+    setGenerator((prev: formGeneratorType) => ({
+      ...prev,
+      page: prev.page + 1,
+    }));
   };
   // @Note
   // 재사용성을 위해 추후 분리할 예정

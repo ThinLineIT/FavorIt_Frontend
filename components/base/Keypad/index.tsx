@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-import { KEYPAD_LABELS } from '@constants/static/fund';
+import { KEYPAD_LABELS } from '@constants/static/keypad';
 import { flexbox } from '@styles/mixins/_flexbox';
 
 const Keypad = ({ ...restProps }) => {
@@ -16,7 +16,6 @@ const Keypad = ({ ...restProps }) => {
   );
 };
 
-Keypad.displayName = 'Input';
 export default Keypad;
 
 const KeypadWrapper = styled.div`
@@ -33,4 +32,5 @@ const Key = styled.span`
   font-weight: 400;
   font-size: 25px;
   line-height: 30px;
+  user-select: none;
 `;

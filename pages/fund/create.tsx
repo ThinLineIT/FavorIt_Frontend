@@ -5,10 +5,10 @@ import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 
 import { GoBack } from '@components/layout';
+import { isLocalGenerator } from '@recoil/create';
+import { formGeneratorType } from '@apis/@types/fund';
 import { columnFlexbox, flexbox } from '@styles/mixins/_flexbox';
-import { GeneratorType, isLocalGenerator } from '@recoil/create';
 
-// @Note 추후 분리하기
 const Crawling = dynamic(
   () => import('@components/domain/create/page-components/Crawling'),
   { ssr: false },
@@ -116,7 +116,7 @@ const Generate = () => {
                 active={generator.page === idx}
                 onClick={() =>
                   generator.page > idx &&
-                  setGenerator((prev: GeneratorType) => ({
+                  setGenerator((prev: formGeneratorType) => ({
                     ...prev,
                     page: idx,
                   }))
@@ -131,7 +131,7 @@ const Generate = () => {
         <GoBack
           currying={() => {
             generator.page > 0
-              ? setGenerator((prev: GeneratorType) => ({
+              ? setGenerator((prev: formGeneratorType) => ({
                   ...prev,
                   page: prev.page - 1,
                 }))

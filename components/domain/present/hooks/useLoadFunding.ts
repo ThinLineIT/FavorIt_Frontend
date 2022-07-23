@@ -2,14 +2,14 @@ import { useQuery } from 'react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 
 import { detailFundApi } from '@apis/fundApi';
-import { FundDetailTypes } from '@apis/types';
+import { FundDetailTypes } from '@apis/@types/fund';
 
 const useLoadFunding = (fundId?: string | string[]) => {
   const queryFn = () => detailFundApi(fundId);
   const { isLoading, error, data } = useQuery<
     AxiosResponse<FundDetailTypes>,
     AxiosError
-  >([`funding-${fundId}`, fundId], queryFn);
+  >([`funding`, 'detail', fundId], queryFn);
 
   return {
     isLoading,

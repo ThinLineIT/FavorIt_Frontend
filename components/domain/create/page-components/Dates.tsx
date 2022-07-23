@@ -11,12 +11,8 @@ import { Calendar, ErrorMessage } from '@components/base';
 import { flexbox } from '@styles/mixins/_flexbox';
 import { btn48, btnPrimary } from '@styles/modules/_buttons';
 import { smoothAppearDownUp } from '@styles/modules/_keyframes';
-import {
-  FormType,
-  GeneratorType,
-  isFundingForm,
-  isLocalGenerator,
-} from '@recoil/create';
+import { isFundingForm, isLocalGenerator } from '@recoil/create';
+import { addFundFormType, formGeneratorType } from '@apis/@types/fund';
 
 const Form = styled.form`
   width: 100%;
@@ -53,11 +49,14 @@ const Dates = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (endDate) {
-      setFundingForm((prev: FormType) => ({
+      setFundingForm((prev: addFundFormType) => ({
         ...prev,
         due_date: dateToString(endDate),
       }));
-      setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
+      setGenerator((prev: formGeneratorType) => ({
+        ...prev,
+        page: prev.page + 1,
+      }));
     } else {
       setError(true);
     }

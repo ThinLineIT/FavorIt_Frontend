@@ -4,12 +4,13 @@ import styled from '@emotion/styled';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import GenerateFallback from '../fallback';
-import useMutation from '@apis/useMutation';
+import useMutation from '@hooks/useMutation';
 import { isMainFullHeight } from '@recoil/layout';
 import GiftImage from '@public/assets/images/gift.svg';
 import { textStyle } from '@styles/mixins/_text-style';
 import { columnFlexbox, flexbox } from '@styles/mixins/_flexbox';
-import { GeneratorType, isFundingForm, isLocalGenerator } from '@recoil/create';
+import { isFundingForm, isLocalGenerator } from '@recoil/create';
+import { formGeneratorType } from '@apis/@types/fund';
 
 type fundingId = {
   funding_id: string;
@@ -24,8 +25,10 @@ const Preview = () => {
   const fundingForm = useRecoilValue(isFundingForm);
   const setGenerator = useSetRecoilState(isLocalGenerator);
   const setIsFullHeight = useSetRecoilState(isMainFullHeight);
+
+  //@ react-query 사용하기 => 리팩토링하기
   const [create, { loading, data }] = useMutation<MutationResult>(
-    'http://3.35.218.213/api/funding',
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/funding`,
   );
   const onMutate = () => create(fundingForm);
 
@@ -36,14 +39,14 @@ const Preview = () => {
   useEffect(() => {
     if (data?.data?.funding_id) {
       setDidSubmit(true);
-      setGenerator((prev: GeneratorType) => ({
+      setGenerator((prev: formGeneratorType) => ({
         ...prev,
         done: true,
         proceed: false,
         funding_id: data?.data?.funding_id,
       }));
     }
-  }, [data?.data?.funding_id, setGenerator]);
+  }, [data, setGenerator]);
 
   const PreviewContent = (
     <Base aria-label="펀딩 정보 프리뷰">
@@ -69,7 +72,7 @@ const Preview = () => {
         <Footer>
           <BackButton
             onClick={() =>
-              setGenerator((prev: GeneratorType) => ({
+              setGenerator((prev: formGeneratorType) => ({
                 ...prev,
                 page: prev.page - 1,
               }))

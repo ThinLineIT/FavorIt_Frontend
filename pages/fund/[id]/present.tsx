@@ -11,7 +11,6 @@ const Present = () => {
   const { id: fundId } = router?.query;
   const { data, isLoading } = useLoadFunding(fundId);
 
-  // @TODO: Suspense 적용하기
   if (isLoading) return <GenerateFallback />;
 
   return (
@@ -19,7 +18,7 @@ const Present = () => {
       <PresentHeader>
         <b>{data?.name}</b>에 선물하기
       </PresentHeader>
-      <AddPresentForm fundId={fundId} router={router} />
+      <AddPresentForm fundId={fundId} fundName={data?.name} router={router} />
     </Root>
   );
 };
@@ -33,6 +32,7 @@ const Root = styled.div`
   position: relative;
   ${columnFlexbox('start', 'start')};
 `;
+
 const PresentHeader = styled.header`
   margin-left: 33px;
   margin-right: 44px;

@@ -1,20 +1,23 @@
 import Image from 'next/image';
-import styled from '@emotion/styled';
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useResetRecoilState } from 'recoil';
+import styled from '@emotion/styled';
 
 import { GoBack } from '@components/layout';
 import siteMetadata from '@constants/sitemap';
+import { isLocalGenerator } from '@recoil/create';
 import { textStyle } from '@styles/mixins/_text-style';
 import { smoothAppearDownUp } from '@styles/modules/_keyframes';
 import { columnFlexbox, flexbox } from '@styles/mixins/_flexbox';
 import CongImage from '@public/assets/images/congratulations.svg';
-import { isLocalGenerator } from '@recoil/create';
-import { useEffect } from 'react';
 
 function FundList() {
   const router = useRouter();
-  const { id } = router.query;
+  const { id, name, price } = router.query;
+
+  const isFromPresent = Boolean(name || price);
+
   const resetGenerator = useResetRecoilState(isLocalGenerator);
 
   useEffect(() => {
@@ -22,7 +25,7 @@ function FundList() {
   }, [resetGenerator]);
 
   const copyTextUrl = () => {
-    const baseUrl = `${siteMetadata.siteUrl}fund/detail/${id}`;
+    const baseUrl = `${siteMetadata.siteUrl}fund/${id}`;
     navigator.clipboard.writeText(baseUrl).then(() => {
       // 추후 토스트 메시지를 통해 유저에게 알리기
       alert('링크를 복사했습니다.');
@@ -35,11 +38,13 @@ function FundList() {
         <Image src={CongImage} width={158} height={112} alt="funding image" />
       </Header>
       <Title>
-        펀딩이 시작되었습니다. <br /> 링크를 공유하여 펀딩을 받으세요!
+        {!isFromPresent
+          ? '펀딩이 시작되었습니다. \n 링크를 공유하여 펀딩을 받으세요!'
+          : `${name}에 \n ${price} 원을 선물했어요!`}
       </Title>
       <ButtonGroup>
         <LinkButton onClick={copyTextUrl}>링크 복사</LinkButton>
-        <DetailButton onClick={() => router.replace(`/fund/detail/${id}`)}>
+        <DetailButton onClick={() => router.replace(`/fund/${id}`)}>
           펀딩 보기
         </DetailButton>
       </ButtonGroup>
@@ -57,19 +62,23 @@ const MainBase = styled.div`
   margin-top: 50px;
   animation: ${smoothAppearDownUp} 700ms;
 `;
+
 const Header = styled.header`
   ${flexbox()}
 `;
+
 const Title = styled.h4`
   ${textStyle(18)}
   text-align: center;
   padding: 2rem 1rem;
 `;
+
 const ButtonGroup = styled.footer`
   width: 100%;
   ${columnFlexbox()}
   row-gap: .5rem;
 `;
+
 const Button = styled.button`
   width: 150px;
   height: 50px;
@@ -81,11 +90,13 @@ const Button = styled.button`
   ${textStyle(14, '#ffb84e')}
     font-weight: 700;
 `;
+
 const LinkButton = styled(Button)`
   span {
     margin-right: 10px;
   }
 `;
+
 const DetailButton = styled(Button)`
   span {
     margin-left: 10px;

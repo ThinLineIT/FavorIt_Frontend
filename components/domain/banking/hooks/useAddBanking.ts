@@ -1,21 +1,24 @@
-import { NextRouter } from 'next/router';
+import { useState, useCallback } from 'react';
 import { useMutation } from 'react-query';
-import { useCallback, useState } from 'react';
 
-import { addPayments } from '@apis/fundApi';
-import { addPaymentTypes } from '@apis/@types/fund';
-import { deleteComma, numericOnlyWithComma } from '@util/helper/formatter';
+import { getCheckBanksApi } from '@apis/fundApi';
 
-const useAddPresent = (router: NextRouter, fundId?: string | string[]) => {
-  const [price, SetPrice] = useState('');
+const useAddBanking = ({ router, code }: any) => {
+  const [banks, SetBanks] = useState<string>('');
   const [inputSuccess, setInputSuccess] = useState(false);
 
-  const queryFn = (data: addPaymentTypes) => addPayments(data, fundId);
-  const { mutate, isLoading, isSuccess } = useMutation(queryFn);
+  const getBanksFn = (data: any) => getCheckBanksApi(data);
+  const {
+    mutate: getBanksMutate,
+    isLoading,
+    isSuccess,
+  } = useMutation(getBanksFn, {
+    onSuccess: (data: any) => SetBanks(data.data),
+  });
 
   const handleSubmit = useCallback(() => {
-    mutate({ amount: Number(deleteComma(price)) });
-  }, [mutate, price]);
+    getBanksMutate({ code, account_number: banks });
+  }, [banks, code, getBanksMutate]);
 
   const handleKeyClick = useCallback(
     (event: React.MouseEvent<HTMLSpanElement>) => {
@@ -23,10 +26,10 @@ const useAddPresent = (router: NextRouter, fundId?: string | string[]) => {
         const keyName = event?.target?.innerHTML;
 
         if (keyName !== '&lt;-') {
-          SetPrice((prev) => numericOnlyWithComma(prev + keyName));
+          SetBanks((prev) => prev + keyName);
         } else {
-          SetPrice((prev) => {
-            const editedPrice = deleteComma(prev).slice(0, -1);
+          SetBanks((prev) => {
+            const editedPrice = prev.slice(0, -1);
             return editedPrice;
           });
         }
@@ -40,7 +43,7 @@ const useAddPresent = (router: NextRouter, fundId?: string | string[]) => {
   };
 
   const handleInputSuccess = () => {
-    if (!price) return;
+    if (!banks) return;
     setInputSuccess(true);
   };
 
@@ -49,7 +52,7 @@ const useAddPresent = (router: NextRouter, fundId?: string | string[]) => {
   };
 
   return {
-    price,
+    banks,
     isLoading,
     inputSuccess,
     isSuccess,
@@ -61,4 +64,4 @@ const useAddPresent = (router: NextRouter, fundId?: string | string[]) => {
   };
 };
 
-export default useAddPresent;
+export default useAddBanking;

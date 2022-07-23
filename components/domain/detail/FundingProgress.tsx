@@ -158,7 +158,7 @@ const BlueMarker = styled.div`
   font-size: 8px;
   line-height: 11px;
   color: #ffffff;
-  white-spacec: pre-line;
+  white-space: pre-line;
   padding-top: 4px;
   text-align: center;
 `;

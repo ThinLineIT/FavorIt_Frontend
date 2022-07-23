@@ -1,2 +1,2 @@
-export { default as useMutation } from './useMutation';
+export { default as useMutation } from '../hooks/useMutation';
 export { default as axiosInstance } from './axiosInstance';
