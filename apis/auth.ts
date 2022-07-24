@@ -9,7 +9,7 @@ export const clientAuthApi = axios.create({
 // TODO: 타입 정의 custom
 clientAuthApi.interceptors.request.use((config) => {
   const accessToken = getCookie(COOKIE.ACCESS_TOKEN);
-  if (config.headers) {
+  if (accessToken && config.headers) {
     config.headers['Authorization'] = `Bearer ${accessToken}` as string;
   }
   return config;

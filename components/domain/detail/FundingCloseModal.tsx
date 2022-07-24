@@ -1,16 +1,16 @@
 import styled from '@emotion/styled';
 
-function FundingCloseModal() {
+const FundingCloseModal = ({ onClose }: { onClose: () => void }) => {
   return (
     <CloseModal>
       <ModalDialog>
         펀딩 기간이 종료 되었습니다. <br /> [펀딩 마감]을 눌러 펀딩을
         마감해주세요
       </ModalDialog>
-      <ConfirmButton>확인</ConfirmButton>
+      <ConfirmButton onClick={onClose}>확인</ConfirmButton>
     </CloseModal>
   );
-}
+};
 
 const CloseModal = styled.section`
   width: 87%;
