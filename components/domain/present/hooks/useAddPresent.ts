@@ -2,45 +2,28 @@ import { NextRouter } from 'next/router';
 import { useMutation } from 'react-query';
 import { useCallback, useState } from 'react';
 
-import { addPayments } from '@apis/fundApi';
+import { addPaymentsApi } from '@apis/fundApi';
 import { addPaymentTypes } from '@apis/@types/fund';
-import { deleteComma, numericOnlyWithComma } from '@util/helper/formatter';
+import { deleteComma } from '@util/helper/formatter';
+import useKeypads from '@hooks/useKeypads';
 
-const useAddPresent = (router: NextRouter, fundId?: string | string[]) => {
-  const [price, SetPrice] = useState('');
+const useAddPresent = (router: NextRouter, fundId: number) => {
+  const { value, handleKeyClick } = useKeypads(true);
   const [inputSuccess, setInputSuccess] = useState(false);
 
-  const queryFn = (data: addPaymentTypes) => addPayments(data, fundId);
+  const queryFn = (data: addPaymentTypes) => addPaymentsApi(data, fundId);
   const { mutate, isLoading, isSuccess } = useMutation(queryFn);
 
   const handleSubmit = useCallback(() => {
-    mutate({ amount: Number(deleteComma(price)) });
-  }, [mutate, price]);
-
-  const handleKeyClick = useCallback(
-    (event: React.MouseEvent<HTMLSpanElement>) => {
-      if (event.target instanceof HTMLSpanElement) {
-        const keyName = event?.target?.innerHTML;
-
-        if (keyName !== '&lt;-') {
-          SetPrice((prev) => numericOnlyWithComma(prev + keyName));
-        } else {
-          SetPrice((prev) => {
-            const editedPrice = deleteComma(prev).slice(0, -1);
-            return editedPrice;
-          });
-        }
-      }
-    },
-    [],
-  );
+    mutate({ amount: Number(deleteComma(value)) });
+  }, [mutate, value]);
 
   const handleUpdateForm = () => {
     setInputSuccess(false);
   };
 
   const handleInputSuccess = () => {
-    if (!price) return;
+    if (!value) return;
     setInputSuccess(true);
   };
 
@@ -49,7 +32,7 @@ const useAddPresent = (router: NextRouter, fundId?: string | string[]) => {
   };
 
   return {
-    price,
+    value,
     isLoading,
     inputSuccess,
     isSuccess,

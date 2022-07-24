@@ -1,5 +1,5 @@
+import React from 'react';
 import styled from '@emotion/styled';
-import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
@@ -11,19 +11,6 @@ import {
   smoothAppearDownUpLarge,
 } from '@styles/modules/_keyframes';
 import { addFundFormType, formGeneratorType } from '@apis/@types/fund';
-
-const Form = styled.form`
-  width: 100%;
-  display: block;
-  animation: ${smoothAppearDownUp} 300ms;
-`;
-
-const NextButton = styled.button`
-  ${btnPrimary};
-  ${btn48}
-  width: 125px;
-  animation: ${smoothAppearDownUpLarge} 700ms;
-`;
 
 interface UploadFormRecipientName {
   recipient_name: string;
@@ -51,13 +38,12 @@ const RecipientName = () => {
     }));
   };
 
-  useEffect(() => {
-    // phrase 1에서는 사용안하기로 했습니다. 추후 사용될 예정
-  }, [fundingForm, setValue]);
-
   return (
     <Form onSubmit={handleSubmit(onValid)}>
       <Input
+        name="recipient_name"
+        label="받는 분 성함"
+        placeholder="받으시는 분의 이름을 입력해주세요"
         register={register('recipient_name', {
           required: '입력된 텍스트가 없네요!',
           maxLength: {
@@ -65,9 +51,6 @@ const RecipientName = () => {
             message: '20자 까지 입력 가능해요',
           },
         })}
-        name="recipient_name"
-        label="받는 분 성함"
-        placeholder="받으시는 분의 이름을 입력해주세요"
       />
 
       {errors?.recipient_name?.type === 'required' && (
@@ -76,7 +59,6 @@ const RecipientName = () => {
       {errors?.recipient_name?.type === 'maxLength' && (
         <ErrorMessage>{errors.recipient_name.message}</ErrorMessage>
       )}
-      <br />
 
       {watchTitle != null && <NextButton type="submit">다음</NextButton>}
     </Form>
@@ -84,3 +66,16 @@ const RecipientName = () => {
 };
 
 export default RecipientName;
+
+const Form = styled.form`
+  width: 100%;
+  display: block;
+  animation: ${smoothAppearDownUp} 300ms;
+`;
+
+const NextButton = styled.button`
+  ${btnPrimary};
+  ${btn48}
+  width: 125px;
+  animation: ${smoothAppearDownUpLarge} 700ms;
+`;

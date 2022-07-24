@@ -38,3 +38,18 @@ export const deleteComma = (value: string) => {
 export const deleteHyphen = (value: string) => {
   return value.replaceAll('-', '');
 };
+
+export const handlePriceType = (watch: string) => {
+  const comma = (str: string) => {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+  };
+
+  const unComma = (str: string) => {
+    str = String(str);
+    return str.replace(/[^\d]+/g, '');
+  };
+
+  const pureString = watch && comma(unComma(watch));
+  return pureString;
+};

@@ -1,21 +1,17 @@
 import styled from '@emotion/styled';
+
+import { Bank } from '@apis/@types/fund';
 import BankCard from './BankCard';
 
-export type Bank = {
-  text: string;
-  value: string;
-  image: string;
-};
-
-export type BankCardListProps = {
+interface BankCardListProps {
   banks: Bank[];
-  setIsSetBank: (x: boolean) => void;
+  handleSetBank: () => void;
   handleSetValue: (val: string) => void;
-};
+}
 
 function BankCardList({
   banks,
-  setIsSetBank,
+  handleSetBank,
   handleSetValue,
 }: BankCardListProps) {
   return (
@@ -26,7 +22,7 @@ function BankCardList({
             <BankCard
               key={idx}
               bank={banks && banks[idx]}
-              setIsSetBank={setIsSetBank}
+              handleSetBank={handleSetBank}
               handleSetValue={handleSetValue}
             />
           );
@@ -50,10 +46,9 @@ const ListWrapper = styled.div`
   grid-template-columns: repeat(3, minmax(auto, 150px));
   grid-auto-rows: minmax(auto, 150px);
   gap: 10px 14px;
-  padding: 18px 24px;
   width: 100%;
   height: 100%;
-
+  padding: 18px 24px;
   overflow: auto;
 
   &::-webkit-scrollbar {

@@ -1,14 +1,18 @@
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
 
 import { columnFlexbox } from '@styles/mixins/_flexbox';
+import GenerateFallback from '@components/domain/create/fallback';
 import AddPresentForm from '@components/domain/present/AddPresentForm';
 import useLoadFunding from '@components/domain/present/hooks/useLoadFunding';
-import GenerateFallback from '@components/domain/create/fallback';
 
-const Present = () => {
+interface PresentProps {
+  fundId: number;
+}
+
+const Present = ({ fundId }: PresentProps) => {
   const router = useRouter();
-  const { id: fundId } = router?.query;
   const { data, isLoading } = useLoadFunding(fundId);
 
   if (isLoading) return <GenerateFallback />;
@@ -16,7 +20,7 @@ const Present = () => {
   return (
     <Root>
       <PresentHeader>
-        <b>{data?.name}</b>에 선물하기
+        <Title>{data?.name}</Title>에 선물하기
       </PresentHeader>
       <AddPresentForm fundId={fundId} fundName={data?.name} router={router} />
     </Root>
@@ -24,6 +28,15 @@ const Present = () => {
 };
 
 export default Present;
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const fundId = params?.id;
+  return {
+    props: {
+      fundId: +String(fundId),
+    },
+  };
+};
 
 const Root = styled.div`
   width: 100%;
@@ -40,11 +53,11 @@ const PresentHeader = styled.header`
   font-weight: 500;
   font-size: 25px;
   line-height: 30px;
+`;
 
-  & > b {
-    font-weight: 700;
-    font-size: 25px;
-    line-height: 30px;
-    display: block;
-  }
+const Title = styled.h2`
+  display: block;
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 30px;
 `;

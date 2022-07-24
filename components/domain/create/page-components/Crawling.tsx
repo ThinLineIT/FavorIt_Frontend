@@ -3,38 +3,11 @@ import { useForm } from 'react-hook-form';
 import React, { useEffect } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
-import { textStyle } from '@styles/mixins/_text-style';
 import { Input, ErrorMessage } from '@components/base';
 import { isFundingForm, isLocalGenerator } from '@recoil/create';
-import {
-  smoothAppearDownUp,
-  smoothAppearDownUpLarge,
-} from '@styles/modules/_keyframes';
+import { smoothAppearDownUp } from '@styles/modules/_keyframes';
 import { addFundFormType, formGeneratorType } from '@apis/@types/fund';
-
-const Form = styled.form`
-  width: 100%;
-  display: block;
-  animation: ${smoothAppearDownUp} 300ms;
-`;
-const NextButton = styled.button`
-  display: inline-flex;
-  justify-content: space-between;
-  width: 100%;
-  height: 35px;
-  text-align: left;
-  padding: 0 1px;
-  margin-top: 1rem;
-  ${textStyle(16, '#4E5969')};
-  animation: ${smoothAppearDownUpLarge} 700ms;
-
-  > svg {
-    transform: rotate(180deg);
-    width: 1.25rem;
-    height: 1.25rem;
-    color: #737481;
-  }
-`;
+import { btn48, btnPrimary } from '@styles/modules/_buttons';
 
 interface UploadFormLink {
   link: string;
@@ -94,24 +67,23 @@ const Crawling = () => {
         <ErrorMessage>{errors.link.message}</ErrorMessage>
       )}
 
-      <NextButton type="submit" aria-label="추가 옵션 버튼">
-        추가 옵션
-        <svg
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M15 19l-7-7 7-7"
-          ></path>
-        </svg>
+      <NextButton type="submit" aria-label="다음 버튼">
+        다음
       </NextButton>
     </Form>
   );
 };
 
 export default React.memo(Crawling);
+
+const Form = styled.form`
+  width: 100%;
+  display: block;
+  animation: ${smoothAppearDownUp} 300ms;
+`;
+const NextButton = styled.button`
+  ${btnPrimary};
+  ${btn48}
+  width: 125px;
+  margin-top: 25px;
+`;

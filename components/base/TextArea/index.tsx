@@ -5,20 +5,17 @@ import { textStyle } from '@styles/mixins/_text-style';
 
 interface TextAreaProps {
   name: string;
-  register: UseFormRegisterReturn;
   label?: string;
+  register: UseFormRegisterReturn;
   labelHidden?: boolean;
-  placeholder?: string;
-  [key: string]: any;
 }
 
 export default function TextArea({
-  label,
-  labelHidden = false,
   name,
+  label,
   register,
-  placeholder,
-  ...rest
+  labelHidden = false,
+  ...restProps
 }: TextAreaProps) {
   return (
     <Base>
@@ -26,12 +23,11 @@ export default function TextArea({
         {label || name}
       </Label>
       <TextAreaStyled
-        autoFocus
-        id={name}
-        {...register}
-        placeholder={placeholder}
         rows={2}
-        {...rest}
+        id={name}
+        autoFocus
+        {...register}
+        {...restProps}
       />
     </Base>
   );

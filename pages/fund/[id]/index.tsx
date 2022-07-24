@@ -17,6 +17,7 @@ import ArrowFatRightMedium from '@public/assets/images/ArrowFatRight-medium.svg'
 import ArrowFatRightLarge from '@public/assets/images/ArrowFatRight-large.svg';
 import giftImage from '@public/assets/images/Gift-gradation.svg';
 import Link from '@public/assets/images/Link.svg';
+import { fundKeys } from '@apis/queryKeys/fund';
 
 type DetailDataType = {
   name: string;
@@ -43,7 +44,7 @@ const DetailFundPage = ({
   id: string;
   detailData: DetailDataType;
 }) => {
-  const { data } = useQuery(['detail', id], () => detailFundApi(id), {
+  const { data } = useQuery(fundKeys.detail(+id), () => detailFundApi(+id), {
     initialData: detailData,
   });
 

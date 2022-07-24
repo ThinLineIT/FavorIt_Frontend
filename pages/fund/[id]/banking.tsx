@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 
 import BankCardList from '@components/domain/banking/BankCardList';
@@ -6,19 +6,16 @@ import useLoadBanks from '@components/domain/banking/hooks/useLoadBank';
 import AddBankingForm from '@components/domain/banking/AddBankingForm';
 
 function Banking() {
-  const [bankName, setBankName] = useState('');
-  const [isSetBank, setIsSetBank] = useState(false);
-  const { banks, isLoading } = useLoadBanks();
+  const {
+    banks,
+    bankCode,
+    isSetBank,
+    isLoading,
+    handleSetBank,
+    handleSetValue,
+  } = useLoadBanks();
 
   if (isLoading) return <div>loading..</div>;
-
-  const handleSetBank = () => {
-    setIsSetBank(true);
-  };
-
-  const handleSetValue = (val: any) => {
-    setBankName(val);
-  };
 
   return (
     <Root>
@@ -26,15 +23,15 @@ function Banking() {
         <LabelTitle>어디로 받을까요?</LabelTitle>
         <LabelText>은행을 선택해주세요!</LabelText>
       </LabelWrapper>
-      {!isSetBank ? (
+      {banks && !isSetBank ? (
         <BankCardList
           banks={banks}
-          setIsSetBank={handleSetBank}
+          handleSetBank={handleSetBank}
           handleSetValue={handleSetValue}
         />
       ) : (
         <Wrapper>
-          <AddBankingForm code={bankName} />
+          <AddBankingForm bank_code={bankCode} handleSetBank={handleSetBank} />
         </Wrapper>
       )}
     </Root>

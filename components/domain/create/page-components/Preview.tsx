@@ -11,6 +11,7 @@ import { textStyle } from '@styles/mixins/_text-style';
 import { columnFlexbox, flexbox } from '@styles/mixins/_flexbox';
 import { isFundingForm, isLocalGenerator } from '@recoil/create';
 import { formGeneratorType } from '@apis/@types/fund';
+import { smoothAppearDownUp } from '@styles/modules/_keyframes';
 
 type fundingId = {
   funding_id: string;
@@ -105,6 +106,7 @@ const Base = styled.div`
   width: 100%;
   height: 100%;
   ${columnFlexbox('start', 'center')};
+  animation: ${smoothAppearDownUp} 300ms;
 `;
 const Section = styled.section`
   width: 100%;

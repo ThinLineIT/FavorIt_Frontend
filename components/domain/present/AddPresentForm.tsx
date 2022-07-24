@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { NextRouter } from 'next/router';
+import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
-import { jsx, css, keyframes } from '@emotion/react';
 
 import { flexbox } from '@styles/mixins/_flexbox';
 import useAddPresent from './hooks/useAddPresent';
@@ -9,13 +9,13 @@ import Keypad from '@components/base/Keypad';
 
 export type AddPresentFormProps = {
   router: NextRouter;
-  fundId?: string | string[];
+  fundId: number;
   fundName?: string;
 };
 
 const AddPresentForm = ({ router, fundId, fundName }: AddPresentFormProps) => {
   const {
-    price,
+    value,
     isSuccess,
     inputSuccess,
     handleSubmit,
@@ -29,29 +29,29 @@ const AddPresentForm = ({ router, fundId, fundName }: AddPresentFormProps) => {
     if (isSuccess) {
       router.replace({
         pathname: '/fund/get-started',
-        query: { id: fundId, name: fundName, price },
+        query: { id: fundId, name: fundName, price: value },
       });
     }
-  }, [fundId, fundName, isSuccess, price, router]);
+  }, [fundId, fundName, isSuccess, value, router]);
 
   return (
     <>
-      <InputWrapper price={Boolean(price)}>
-        <CustomInput price={Boolean(price)} inputSuccess={inputSuccess}>
+      <InputWrapper price={Boolean(value)}>
+        <CustomInput price={Boolean(value)} inputSuccess={inputSuccess}>
           {!inputSuccess
-            ? price !== ''
-              ? price
+            ? value !== ''
+              ? value
               : '선물할 금액을 입력해주세요!'
-            : `${price}원을 선물할까요?`}
+            : `${value}원을 선물할까요?`}
         </CustomInput>
-        <PriceLabel>{price ? `${price}원` : ''}</PriceLabel>
+        <PriceLabel>{value ? `${value}원` : ''}</PriceLabel>
       </InputWrapper>
       <ButtonGroup inputSuccess={inputSuccess}>
         <CustomGoBack onClick={!inputSuccess ? handleGoBack : handleUpdateForm}>
           이전
         </CustomGoBack>
         <CustomGoNext
-          disabled={!price}
+          disabled={!value}
           onClick={!inputSuccess ? handleInputSuccess : handleSubmit}
         >
           {!inputSuccess ? '다음' : '선물하기'}
@@ -88,6 +88,7 @@ const InputWrapper = styled.div<{ price?: boolean }>`
   border-left: ${({ price }) => (price ? 'none' : '2px solid black')};
   ${flexbox('start', 'center')};
 `;
+
 const CustomInput = styled.span<{
   price?: boolean;
   inputSuccess?: boolean;
@@ -97,6 +98,7 @@ const CustomInput = styled.span<{
   line-height: ${({ price }) => (price ? '34px' : '22px')};
   color: ${({ price }) => (price ? 'black' : 'lightgray')};
 `;
+
 const PriceLabel = styled.span`
   position: absolute;
   bottom: -30px;
@@ -109,6 +111,7 @@ const PriceLabel = styled.span`
   font-size: 14px;
   line-height: 17px;
 `;
+
 const ButtonGroup = styled.div<{ inputSuccess?: boolean }>`
   ${flexbox('between', 'center')};
   z-index: 10;
@@ -123,6 +126,7 @@ const ButtonGroup = styled.div<{ inputSuccess?: boolean }>`
   animation-iteration-count: initial;
   transition: transform 1s ease;
 `;
+
 const CustomGoBack = styled.button`
   flex: 50%;
   color: #92d2ff;
@@ -130,6 +134,7 @@ const CustomGoBack = styled.button`
   font-size: 17px;
   line-height: 11px;
 `;
+
 const CustomGoNext = styled.button<{ disabled?: boolean }>`
   flex: 50%;
   color: ${({ disabled }) => (disabled ? 'lightgray' : '#92d2ff')};

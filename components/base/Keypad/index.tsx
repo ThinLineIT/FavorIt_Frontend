@@ -26,6 +26,7 @@ const KeypadWrapper = styled.div`
   width: 100%;
   height: 300px;
 `;
+
 const Key = styled.span`
   ${flexbox()};
   cursor: pointer;

@@ -1,48 +1,44 @@
-import React, { useEffect } from 'react';
-import { NextRouter, useRouter } from 'next/router';
-import styled from '@emotion/styled';
+import React from 'react';
+import { useRouter } from 'next/router';
 import { keyframes } from '@emotion/react';
+import styled from '@emotion/styled';
 
-import { flexbox } from '@styles/mixins/_flexbox';
 import Keypad from '@components/base/Keypad';
+import { flexbox } from '@styles/mixins/_flexbox';
 import useAddBanking from './hooks/useAddBanking';
 
-const AddBankingForm = ({ code }: any) => {
+interface AddBankingFormProps {
+  bank_code: string;
+  handleSetBank: () => void;
+}
+
+const AddBankingForm = ({ bank_code, handleSetBank }: AddBankingFormProps) => {
   const router = useRouter();
   const {
-    banks,
-    isLoading,
-    inputSuccess,
-    isSuccess,
+    value,
+    labelString,
     handleSubmit,
+    inputSuccess,
     handleKeyClick,
-    handleGoBack,
     handleUpdateForm,
-    handleInputSuccess,
-  } = useAddBanking({ router, code });
-
-  console.log(code);
-  console.log(banks);
+    handleCheckAccount,
+  } = useAddBanking({ router, bank_code });
 
   return (
     <>
       <InputWrapper>
-        <CustomInput>
-          {!inputSuccess
-            ? banks !== ''
-              ? banks
-              : '계좌번호를 입력해주세요'
-            : `받으시는 분이 홍길동 맞으실까요?`}
-        </CustomInput>
-        <PriceLabel>{banks}</PriceLabel>
+        <CustomInput>{labelString}</CustomInput>
+        <PriceLabel>{value}</PriceLabel>
       </InputWrapper>
       <ButtonGroup inputSuccess={inputSuccess}>
-        <CustomGoBack onClick={!inputSuccess ? handleGoBack : handleUpdateForm}>
+        <CustomGoBack
+          onClick={!inputSuccess ? handleSetBank : handleUpdateForm}
+        >
           이전
         </CustomGoBack>
         <CustomGoNext
-          disabled={!banks}
-          onClick={!inputSuccess ? handleInputSuccess : handleSubmit}
+          disabled={!value}
+          onClick={!inputSuccess ? handleCheckAccount : handleSubmit}
         >
           {!inputSuccess ? '다음' : '선물하기'}
         </CustomGoNext>

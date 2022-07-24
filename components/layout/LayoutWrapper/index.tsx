@@ -1,9 +1,8 @@
+import { useRef, useEffect, ReactNode } from 'react';
+import { useRouter } from 'next/router';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import type { ReactNode } from 'react';
-import { useRouter } from 'next/router';
-import { useEffect, useRef } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
 
 import PATH from '@constants/path';
 import { Header } from '@components/base';
@@ -11,12 +10,55 @@ import { canGoBack, isMainFullHeight } from '@recoil/layout';
 import { smoothAppearUpDown } from '@styles/modules/_keyframes';
 import { columnFlexbox, flexbox } from '@styles/mixins/_flexbox';
 
+interface LayoutWrapperProps {
+  children: ReactNode;
+}
+
+const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
+  const { asPath } = useRouter();
+  const isTopGoBack = useRecoilValue(canGoBack);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isFullHeight, setIsFullHeight] = useRecoilState(isMainFullHeight);
+
+  // //@Note 페이지 이동 시에도 항상 스크롤 맨 위 고정
+  useEffect(() => {
+    if (!scrollRef.current) return;
+    scrollRef.current.scrollIntoView({
+      behavior: 'auto',
+      block: 'start',
+      inline: 'nearest',
+    });
+  }, [asPath]);
+
+  useEffect(() => {
+    asPath === PATH.Home && setIsFullHeight(false);
+  }, [asPath, setIsFullHeight]);
+
+  return (
+    <Wrapper ref={scrollRef}>
+      {asPath === PATH.Home && <Header />}
+      <Base
+        asPath={asPath}
+        isTopGoBack={isTopGoBack}
+        isFullHeight={isFullHeight}
+      >
+        {asPath === PATH.Home && (
+          <Divider onClick={() => setIsFullHeight((prev) => !prev)} />
+        )}
+        {children}
+      </Base>
+    </Wrapper>
+  );
+};
+
+export default LayoutWrapper;
+
 const Wrapper = styled.div`
   max-width: 640px;
   width: 100%;
+  min-width: 320px;
   height: 100vh;
   margin: 0 auto;
-  min-width: 320px;
   overflow: hidden;
   position: relative;
   background-image: url('/assets/images/background.svg');
@@ -95,46 +137,3 @@ const Divider = styled.span`
     }
   }
 `;
-
-interface LayoutWrapperProps {
-  children: ReactNode;
-}
-
-const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
-  const { asPath } = useRouter();
-  const isTopGoBack = useRecoilValue(canGoBack);
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [isFullHeight, setIsFullHeight] = useRecoilState(isMainFullHeight);
-
-  // //@Note 페이지 이동 시에도 항상 스크롤 맨 위 고정
-  useEffect(() => {
-    if (!scrollRef.current) return;
-    scrollRef.current.scrollIntoView({
-      behavior: 'auto',
-      block: 'start',
-      inline: 'nearest',
-    });
-  }, [asPath]);
-
-  useEffect(() => {
-    asPath === PATH.Home && setIsFullHeight(false);
-  }, [asPath, setIsFullHeight]);
-
-  return (
-    <Wrapper ref={scrollRef}>
-      {asPath === PATH.Home && <Header />}
-      <Base
-        asPath={asPath}
-        isTopGoBack={isTopGoBack}
-        isFullHeight={isFullHeight}
-      >
-        {asPath === PATH.Home && (
-          <Divider onClick={() => setIsFullHeight((prev) => !prev)} />
-        )}
-        {children}
-      </Base>
-    </Wrapper>
-  );
-};
-
-export default LayoutWrapper;

@@ -11,19 +11,7 @@ import {
   smoothAppearDownUpLarge,
 } from '@styles/modules/_keyframes';
 import { addFundFormType, formGeneratorType } from '@apis/@types/fund';
-
-const Form = styled.form`
-  width: 100%;
-  display: block;
-  animation: ${smoothAppearDownUp} 300ms;
-`;
-const NextButton = styled.button`
-  ${btnPrimary};
-  ${btn48}
-  width: 125px;
-  margin-top: 25px;
-  animation: ${smoothAppearDownUpLarge} 700ms;
-`;
+import { handlePriceType } from '@util/helper/formatter';
 
 interface UploadFormPrice {
   price: string;
@@ -51,21 +39,10 @@ const Price = () => {
       page: prev.page + 1,
     }));
   };
-  // @Note
-  // 재사용성을 위해 추후 분리할 예정
-  const handlePriceType = (watch: string) => {
-    const comma = (str: string) => {
-      str = String(str);
-      return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-    };
 
-    const unComma = (str: string) => {
-      str = String(str);
-      return str.replace(/[^\d]+/g, '');
-    };
-
-    const pureString = watch && comma(unComma(watch));
-    setValue('price', pureString);
+  const handlePrice = () => {
+    const newPrice = handlePriceType(watchPrice);
+    setValue('price', newPrice);
   };
 
   useEffect(() => {
@@ -81,12 +58,17 @@ const Price = () => {
 
   return (
     <Form
-      onSubmit={handleSubmit(onValid)}
       role="tabpanel"
-      aria-labelledby="pagination-tab-2"
       aria-label="상품 가격 입력"
+      aria-labelledby="pagination-tab-2"
+      onSubmit={handleSubmit(onValid)}
     >
       <Input
+        type="text"
+        name="price"
+        label="상품 가격"
+        placeholder="0"
+        onKeyUp={handlePrice}
         register={register('price', {
           required: '입력된 가격이 없네요!',
           pattern: {
@@ -94,12 +76,6 @@ const Price = () => {
             message: '올바른 가격을 입력해 주세요',
           },
         })}
-        name="price"
-        kind="price"
-        type="text"
-        label="상품 가격"
-        placeholder="0"
-        onKeyUp={() => handlePriceType(watchPrice)}
       />
 
       {errors?.price?.type === 'required' && (
@@ -114,3 +90,16 @@ const Price = () => {
 };
 
 export default React.memo(Price);
+
+const Form = styled.form`
+  width: 100%;
+  display: block;
+  animation: ${smoothAppearDownUp} 300ms;
+`;
+const NextButton = styled.button`
+  ${btnPrimary};
+  ${btn48}
+  width: 125px;
+  margin-top: 25px;
+  animation: ${smoothAppearDownUpLarge} 700ms;
+`;
