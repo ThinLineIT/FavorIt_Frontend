@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { Dispatch, SetStateAction } from 'react';
+import { useRouter } from 'next/router';
 
 import { fundingCloseApi } from 'apis/fundApi';
 
@@ -12,9 +13,14 @@ const FundingCloseDialogue = ({
   setIsFundingClosing: Dispatch<SetStateAction<boolean>>;
   fundId: string;
 }) => {
+  const router = useRouter();
   const fundingClose = async () => {
-    // console.log('펀딩을 마감합니다. ');
-    await fundingCloseApi(fundId);
+    const result = await fundingCloseApi(fundId);
+    if (result === 200) {
+      router.reload();
+    } else {
+      router.push('/404');
+    }
   };
   return (
     <>
