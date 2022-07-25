@@ -1,13 +1,21 @@
 import styled from '@emotion/styled';
 import { Dispatch, SetStateAction } from 'react';
 
+import { fundingCloseApi } from 'apis/fundApi';
+
 const FundingCloseDialogue = ({
   percentage,
   setIsFundingClosing,
+  fundId,
 }: {
   percentage: number;
   setIsFundingClosing: Dispatch<SetStateAction<boolean>>;
+  fundId: string;
 }) => {
+  const fundingClose = async () => {
+    // console.log('펀딩을 마감합니다. ');
+    await fundingCloseApi(fundId);
+  };
   return (
     <>
       <DialogueContent>
@@ -24,7 +32,7 @@ const FundingCloseDialogue = ({
         <SmallButton onClick={() => setIsFundingClosing(false)}>
           계속 진행
         </SmallButton>
-        <SmallButton>펀딩 마감</SmallButton>
+        <SmallButton onClick={fundingClose}>펀딩 마감</SmallButton>
       </div>
     </>
   );

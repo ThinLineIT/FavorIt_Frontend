@@ -44,8 +44,14 @@ const DetailFundPage = ({
   id: string;
   detailData: DetailDataType;
 }) => {
+<<<<<<< HEAD
   const { data } = useQuery(fundKeys.detail(+id), () => detailFundApi(+id), {
+=======
+  const { data, refetch } = useQuery(['detail', id], () => detailFundApi(id), {
+>>>>>>> dev
     initialData: detailData,
+    retry: 1,
+    refetchOnWindowFocus: false,
   });
 
   const [isFundingClosing, setIsFundingClosing] = useState(false);
@@ -69,7 +75,8 @@ const DetailFundPage = ({
 
   useEffect(() => {
     const isAfterDueDate = isAfter(new Date(), new Date(data.due_date));
-    if (isAfterDueDate) setIsModal(true);
+    if (isAfterDueDate && data.is_maker && data.state === 'OPENED')
+      setIsModal(true);
 
     return () => {
       clearTimeout(timer.current);
@@ -126,12 +133,13 @@ const DetailFundPage = ({
           <FundingCloseDialogue
             setIsFundingClosing={setIsFundingClosing}
             percentage={data.progress_percent}
+            fundId={id}
           />
         </>
       )}
       {isModal && (
         <Modal isOpen={isModal} onClose={() => setIsModal(false)}>
-          <FundingCloseModal />
+          <FundingCloseModal onClose={() => setIsModal(false)} />
         </Modal>
       )}
     </FundingDetailMain>

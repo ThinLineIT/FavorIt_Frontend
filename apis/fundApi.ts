@@ -20,7 +20,21 @@ export const detailFundApi = async (fundId: number) => {
     } = await ax.get(`/api/funding/${fundId}`);
     return data;
   } catch (error: any) {
-    return { status: error.status, message: error.data.detail };
+    return {
+      status: error.response.status,
+      message: error.response.data.detail,
+    };
+  }
+};
+
+export const fundingCloseApi = async (fundId: string) => {
+  try {
+    const data = await ax.post(`/api/funding/${fundId}/close`);
+    // console.log(data);
+    return data;
+  } catch (error) {
+    // console.log(error);
+    return error;
   }
 };
 
