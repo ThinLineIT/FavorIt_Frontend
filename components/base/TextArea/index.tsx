@@ -5,20 +5,17 @@ import { textStyle } from '@styles/mixins/_text-style';
 
 interface TextAreaProps {
   name: string;
-  register: UseFormRegisterReturn;
   label?: string;
+  register: UseFormRegisterReturn;
   labelHidden?: boolean;
-  placeholder?: string;
-  [key: string]: any;
 }
 
 export default function TextArea({
-  label,
-  labelHidden = false,
   name,
+  label,
   register,
-  placeholder,
-  ...rest
+  labelHidden = false,
+  ...restProps
 }: TextAreaProps) {
   return (
     <Base>
@@ -26,12 +23,11 @@ export default function TextArea({
         {label || name}
       </Label>
       <TextAreaStyled
-        autoFocus
-        id={name}
-        {...register}
-        placeholder={placeholder}
         rows={2}
-        {...rest}
+        id={name}
+        autoFocus
+        {...register}
+        {...restProps}
       />
     </Base>
   );
@@ -53,10 +49,10 @@ const TextAreaStyled = styled.textarea`
   box-shadow: -1px 1px 2px rgba(255, 255, 255, 0.25),
     inset 1px 1px 2px rgba(0, 0, 0, 0.25) !important;
   border-radius: 10px;
-  ${textStyle(18, '#191e29')}
+  ${textStyle(16, '#191e29')}
 
   &::placeholder {
     /* color: rgb(156 163 175); */
-    ${textStyle(18, '#727272')}
+    ${textStyle(16, '#727272')}
   }
 `;

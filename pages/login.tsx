@@ -1,4 +1,4 @@
-import type { NextPage, GetServerSideProps } from 'next';
+import type { NextPage } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
@@ -9,7 +9,7 @@ import { useRecoilState } from 'recoil';
 
 const Login: NextPage = () => {
   // TODO 기본적인 회원 정보를 가져옵니다
-  const [userInfoValue, setUserInfoValue] = useRecoilState<boolean>(userInfo);
+  const [userInfoValue, setUserInfoValue] = useRecoilState(userInfo);
   const router = useRouter();
 
   const moveToKakakLogin = () => {
@@ -26,15 +26,6 @@ const Login: NextPage = () => {
       </p>
     </article>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  console.log(ctx);
-  return {
-    props: {
-      data: '',
-    },
-  };
 };
 
 export default Login;

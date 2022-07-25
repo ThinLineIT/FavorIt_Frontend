@@ -4,30 +4,13 @@ import { useForm } from 'react-hook-form';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { btn48, btnPrimary } from '@styles/modules/_buttons';
-import { TextArea, ErrorMessage, Button } from '@components/base';
-import {
-  FormType,
-  GeneratorType,
-  isFundingForm,
-  isLocalGenerator,
-} from '@recoil/create';
+import { TextArea, ErrorMessage } from '@components/base';
+import { isFundingForm, isLocalGenerator } from '@recoil/create';
 import {
   smoothAppearDownUp,
   smoothAppearDownUpLarge,
 } from '@styles/modules/_keyframes';
-
-const Form = styled.form`
-  width: 100%;
-  display: block;
-  animation: ${smoothAppearDownUp} 300ms;
-`;
-
-const NextButton = styled.button`
-  ${btnPrimary};
-  ${btn48}
-  width: 125px;
-  animation: ${smoothAppearDownUpLarge} 700ms;
-`;
+import { addFundFormType, formGeneratorType } from '@apis/@types/fund';
 
 interface UploadFormDescription {
   contents: string;
@@ -37,19 +20,20 @@ const Description = () => {
   const setGenerator = useSetRecoilState(isLocalGenerator);
   const [fundingForm, setFundingForm] = useRecoilState(isFundingForm);
   const {
-    watch,
     register,
     setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<UploadFormDescription>();
-  const watchContents = watch('contents');
   const onValid = (data: UploadFormDescription) => {
-    setFundingForm((prev: FormType) => ({
+    setFundingForm((prev: addFundFormType) => ({
       ...prev,
-      contents: data.contents,
+      contents: data.contents.trim(),
     }));
-    setGenerator((prev: GeneratorType) => ({ ...prev, page: prev.page + 1 }));
+    setGenerator((prev: formGeneratorType) => ({
+      ...prev,
+      page: prev.page + 1,
+    }));
   };
 
   useEffect(() => {
@@ -59,7 +43,12 @@ const Description = () => {
   }, [fundingForm, setValue]);
 
   return (
-    <Form onSubmit={handleSubmit(onValid)}>
+    <Form
+      onSubmit={handleSubmit(onValid)}
+      role="tabpanel"
+      aria-labelledby="pagination-tab-4"
+      aria-label="펀딩 내용 입력"
+    >
       <TextArea
         register={register('contents', {
           required: '입력된 텍스트가 없네요!',
@@ -81,9 +70,21 @@ const Description = () => {
       )}
       <br />
 
-      {watchContents != null && <NextButton type="submit">다음</NextButton>}
+      <NextButton type="submit">다음</NextButton>
     </Form>
   );
 };
 
-export default Description;
+export default React.memo(Description);
+
+const Form = styled.form`
+  width: 100%;
+  display: block;
+  animation: ${smoothAppearDownUp} 300ms;
+`;
+const NextButton = styled.button`
+  ${btnPrimary};
+  ${btn48}
+  width: 125px;
+  animation: ${smoothAppearDownUpLarge} 700ms;
+`;

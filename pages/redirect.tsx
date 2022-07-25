@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { getUserAccessToken, getKakaoAccessToken } from '@apis/auth';
-import { setCookie } from '@util/cookie';
+import { COOKIE } from '@util/cookie';
+import { setCookie } from 'cookies-next';
 
 const Redirect: NextPage = () => {
   const router = useRouter();
@@ -13,12 +14,17 @@ const Redirect: NextPage = () => {
       router.push('/404');
       return;
     }
-    const userAccessToken = await getUserAccessToken(kakaoAccessToken);
-    if (!userAccessToken) {
+    const userToken = await getUserAccessToken(kakaoAccessToken);
+    if (!userToken) {
       router.push('/404');
       return;
     }
-    setCookie('access_token', userAccessToken, 7);
+    setCookie(COOKIE.ACCESS_TOKEN, userToken.accessToken, {
+      maxAge: COOKIE.ACCESS_MAX_AGE,
+    });
+    setCookie(COOKIE.REFRESH_TOKEN, userToken.refreshToken, {
+      maxAge: COOKIE.REFRESH_MAX_AGE,
+    });
     history.go(-2);
   };
 

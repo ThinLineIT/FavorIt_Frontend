@@ -4,81 +4,63 @@ import type { UseFormRegisterReturn } from 'react-hook-form';
 import { flexbox } from '@styles/mixins/_flexbox';
 import { textStyle } from '@styles/mixins/_text-style';
 
-// ## react-hook-form
-// less code
-// better validation
-// better erros (set, clear, display)
-// have control over inputs (react-hook-form은 성능을 위해 uncontrolled 방법을 default로 사용, but controlled input을 사용하는 것 같은 경험을 선사함)
-// don't deal with events
-// easier inputs
-
 interface InputProps {
   name: string;
-  register: UseFormRegisterReturn;
   type?: string;
   label?: string;
-  required?: boolean;
+  register: UseFormRegisterReturn;
   labelHidden?: boolean;
-  placeholder?: string;
-  kind?: 'text' | 'phone' | 'price';
-  onKeyUp?: () => void;
+  [key: string]: any;
 }
 
 export default function Input({
   name,
+  label,
   register,
   type = 'text',
-  label,
-  required = true,
   labelHidden = false,
-  placeholder,
-  kind = 'text',
-  onKeyUp,
+  ...restProps
 }: InputProps) {
   return (
     <Base>
       <Label htmlFor={name} className={labelHidden ? 'visually-hidden' : ''}>
         {label || name}
       </Label>
-      {kind === 'text' ? (
+      {type === 'text' ? (
         <Wrapper>
           <InputStyled
             id={name}
-            // required={required}
+            autoFocus
             autoComplete="off"
             {...register}
-            type={type}
-            placeholder={placeholder}
+            {...restProps}
           />
         </Wrapper>
       ) : null}
-      {kind === 'price' ? (
+      {type === 'price' ? (
         <Wrapper>
           <InputStyled
             id={name}
-            required={required}
+            type={type}
+            autoFocus
             autoComplete="off"
             {...register}
-            type={type}
-            onKeyUp={onKeyUp}
-            placeholder={placeholder}
+            {...restProps}
           />
           <Currency>
             <span>원</span>
           </Currency>
         </Wrapper>
       ) : null}
-      {kind === 'phone' ? (
+      {type === 'phone' ? (
         <PhoneWrapper>
           <CountryCode>+82</CountryCode>
           <InputStyled
             id={name}
-            required={required}
+            autoFocus
             autoComplete="off"
             {...register}
-            type={type}
-            onKeyUp={onKeyUp}
-            placeholder={placeholder}
+            {...restProps}
           />
         </PhoneWrapper>
       ) : null}
@@ -106,7 +88,7 @@ const InputStyled = styled.input`
   appearance: none;
   border-bottom: 1.5px solid lightgray;
   padding: 2px;
-  ${textStyle(18, '#191e29')}
+  ${textStyle(16, '#191e29')}
 
   /* Chrome, Safari, Edge, Opera */
   &::-webkit-outer-spin-button,
@@ -126,7 +108,7 @@ const InputStyled = styled.input`
 
   &::placeholder {
     /* color: rgb(156 163 175); */
-    ${textStyle(18, '#191e29')}
+    ${textStyle(16, '#727272')}
   }
 `;
 
