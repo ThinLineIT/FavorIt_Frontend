@@ -68,7 +68,7 @@ const FundingProgress = ({
       </FundingPeriodProgress>
       <FundingAmountProgress>
         <ProgressBackground color={'#e6f6ff'}>
-          <ProgressBar value={percent} color={'#FDA2E3'}>
+          <ProgressBar value={percent >= 100 ? 100 : percent} color={'#FDA2E3'}>
             <MarkerWrapper>
               <PinkMarker>{percent}%</PinkMarker>
             </MarkerWrapper>
