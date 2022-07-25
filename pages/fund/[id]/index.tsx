@@ -44,15 +44,15 @@ const DetailFundPage = ({
   id: string;
   detailData: DetailDataType;
 }) => {
-<<<<<<< HEAD
-  const { data } = useQuery(fundKeys.detail(+id), () => detailFundApi(+id), {
-=======
-  const { data, refetch } = useQuery(['detail', id], () => detailFundApi(id), {
->>>>>>> dev
-    initialData: detailData,
-    retry: 1,
-    refetchOnWindowFocus: false,
-  });
+  const { data, refetch } = useQuery(
+    fundKeys.detail(+id),
+    () => detailFundApi(+id),
+    {
+      initialData: detailData,
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  );
 
   const [isFundingClosing, setIsFundingClosing] = useState(false);
   const [isPortal, setPortal] = useState(false);

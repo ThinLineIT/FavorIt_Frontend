@@ -9,9 +9,15 @@ import { SEO } from '@components/base';
 import { GlobalStyle, theme } from '@styles/base';
 import { LayoutWrapper } from '@components/layout';
 
-function App({ Component, pageProps }: AppProps) {
-  const [queryClient] = React.useState(() => new QueryClient());
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 0,
+    },
+  },
+});
 
+function App({ Component, pageProps }: AppProps) {
   return (
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>

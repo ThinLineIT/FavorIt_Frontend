@@ -7,12 +7,19 @@ export type BankCardProps = {
   bank: Bank;
   handleSetBank: () => void;
   handleSetValue: (val: string) => void;
+  handleSetBankName: (val: string) => void;
 };
 
-function BankCard({ bank, handleSetBank, handleSetValue }: BankCardProps) {
+function BankCard({
+  bank,
+  handleSetBank,
+  handleSetValue,
+  handleSetBankName,
+}: BankCardProps) {
   const handleBank = () => {
     handleSetBank();
     handleSetValue(bank?.value);
+    handleSetBankName(bank?.text);
   };
 
   return (

@@ -29,7 +29,12 @@ const AddPresentForm = ({ router, fundId, fundName }: AddPresentFormProps) => {
     if (isSuccess) {
       router.replace({
         pathname: '/fund/get-started',
-        query: { id: fundId, name: fundName, price: value },
+        query: {
+          present: 'presentSuccess',
+          id: fundId,
+          name: fundName,
+          price: value,
+        },
       });
     }
   }, [fundId, fundName, isSuccess, value, router]);
@@ -42,7 +47,7 @@ const AddPresentForm = ({ router, fundId, fundName }: AddPresentFormProps) => {
             ? value !== ''
               ? value
               : '선물할 금액을 입력해주세요!'
-            : `${value}원을 선물할까요?`}
+            : `${value} 원을 선물할까요?`}
         </CustomInput>
         <PriceLabel>{value ? `${value}원` : ''}</PriceLabel>
       </InputWrapper>
@@ -82,8 +87,9 @@ const bounce = keyframes`
 const InputWrapper = styled.div<{ price?: boolean }>`
   width: 80%;
   height: 30px;
-  margin-left: 33px;
-  padding-left: 8px;
+  margin-top: 50px;
+  margin-left: 38px;
+  padding-left: ${({ price }) => (price ? '0' : '8px')};
   position: relative;
   border-left: ${({ price }) => (price ? 'none' : '2px solid black')};
   ${flexbox('start', 'center')};
@@ -94,18 +100,18 @@ const CustomInput = styled.span<{
   inputSuccess?: boolean;
 }>`
   font-weight: ${({ price }) => (price ? 500 : 400)};
-  font-size: ${({ price }) => (price ? '28px' : '18px')};
+  font-size: ${({ price }) => (price ? '25px' : '18px')};
   line-height: ${({ price }) => (price ? '34px' : '22px')};
   color: ${({ price }) => (price ? 'black' : 'lightgray')};
 `;
 
 const PriceLabel = styled.span`
   position: absolute;
-  bottom: -30px;
+  bottom: -12px;
   display: block;
   width: 200px;
   height: 10px;
-  color: lightgray;
+  color: #727272;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;

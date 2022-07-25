@@ -13,7 +13,13 @@ import useGetStarted from '@components/domain/create/hooks/useGetStarted';
 
 function FundList() {
   const resetGenerator = useResetRecoilState(isLocalGenerator);
-  const { labelString, copyTextUrl, handleRouteDetail } = useGetStarted();
+  const {
+    labelString,
+    isFromBanking,
+    copyTextUrl,
+    handleRouteDetail,
+    handleCreateNewFunding,
+  } = useGetStarted();
 
   useEffect(() => {
     resetGenerator();
@@ -25,10 +31,18 @@ function FundList() {
         <Image src={CongImage} width={158} height={112} alt="funding image" />
       </Header>
       <Title>{labelString}</Title>
-      <ButtonGroup>
-        <LinkButton onClick={copyTextUrl}>링크 복사</LinkButton>
-        <DetailButton onClick={handleRouteDetail}>펀딩 보기</DetailButton>
-      </ButtonGroup>
+      {!isFromBanking ? (
+        <ButtonGroup>
+          <LinkButton onClick={copyTextUrl}>링크 복사</LinkButton>
+          <DetailButton onClick={handleRouteDetail}>펀딩 보기</DetailButton>
+        </ButtonGroup>
+      ) : (
+        <ButtonGroup>
+          <DetailButton onClick={handleCreateNewFunding}>
+            새로운 펀딩 만들기
+          </DetailButton>
+        </ButtonGroup>
+      )}
       <GoBack path="/" />
     </MainBase>
   );

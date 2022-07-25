@@ -17,10 +17,8 @@ const useAddBanking = ({ router, bank_code }: any) => {
     onSuccess: (data) => setAccountUser(data.data.account_owner_name),
   });
   const paymentsDoneFn = (data: paymentsDoneData) => paymentFundApi(data, id);
-
-  const { mutate: paymentsDoneMutate } = useMutation(paymentsDoneFn, {
-    onSuccess: () => router.replace('/'),
-  });
+  const { mutate: paymentsDoneMutate, isSuccess: bankingIsSuccess } =
+    useMutation(paymentsDoneFn);
 
   const handleCheckAccount = useCallback(() => {
     if (!value) return;
@@ -33,13 +31,6 @@ const useAddBanking = ({ router, bank_code }: any) => {
 
   const handleSubmit = useCallback(() => {
     if (!value) return;
-    console.log({
-      id,
-      bank_code,
-      accountUser,
-      value,
-    });
-
     paymentsDoneMutate({
       funding_id: +id,
       bank_code,
@@ -75,6 +66,7 @@ const useAddBanking = ({ router, bank_code }: any) => {
     handleSubmit,
     handleKeyClick,
     handleUpdateForm,
+    bankingIsSuccess,
     handleCheckAccount,
   };
 };

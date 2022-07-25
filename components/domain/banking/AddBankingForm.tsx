@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -20,15 +20,24 @@ const AddBankingForm = ({ bank_code, handleSetBank }: AddBankingFormProps) => {
     handleSubmit,
     inputSuccess,
     handleKeyClick,
+    bankingIsSuccess,
     handleUpdateForm,
     handleCheckAccount,
   } = useAddBanking({ router, bank_code });
 
+  useEffect(() => {
+    if (bankingIsSuccess) {
+      router.replace({
+        pathname: '/fund/get-started',
+        query: { banking: 'bankingSuccess' },
+      });
+    }
+  }, [bankingIsSuccess, router]);
+
   return (
     <>
-      <InputWrapper>
-        <CustomInput>{labelString}</CustomInput>
-        <PriceLabel>{value}</PriceLabel>
+      <InputWrapper price={Boolean(value)}>
+        <CustomInput price={Boolean(value)}>{labelString}</CustomInput>
       </InputWrapper>
       <ButtonGroup inputSuccess={inputSuccess}>
         <CustomGoBack
@@ -68,8 +77,8 @@ const bounce = keyframes`
 const InputWrapper = styled.div<{ price?: boolean }>`
   width: 80%;
   height: 30px;
-  margin-left: 33px;
-  padding-left: 8px;
+  margin-left: 54px;
+  padding-left: ${({ price }) => (price ? '0' : '8px')};
   position: relative;
   border-left: ${({ price }) => (price ? 'none' : '2px solid black')};
   ${flexbox('start', 'center')};
@@ -82,20 +91,7 @@ const CustomInput = styled.span<{
   font-weight: ${({ price }) => (price ? 500 : 400)};
   font-size: ${({ price }) => (price ? '28px' : '18px')};
   line-height: ${({ price }) => (price ? '34px' : '22px')};
-  color: ${({ price }) => (price ? 'black' : 'lightgray')};
-`;
-
-const PriceLabel = styled.span`
-  position: absolute;
-  bottom: -30px;
-  display: block;
-  width: 200px;
-  height: 10px;
-  color: lightgray;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 17px;
+  color: ${({ price }) => (price ? 'black' : '#727272')};
 `;
 
 const ButtonGroup = styled.div<{ inputSuccess?: boolean }>`

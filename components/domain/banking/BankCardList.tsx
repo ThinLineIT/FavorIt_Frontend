@@ -7,12 +7,14 @@ interface BankCardListProps {
   banks: Bank[];
   handleSetBank: () => void;
   handleSetValue: (val: string) => void;
+  handleSetBankName: (val: string) => void;
 }
 
 function BankCardList({
   banks,
   handleSetBank,
   handleSetValue,
+  handleSetBankName,
 }: BankCardListProps) {
   return (
     <PaddingWrapper>
@@ -24,6 +26,7 @@ function BankCardList({
               bank={banks && banks[idx]}
               handleSetBank={handleSetBank}
               handleSetValue={handleSetValue}
+              handleSetBankName={handleSetBankName}
             />
           );
         })}

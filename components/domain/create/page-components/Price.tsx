@@ -58,7 +58,7 @@ const Price = () => {
     >
       <InputWrapper price={Boolean(value)}>
         <CustomInput price={Boolean(value)}>
-          {value ? `${value}원` : '0원'}
+          {value ? value : '펀딩 목표액을 입력해주세요!'}
         </CustomInput>
         <PriceLabel>{value ? `${value}원` : ''}</PriceLabel>
       </InputWrapper>
@@ -88,8 +88,8 @@ const InputWrapper = styled.div<{ price?: boolean }>`
   ${flexbox('start', 'center')};
   width: 80%;
   height: 30px;
-  margin-left: 33px;
-  padding-left: 8px;
+  margin-left: 39px;
+  padding-left: ${({ price }) => (price ? '0' : '8px')};
   border-left: ${({ price }) => (price ? 'none' : '2px solid black')};
 `;
 
@@ -99,16 +99,16 @@ const CustomInput = styled.span<{
   font-weight: ${({ price }) => (price ? 500 : 400)};
   font-size: ${({ price }) => (price ? '28px' : '18px')};
   line-height: ${({ price }) => (price ? '34px' : '22px')};
-  color: ${({ price }) => (price ? 'black' : 'lightgray')};
+  color: ${({ price }) => (price ? 'black' : '#727272')};
 `;
 
 const PriceLabel = styled.span`
   position: absolute;
-  bottom: -30px;
   display: block;
+  bottom: -12px;
   width: 200px;
   height: 10px;
-  color: lightgray;
+  color: #727272;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -141,4 +141,6 @@ const CustomGoNext = styled.button<{ disabled?: boolean }>`
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
 `;
 
-const CustomKeypad = styled(Keypad)``;
+const CustomKeypad = styled(Keypad)`
+  /* width: 100vw; */
+`;

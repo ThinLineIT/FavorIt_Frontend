@@ -20,7 +20,7 @@ const Present = ({ fundId }: PresentProps) => {
   return (
     <Root>
       <PresentHeader>
-        <Title>{data?.name}</Title>에 선물하기
+        <Title>{data?.name}</Title> <span>에 선물하기</span>
       </PresentHeader>
       <AddPresentForm fundId={fundId} fundName={data?.name} router={router} />
     </Root>
@@ -53,10 +53,20 @@ const PresentHeader = styled.header`
   font-weight: 500;
   font-size: 25px;
   line-height: 30px;
+
+  display: flex;
+  flex-direction: column;
+
+  & > span {
+    margin-top: 6px;
+  }
 `;
 
 const Title = styled.h2`
   display: block;
+  width: 70%;
+  word-wrap: break-word;
+  white-space: wrap;
   font-size: 25px;
   font-weight: 700;
   line-height: 30px;

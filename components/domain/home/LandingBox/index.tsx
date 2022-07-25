@@ -2,6 +2,21 @@
 import styled from '@emotion/styled';
 import { flexbox } from '@styles/mixins/_flexbox';
 
+const Box = () => {
+  return (
+    <Base>
+      <Video autoPlay muted playsInline>
+        <source
+          src="https://static.toss.im/assets/homepage/tossbank/video-02.mp4"
+          type="video/mp4"
+        />
+      </Video>
+    </Base>
+  );
+};
+
+export default Box;
+
 const Base = styled.div`
   max-width: 150px;
   aspect-ratio: 1 / 1;
@@ -24,18 +39,3 @@ const Video = styled.video`
   backface-visibility: hidden;
   -webkit-mask-image: -webkit-radial-gradient(center, white, black);
 `;
-
-const Box = () => {
-  return (
-    <Base>
-      <Video autoPlay muted playsInline>
-        <source
-          src="https://static.toss.im/assets/homepage/tossbank/video-02.mp4"
-          type="video/mp4"
-        />
-      </Video>
-    </Base>
-  );
-};
-
-export default Box;

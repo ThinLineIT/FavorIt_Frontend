@@ -115,7 +115,7 @@ const AmountWrapper = styled.div`
 `;
 
 const FundingAmountProgress = styled.div`
-  width: 100%;
+  width: 310px;
   height: 83px;
   border-radius: 20px;
   margin-bottom: 18px;
@@ -130,6 +130,7 @@ const ProgressBackground = styled.div`
   margin: 34px 0 9px 0;
   width: 237px;
   height: 5px;
+  overflow: hidden;
   background-color: ${(props) => props.color};
 `;
 interface ProgressProps {

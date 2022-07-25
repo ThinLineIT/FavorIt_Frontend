@@ -12,6 +12,8 @@ import { columnFlexbox, flexbox } from '@styles/mixins/_flexbox';
 import { isFundingForm, isLocalGenerator } from '@recoil/create';
 import { formGeneratorType } from '@apis/@types/fund';
 import { smoothAppearDownUp } from '@styles/modules/_keyframes';
+import FundingProgress from '@components/domain/detail/FundingProgress';
+import dayjs from 'dayjs';
 
 type fundingId = {
   funding_id: string;
@@ -48,6 +50,8 @@ const Preview = () => {
     }
   }, [data, setGenerator]);
 
+  console.log(fundingForm);
+
   const PreviewContent = (
     <Base aria-label="펀딩 정보 프리뷰">
       <Section>
@@ -60,14 +64,12 @@ const Preview = () => {
             상품 보러 가기
           </Link>
           <Description>{fundingForm.contents}</Description>
-          <DatesCard>
-            <progress value="80" max="100" id="progressDates"></progress>
-            <span>{fundingForm.due_date}</span>
-          </DatesCard>
-          <PriceCard>
-            <progress value="60" max="100" id="progressPrices"></progress>
-            <span>{fundingForm.product.price} 원</span>
-          </PriceCard>
+          <FundingProgress
+            percent={0}
+            dueDate={fundingForm.due_date}
+            price={fundingForm.product.price}
+            creationDate={dayjs(new Date()).toString()}
+          />
         </Main>
         <Footer>
           <BackButton

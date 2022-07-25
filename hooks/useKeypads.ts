@@ -1,4 +1,4 @@
-import { numericOnlyWithComma } from '@util/helper/formatter';
+import { handlePriceType, numericOnlyWithComma } from '@util/helper/formatter';
 import { useCallback, useState } from 'react';
 
 const useKeypads = (isPrice?: boolean) => {
@@ -16,12 +16,12 @@ const useKeypads = (isPrice?: boolean) => {
         } else {
           setValue((prev) => {
             const editedPrice = prev.slice(0, -1);
-            return editedPrice;
+            return isPrice ? handlePriceType(editedPrice) : editedPrice;
           });
         }
       }
     },
-    [],
+    [isPrice],
   );
 
   return {

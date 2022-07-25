@@ -9,11 +9,15 @@ function Banking() {
   const {
     banks,
     bankCode,
+    bankName,
     isSetBank,
     isLoading,
     handleSetBank,
     handleSetValue,
+    handleSetBankName,
   } = useLoadBanks();
+
+  console.log(bankName);
 
   if (isLoading) return <div>loading..</div>;
 
@@ -21,13 +25,16 @@ function Banking() {
     <Root>
       <LabelWrapper>
         <LabelTitle>어디로 받을까요?</LabelTitle>
-        <LabelText>은행을 선택해주세요!</LabelText>
+        <LabelText>
+          {bankName !== '' ? `${bankName}` : '은행을 선택해주세요!'}
+        </LabelText>
       </LabelWrapper>
       {banks && !isSetBank ? (
         <BankCardList
           banks={banks}
           handleSetBank={handleSetBank}
           handleSetValue={handleSetValue}
+          handleSetBankName={handleSetBankName}
         />
       ) : (
         <Wrapper>
@@ -65,6 +72,7 @@ const LabelText = styled.span`
   font-size: 24px;
   line-height: 29px;
   color: #000000;
+  margin-top: 4px;
 `;
 
 const Wrapper = styled.div`
