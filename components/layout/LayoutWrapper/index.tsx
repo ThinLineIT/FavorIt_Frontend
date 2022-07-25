@@ -54,7 +54,7 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
 export default LayoutWrapper;
 
 const Wrapper = styled.div`
-  max-width: 640px;
+  max-width: 480px;
   width: 100%;
   min-width: 320px;
   height: 100vh;

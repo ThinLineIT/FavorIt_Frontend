@@ -17,7 +17,7 @@ function BankCardList({
   return (
     <PaddingWrapper>
       <ListWrapper>
-        {Array.from({ length: 25 }).map((_, idx) => {
+        {Array.from({ length: 15 }).map((_, idx) => {
           return (
             <BankCard
               key={idx}
@@ -43,8 +43,8 @@ const PaddingWrapper = styled.div`
 
 const ListWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, minmax(auto, 150px));
-  grid-auto-rows: minmax(auto, 150px);
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: minmax(auto, 84px);
   gap: 10px 14px;
   width: 100%;
   height: 100%;

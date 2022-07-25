@@ -61,3 +61,10 @@ export interface BankAccount {
   data: AccountInfo;
   message: string;
 }
+
+export interface paymentsDoneData {
+  funding_id: number;
+  bank_code: string;
+  full_name: string;
+  account_number: string;
+}

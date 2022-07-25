@@ -1,12 +1,13 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useMutation } from 'react-query';
 
-import { checkBankAccountApi } from '@apis/fundApi';
-import { CheckBanksTypes } from '@apis/@types/fund';
+import { checkBankAccountApi, paymentFundApi } from '@apis/fundApi';
+import { CheckBanksTypes, paymentsDoneData } from '@apis/@types/fund';
 import useKeypads from '@hooks/useKeypads';
 import { deleteComma } from '@util/helper/formatter';
 
 const useAddBanking = ({ router, bank_code }: any) => {
+  const { id } = router.query;
   const { value, handleKeyClick } = useKeypads();
   const [accountUser, setAccountUser] = useState('');
   const [inputSuccess, setInputSuccess] = useState(false);
@@ -14,6 +15,11 @@ const useAddBanking = ({ router, bank_code }: any) => {
   const getBanksFn = (data: CheckBanksTypes) => checkBankAccountApi(data);
   const { mutate, isLoading, isSuccess } = useMutation(getBanksFn, {
     onSuccess: (data) => setAccountUser(data.data.account_owner_name),
+  });
+  const paymentsDoneFn = (data: paymentsDoneData) => paymentFundApi(data, id);
+
+  const { mutate: paymentsDoneMutate } = useMutation(paymentsDoneFn, {
+    onSuccess: () => router.replace('/'),
   });
 
   const handleCheckAccount = useCallback(() => {
@@ -25,10 +31,22 @@ const useAddBanking = ({ router, bank_code }: any) => {
     setInputSuccess(false);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(() => {
     if (!value) return;
-    router.replace('/');
-  };
+    console.log({
+      id,
+      bank_code,
+      accountUser,
+      value,
+    });
+
+    paymentsDoneMutate({
+      funding_id: +id,
+      bank_code,
+      full_name: accountUser,
+      account_number: value,
+    });
+  }, [accountUser, bank_code, id, paymentsDoneMutate, value]);
 
   const handleGoBack = () => {
     router.back();

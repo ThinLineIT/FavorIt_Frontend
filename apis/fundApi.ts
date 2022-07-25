@@ -7,6 +7,7 @@ import {
   addPaymentTypes,
   BankAccount,
   CheckBanksTypes,
+  paymentsDoneData,
 } from './@types/fund';
 
 export const addFundApi = async (data: addFundFormType) =>
@@ -33,8 +34,11 @@ export const checkBankAccountApi = async (
   data: CheckBanksTypes,
 ): Promise<BankAccount> => {
   return await ax
-    .post('/api/funding/verification/bank-account', {
-      ...data,
-    })
+    .post('/api/funding/verification/bank-account', data)
     .then((res) => res.data);
 };
+
+export const paymentFundApi = async (
+  paymentData: paymentsDoneData,
+  fundId: number,
+) => await ax.post(`/api/funding/${fundId}/payment`, paymentData);

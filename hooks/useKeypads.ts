@@ -26,6 +26,7 @@ const useKeypads = (isPrice?: boolean) => {
 
   return {
     value,
+    setValue,
     handleKeyClick,
   };
 };

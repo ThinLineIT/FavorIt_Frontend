@@ -27,7 +27,6 @@ const Preview = () => {
   const setGenerator = useSetRecoilState(isLocalGenerator);
   const setIsFullHeight = useSetRecoilState(isMainFullHeight);
 
-  //@ react-query 사용하기 => 리팩토링하기
   const [create, { loading, data }] = useMutation<MutationResult>(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/funding`,
   );

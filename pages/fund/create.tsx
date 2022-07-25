@@ -52,7 +52,7 @@ const Generate = () => {
         )}
         <FormWrapper>{hocComponents[generator.page].component}</FormWrapper>
       </Base>
-      {generator.page !== 6 && <GoBack currying={goBackCurrying} />}
+      {generator.page !== 2 && <GoBack currying={goBackCurrying} />}
     </>
   );
 };

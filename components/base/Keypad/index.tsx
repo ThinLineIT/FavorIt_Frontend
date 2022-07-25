@@ -29,9 +29,9 @@ const KeypadWrapper = styled.div`
 
 const Key = styled.span`
   ${flexbox()};
-  cursor: pointer;
   font-weight: 400;
   font-size: 25px;
   line-height: 30px;
   user-select: none;
+  cursor: pointer;
 `;
