@@ -10,7 +10,7 @@ const siteMetadata = {
   keywords:
     'FavorIt, funding, 펀딩, 선물펀딩, 스타트업, StartUp, IT StartUp, 개발 스타트업, 대외활동, 외부활동, 사이드 프로젝트, 개발, 개발자, 프론트엔드, 백엔드, 안드로이드, IOS, 디자이너, PM',
   type: 'website',
-  siteUrl: 'https://favor-it.vercel.app/',
+  siteUrl: 'https://www.favor-it.me/',
   siteRepo: 'https://https://github.com/thinlineit/favorit',
   siteLogo: '/static/images/logo.png',
   image: '',
