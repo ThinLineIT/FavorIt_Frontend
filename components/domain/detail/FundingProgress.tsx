@@ -1,5 +1,6 @@
 import {
   format,
+  isAfter,
   formatDistanceStrict,
   formatDistanceToNowStrict,
 } from 'date-fns';
@@ -17,28 +18,30 @@ const FundingProgress = ({
   price: number;
 }) => {
   const periodProgress = (date: string, baseDate: string) => {
+    const isDespired = isAfter(new Date(), new Date(date));
+
+    if (isDespired) return 100;
+
     const total = Number(
       formatDistanceStrict(new Date(date), new Date(baseDate), {
         unit: 'day',
-      }).replace(' days', ''),
+      }).split(' ')[0],
     );
     const upToToday = Number(
-      formatDistanceToNowStrict(new Date(baseDate), { unit: 'day' }).replace(
-        ' days',
-        '',
-      ),
+      formatDistanceToNowStrict(new Date(baseDate), { unit: 'day' }).split(
+        ' ',
+      )[0],
     );
-
     return Math.floor((upToToday / total) * 100);
   };
   const leftDays = (date: string) => {
+    const isDespired = isAfter(new Date(), new Date(date));
+    if (isDespired) return 0;
+
     const diffDays = Number(
-      formatDistanceToNowStrict(new Date(date), { unit: 'day' }).replace(
-        ' days',
-        '',
-      ),
+      formatDistanceToNowStrict(new Date(date), { unit: 'day' }).split(' ')[0],
     );
-    return diffDays >= 0 ? diffDays : 0;
+    return diffDays;
   };
   return (
     <>
