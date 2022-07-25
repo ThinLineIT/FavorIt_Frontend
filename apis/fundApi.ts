@@ -31,7 +31,7 @@ export const fundingCloseApi = async (fundId: string) => {
   try {
     const data = await ax.post(`/api/funding/${fundId}/close`);
     // console.log(data);
-    return data;
+    return data.status;
   } catch (error) {
     // console.log(error);
     return error;
