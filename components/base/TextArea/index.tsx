@@ -8,6 +8,7 @@ interface TextAreaProps {
   label?: string;
   register: UseFormRegisterReturn;
   labelHidden?: boolean;
+  [key: string]: any;
 }
 
 export default function TextArea({
