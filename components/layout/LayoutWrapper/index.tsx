@@ -65,6 +65,7 @@ const Wrapper = styled.div`
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.12);
 `;
 
 const Base = styled.div<{

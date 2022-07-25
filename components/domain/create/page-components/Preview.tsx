@@ -64,7 +64,7 @@ const Preview = () => {
             상품 보러 가기
           </Link>
           <Description>{fundingForm.contents}</Description>
-          <FundingProgress
+          <CustomFundingProgress
             percent={0}
             dueDate={fundingForm.due_date}
             price={fundingForm.product.price}
@@ -147,50 +147,8 @@ const Card = styled.div`
     inset 0px -2px 9px rgba(0, 0, 0, 0.25);
   border-radius: 20px;
 `;
-const DatesCard = styled(Card)`
-  height: 83px;
-  & > #progressDates {
-    appearance: none;
-    width: 90%;
-    height: 4px;
-    &::-webkit-progress-bar {
-      background-color: #e6f6ff;
-      border-radius: 10px;
-    }
-    &::-webkit-progress-value {
-      background-color: #92d2ff;
-      border-radius: 10px;
-    }
-  }
-  span {
-    width: 90%;
-    text-align: right;
-    margin-top: 10px;
-    ${textStyle(12, '#92d2ff')}
-  }
-`;
-const PriceCard = styled(Card)`
-  height: 108px;
-  & > #progressPrices {
-    appearance: none;
-    width: 90%;
-    height: 4px;
-    &::-webkit-progress-bar {
-      background-color: #e6f6ff;
-      border-radius: 10px;
-    }
-    &::-webkit-progress-value {
-      background-color: #fda2e3;
-      border-radius: 10px;
-    }
-  }
-  span {
-    width: 90%;
-    text-align: right;
-    margin-top: 10px;
-    ${textStyle(12, '#fda2e3')}
-  }
-`;
+const CustomFundingProgress = styled(FundingProgress)``;
+
 const Footer = styled.footer`
   width: 100%;
   ${flexbox()}

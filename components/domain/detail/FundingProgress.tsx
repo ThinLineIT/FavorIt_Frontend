@@ -130,7 +130,6 @@ const ProgressBackground = styled.div`
   margin: 34px 0 9px 0;
   width: 237px;
   height: 5px;
-  overflow: hidden;
   background-color: ${(props) => props.color};
 `;
 interface ProgressProps {
