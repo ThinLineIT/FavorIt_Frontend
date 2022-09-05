@@ -1,7 +1,8 @@
-import { useRef, useEffect, ReactNode } from 'react';
+import { useRef, useEffect, useState, ReactNode } from 'react';
 import styled from '@emotion/styled';
 import useRouterEvent from '@hooks/useRouter';
 import Canvas from '@util/background/mainBackground';
+import { useRouter } from 'next/router';
 
 interface LayoutWrapperProps {
   children: ReactNode;
@@ -10,11 +11,19 @@ interface LayoutWrapperProps {
 const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
   const canvasHtmlRef = useRef<HTMLCanvasElement>(null);
   const canvasObjectRef = useRef<Canvas>();
-  const url = useRouterEvent();
+
+  const { url, router } = useRouterEvent();
+
+  const moveToCreate = () => {
+    router.push('/fund/create');
+  };
 
   useEffect(() => {
     if (canvasHtmlRef.current !== null) {
-      const backgroundCanvasInstance = new Canvas(canvasHtmlRef.current);
+      const backgroundCanvasInstance = new Canvas(
+        canvasHtmlRef.current,
+        moveToCreate,
+      );
       canvasObjectRef.current = backgroundCanvasInstance;
     }
   }, []);
@@ -28,8 +37,8 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
           break;
         case '/':
           console.log('현재 URL은 메인');
-          // canvasObjectRef.current.drawMainBackground(true);
-          canvasObjectRef.current.drawCropedMainBackground();
+          canvasObjectRef.current.drawMainBackground(true);
+          // canvasObjectRef.current.drawCropedMainBackground();
           break;
         case '':
           console.log('현재 URL은 공백입니다');

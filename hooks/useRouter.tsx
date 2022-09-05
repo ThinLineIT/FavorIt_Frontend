@@ -38,7 +38,7 @@ const useRouterEvent = () => {
     };
   }, []);
 
-  return url;
+  return { url, router };
 };
 
 export default useRouterEvent;

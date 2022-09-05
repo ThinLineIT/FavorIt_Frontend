@@ -7,11 +7,13 @@ export default class Canvas {
   calculatedBgWidth: number;
   timerIdForPanning: NodeJS.Timer | undefined;
   zoomScale = 1.4;
+  moveToCreateFunc;
 
-  constructor(canvas: HTMLCanvasElement) {
+  constructor(canvas: HTMLCanvasElement, moveToCreateFunc: () => void) {
     this.canvasHtmlElement = canvas;
     this.canvasObject = this.initCanvas(canvas);
     this.calculatedBgWidth = (this.canvasObject.getHeight() / 2278) * 4081;
+    this.moveToCreateFunc = moveToCreateFunc;
     // this.drawMainBackground(true);
     // this.drawBox();
   }
@@ -27,19 +29,23 @@ export default class Canvas {
   }
 
   async drawLoginBackground() {
+    this.canvasObject.setBackgroundImage('', () => {
+      this.canvasObject.renderAll.bind(this.canvasObject);
+    });
     await this.canvasObject.setBackgroundImage(
       'https://i.ibb.co/bW2LLKb/Login.png',
       this.canvasObject.renderAll.bind(this.canvasObject),
       {
-        scaleX: this.canvasObject.getHeight() / 780,
-        scaleY: this.canvasObject.getHeight() / 780,
+        scaleX: this.canvasObject.getWidth() / 360,
+        scaleY: this.canvasObject.getWidth() / 360,
       },
     );
   }
 
   async drawMainBackground(init: boolean) {
-    const width = this.canvasObject.getWidth();
-    console.log(width);
+    this.canvasObject.setBackgroundImage('', () => {
+      this.canvasObject.renderAll.bind(this.canvasObject);
+    });
     await this.canvasObject.setBackgroundImage(
       'https://i.ibb.co/grW30L5/back.png',
       this.canvasObject.renderAll.bind(this.canvasObject),
@@ -48,6 +54,7 @@ export default class Canvas {
         scaleY: this.canvasObject.getHeight() / 2278,
       },
     );
+    // this.backgroundPanning();
     if (init) this.backgroundPanning();
     else this.backgroundAlignCenter();
   }
@@ -60,8 +67,8 @@ export default class Canvas {
       'https://i.ibb.co/4V6QnL4/Splash-Center-Crop.png',
       this.canvasObject.renderAll.bind(this.canvasObject),
       {
-        scaleX: this.canvasObject.getHeight() / 800,
-        scaleY: this.canvasObject.getHeight() / 800,
+        scaleX: this.canvasObject.getWidth() / 360,
+        scaleY: this.canvasObject.getWidth() / 360,
       },
     );
     this.drawItems();
@@ -72,6 +79,7 @@ export default class Canvas {
   }
 
   backgroundPanning() {
+    console.log('회전');
     this.moveToRightFromLeft();
   }
 
@@ -280,6 +288,10 @@ export default class Canvas {
       const oImg = img
         .scale(0.8)
         .set({ left: width / 2 + 100, top: height / 2 + 20 });
+      oImg.on('selected', () => {
+        console.log('함수 실행');
+        this.moveToCreateFunc();
+      });
       this.canvasObject.add(oImg);
     });
   }
