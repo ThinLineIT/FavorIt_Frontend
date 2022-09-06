@@ -25,7 +25,8 @@ const Redirect: NextPage = () => {
     setCookie(COOKIE.REFRESH_TOKEN, userToken.refreshToken, {
       maxAge: COOKIE.REFRESH_MAX_AGE,
     });
-    history.go(-2);
+    // history.go(-2);
+    router.push(`/?animate=${true}`);
   };
 
   useEffect(() => {

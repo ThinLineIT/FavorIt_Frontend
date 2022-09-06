@@ -19,11 +19,12 @@ const Login: NextPage = () => {
     // router.push(
     //   `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL}&response_type=code`,
     // );
-    console.log('쿠키 저장');
-    setCookie('COOKIE', 'test', {
-      maxAge: 50000,
-    });
-    router.push('/');
+    // console.log('쿠키 저장');
+    // setCookie('COOKIE', 'test', {
+    //   maxAge: 50000,
+    // });
+    // router.push('/');
+    router.push(`/?animate=${true}`);
   };
 
   return (
