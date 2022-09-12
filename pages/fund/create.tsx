@@ -40,8 +40,8 @@ const Generate = () => {
   }, [generator, router]);
 
   return (
-    <>
-      <Base role="region">
+    <BackgroundCover>
+      {/* <Base role="region">
         <h1 className="visually-hidden">펀딩 생성</h1>
         {generator.page !== 6 && (
           <UpperPagination
@@ -52,8 +52,8 @@ const Generate = () => {
         )}
         <FormWrapper>{hocComponents[generator.page].component}</FormWrapper>
       </Base>
-      {generator.page !== 2 && <GoBack currying={goBackCurrying} />}
-    </>
+      {generator.page !== 2 && <GoBack currying={goBackCurrying} />} */}
+    </BackgroundCover>
   );
 };
 
@@ -65,6 +65,17 @@ const Base = styled.div`
   padding: 0 20px;
   margin-top: 50px;
   ${columnFlexbox('start', 'center')};
+`;
+
+const BackgroundCover = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  opacity: 0.4;
+  z-index: 2;
 `;
 
 const FormWrapper = styled.div`

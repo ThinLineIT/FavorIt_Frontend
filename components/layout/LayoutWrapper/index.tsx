@@ -1,50 +1,14 @@
 import { useRef, useEffect, ReactNode } from 'react';
 import styled from '@emotion/styled';
-import useRouterEvent from '@hooks/useRouter';
-import Canvas from '@util/background/mainBackground';
+import { Transition } from 'react-transition-group';
 
 interface LayoutWrapperProps {
   children: ReactNode;
+  path: string;
 }
 
-const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
-  const canvasHtmlRef = useRef<HTMLCanvasElement>(null);
-  const canvasObjectRef = useRef<Canvas>();
-  const url = useRouterEvent();
-
-  useEffect(() => {
-    if (canvasHtmlRef.current !== null) {
-      const backgroundCanvasInstance = new Canvas(canvasHtmlRef.current);
-      canvasObjectRef.current = backgroundCanvasInstance;
-    }
-  }, []);
-
-  useEffect(() => {
-    if (canvasObjectRef.current) {
-      switch (url) {
-        case '/login':
-          canvasObjectRef.current.drawLoginBackground();
-          console.log('현재 URL은 로그인');
-          break;
-        case '/':
-          console.log('현재 URL은 메인');
-          // canvasObjectRef.current.drawMainBackground(true);
-          canvasObjectRef.current.drawCropedMainBackground();
-          break;
-        case '':
-          console.log('현재 URL은 공백입니다');
-        default:
-          break;
-      }
-    }
-  }, [url]);
-
-  return (
-    <Wrapper>
-      {children}
-      <canvas ref={canvasHtmlRef} id="fabric"></canvas>
-    </Wrapper>
-  );
+const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children, path }) => {
+  return <Wrapper></Wrapper>;
 };
 
 export default LayoutWrapper;

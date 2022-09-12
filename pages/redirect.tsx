@@ -1,12 +1,15 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { getUserAccessToken, getKakaoAccessToken } from '@apis/auth';
 import { COOKIE } from '@util/cookie';
 import { setCookie } from 'cookies-next';
+import styled from '@emotion/styled';
 
 const Redirect: NextPage = () => {
   const router = useRouter();
+
+  const timeout = useRef<NodeJS.Timeout | null>(null);
 
   const getAccessToken = async (code: string) => {
     const kakaoAccessToken = await getKakaoAccessToken(code);
@@ -25,15 +28,25 @@ const Redirect: NextPage = () => {
     setCookie(COOKIE.REFRESH_TOKEN, userToken.refreshToken, {
       maxAge: COOKIE.REFRESH_MAX_AGE,
     });
-    history.go(-2);
+    timeout.current = setTimeout(() => {
+      router.push('/animate');
+    }, 500);
   };
 
   useEffect(() => {
     const code = router.asPath.split('?code=')[1];
     getAccessToken(code);
+    return () => clearTimeout(timeout.current as NodeJS.Timeout);
   }, []);
-  // TODO 로딩 화면 디자인 요청
-  return <div>로그인 중입니다 잠시만 기다려주세요</div>;
+  return <RedirectPage></RedirectPage>;
 };
 
 export default Redirect;
+
+const RedirectPage = styled.div`
+  background-image: url('/assets/images/LoginCrop.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+`;

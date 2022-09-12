@@ -2,12 +2,14 @@ import React from 'react';
 import Head from 'next/head';
 import { RecoilRoot } from 'recoil';
 import type { AppProps } from 'next/app';
+import styled from '@emotion/styled';
 import { Global, ThemeProvider } from '@emotion/react';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { SEO } from '@components/base';
 import { GlobalStyle, theme } from '@styles/base';
-import { LayoutWrapper } from '@components/layout';
+import { TransitionWrapper } from '@components/layout';
+import { useRouter } from 'next/router';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,6 +20,7 @@ const queryClient = new QueryClient({
 });
 
 function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
   return (
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
@@ -31,10 +34,11 @@ function App({ Component, pageProps }: AppProps) {
             </Head>
             <SEO />
             <Global styles={GlobalStyle} />
-            <LayoutWrapper>
-              <Component {...pageProps} />
-              <div id="portal"></div>
-            </LayoutWrapper>
+            <Wrapper>
+              <TransitionWrapper path={router.pathname}>
+                <Component {...pageProps} />
+              </TransitionWrapper>
+            </Wrapper>
           </ThemeProvider>
         </Hydrate>
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
@@ -44,3 +48,18 @@ function App({ Component, pageProps }: AppProps) {
 }
 
 export default App;
+
+const Wrapper = styled.div`
+  max-width: 480px;
+  width: 100%;
+  min-width: 320px;
+  height: 100vh;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+  // background-image: url('/assets/images/background.svg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.12);
+`;
