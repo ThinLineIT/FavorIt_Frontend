@@ -1,14 +1,14 @@
 import { useRef, useEffect, ReactNode } from 'react';
 import styled from '@emotion/styled';
-import useRouterEvent from '@hooks/useRouter';
-import Canvas from '@util/background/mainBackground';
+import { Transition } from 'react-transition-group';
 
 interface LayoutWrapperProps {
   children: ReactNode;
+  path: string;
 }
 
-const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
-  return <Wrapper>{children}</Wrapper>;
+const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children, path }) => {
+  return <Wrapper></Wrapper>;
 };
 
 export default LayoutWrapper;
