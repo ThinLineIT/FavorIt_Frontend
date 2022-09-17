@@ -6,7 +6,7 @@ import { flexbox } from '@styles/mixins/_flexbox';
 const Base = styled.div`
   position: fixed;
   bottom: 0px;
-  max-width: 640px;
+  max-width: 480px;
   width: 100%;
   height: 5rem;
   padding-top: 20px;

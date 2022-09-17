@@ -1,28 +1,37 @@
-import styled from '@emotion/styled';
 import Image from 'next/image';
-import { Bank } from './BankCardList';
+import styled from '@emotion/styled';
+
+import { Bank } from '@apis/@types/fund';
 
 export type BankCardProps = {
   bank: Bank;
-  setIsSetBank: (x: boolean) => void;
+  handleSetBank: () => void;
   handleSetValue: (val: string) => void;
+  handleSetBankName: (val: string) => void;
 };
 
-function BankCard({ bank, setIsSetBank, handleSetValue }: BankCardProps) {
+function BankCard({
+  bank,
+  handleSetBank,
+  handleSetValue,
+  handleSetBankName,
+}: BankCardProps) {
   const handleBank = () => {
-    setIsSetBank(true);
+    handleSetBank();
     handleSetValue(bank?.value);
+    handleSetBankName(bank?.text);
   };
+
   return (
     <Wrapper onClick={handleBank}>
       <BankImage>
         {bank?.image && (
           <Image
-            src={bank.image}
+            priority
             width={36}
             height={36}
-            priority
             alt="bank img"
+            src={bank.image}
           />
         )}
       </BankImage>
@@ -34,16 +43,15 @@ function BankCard({ bank, setIsSetBank, handleSetValue }: BankCardProps) {
 export default BankCard;
 
 const Wrapper = styled.div`
-  justify-self: center;
-  align-self: center;
-
   display: flex;
+  align-self: center;
+  justify-self: center;
   flex-direction: column;
   justify-content: center;
   min-width: 80px;
   min-height: 84px;
-  background-color: #fafafc;
   border-radius: 10px;
+  background-color: #fafafc;
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25),
     inset 0px 0px 11px rgba(191, 191, 191, 0.25);
 `;
@@ -63,8 +71,8 @@ const BankImage = styled.div`
 
 const BankTitle = styled.span`
   display: block;
-  text-align: center;
   font-size: 12px;
   line-height: 11px;
+  text-align: center;
   color: #000000;
 `;

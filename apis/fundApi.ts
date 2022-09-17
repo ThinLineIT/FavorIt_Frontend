@@ -1,12 +1,19 @@
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
 import { clientAuthApi as ax } from './auth';
-import { addFundFormType, addPaymentTypes } from './@types/fund';
+import {
+  Bank,
+  addFundFormType,
+  addPaymentTypes,
+  BankAccount,
+  CheckBanksTypes,
+  paymentsDoneData,
+} from './@types/fund';
 
 export const addFundApi = async (data: addFundFormType) =>
   await ax.post(`/api/funding`, data);
 
-export const detailFundApi = async (fundId?: string | string[]) => {
+export const detailFundApi = async (fundId: number) => {
   try {
     const {
       data: { data },
@@ -31,15 +38,21 @@ export const fundingCloseApi = async (fundId: string) => {
   }
 };
 
-export const addPayments = async (
-  data: addPaymentTypes,
-  fundId?: string | string[],
-) => await ax.post(`/api/funding/${fundId}/present`, data);
+export const addPaymentsApi = async (data: addPaymentTypes, fundId: number) =>
+  await ax.post(`/api/funding/${fundId}/present`, data);
 
-export const getBanksApi = async () =>
+export const getBanksApi = async (): Promise<Bank> =>
   await ax.post('/api/funding/options/bank');
 
-export const getCheckBanksApi = async (data: any) =>
-  await ax.post('/api/funding/verification/bank-account', {
-    data,
-  });
+export const checkBankAccountApi = async (
+  data: CheckBanksTypes,
+): Promise<BankAccount> => {
+  return await ax
+    .post('/api/funding/verification/bank-account', data)
+    .then((res) => res.data);
+};
+
+export const paymentFundApi = async (
+  paymentData: paymentsDoneData,
+  fundId: number,
+) => await ax.post(`/api/funding/${fundId}/payment`, paymentData);

@@ -12,19 +12,6 @@ import {
 } from '@styles/modules/_keyframes';
 import { addFundFormType, formGeneratorType } from '@apis/@types/fund';
 
-const Form = styled.form`
-  width: 100%;
-  display: block;
-  animation: ${smoothAppearDownUp} 300ms;
-`;
-
-const NextButton = styled.button`
-  ${btnPrimary};
-  ${btn48}
-  width: 125px;
-  animation: ${smoothAppearDownUpLarge} 700ms;
-`;
-
 interface UploadFormTitle {
   name: string;
 }
@@ -63,6 +50,9 @@ const Title = () => {
       aria-label="펀딩 제목 입력"
     >
       <Input
+        name="title"
+        label="펀딩 제목"
+        placeholder="펀딩 제목을 입력해주세요"
         register={register('name', {
           required: '입력된 텍스트가 없네요!',
           maxLength: {
@@ -70,9 +60,6 @@ const Title = () => {
             message: '20자 까지 입력 가능해요',
           },
         })}
-        name="title"
-        label="펀딩 제목"
-        placeholder="펀딩 제목을 입력해주세요"
       />
 
       {errors?.name?.type === 'required' && (
@@ -89,3 +76,16 @@ const Title = () => {
 };
 
 export default React.memo(Title);
+
+const Form = styled.form`
+  width: 100%;
+  display: block;
+  animation: ${smoothAppearDownUp} 300ms;
+`;
+
+const NextButton = styled.button`
+  ${btnPrimary};
+  ${btn48}
+  width: 125px;
+  animation: ${smoothAppearDownUpLarge} 700ms;
+`;

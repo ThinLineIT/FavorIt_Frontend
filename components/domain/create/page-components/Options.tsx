@@ -12,18 +12,6 @@ import {
 } from '@styles/modules/_keyframes';
 import { addFundFormType, formGeneratorType } from '@apis/@types/fund';
 
-const Form = styled.form`
-  width: 100%;
-  display: block;
-  animation: ${smoothAppearDownUp} 300ms;
-`;
-const NextButton = styled.button`
-  ${btnPrimary};
-  ${btn48}
-  width: 125px;
-  animation: ${smoothAppearDownUpLarge} 700ms;
-`;
-
 interface UploadFormOption {
   option: string;
 }
@@ -88,3 +76,15 @@ const Option = () => {
 };
 
 export default React.memo(Option);
+
+const Form = styled.form`
+  width: 100%;
+  display: block;
+  animation: ${smoothAppearDownUp} 300ms;
+`;
+const NextButton = styled.button`
+  ${btnPrimary};
+  ${btn48}
+  width: 125px;
+  animation: ${smoothAppearDownUpLarge} 700ms;
+`;

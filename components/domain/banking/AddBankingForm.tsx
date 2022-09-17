@@ -1,48 +1,53 @@
 import React, { useEffect } from 'react';
-import { NextRouter, useRouter } from 'next/router';
-import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 import { keyframes } from '@emotion/react';
+import styled from '@emotion/styled';
 
-import { flexbox } from '@styles/mixins/_flexbox';
 import Keypad from '@components/base/Keypad';
+import { flexbox } from '@styles/mixins/_flexbox';
 import useAddBanking from './hooks/useAddBanking';
 
-const AddBankingForm = ({ code }: any) => {
+interface AddBankingFormProps {
+  bank_code: string;
+  handleSetBank: () => void;
+}
+
+const AddBankingForm = ({ bank_code, handleSetBank }: AddBankingFormProps) => {
   const router = useRouter();
   const {
-    banks,
-    isLoading,
-    inputSuccess,
-    isSuccess,
+    value,
+    labelString,
     handleSubmit,
+    inputSuccess,
     handleKeyClick,
-    handleGoBack,
+    bankingIsSuccess,
     handleUpdateForm,
-    handleInputSuccess,
-  } = useAddBanking({ router, code });
+    handleCheckAccount,
+  } = useAddBanking({ router, bank_code });
 
-  console.log(code);
-  console.log(banks);
+  useEffect(() => {
+    if (bankingIsSuccess) {
+      router.replace({
+        pathname: '/fund/get-started',
+        query: { banking: 'bankingSuccess' },
+      });
+    }
+  }, [bankingIsSuccess, router]);
 
   return (
     <>
-      <InputWrapper>
-        <CustomInput>
-          {!inputSuccess
-            ? banks !== ''
-              ? banks
-              : '계좌번호를 입력해주세요'
-            : `받으시는 분이 홍길동 맞으실까요?`}
-        </CustomInput>
-        <PriceLabel>{banks}</PriceLabel>
+      <InputWrapper price={Boolean(value)}>
+        <CustomInput price={Boolean(value)}>{labelString}</CustomInput>
       </InputWrapper>
       <ButtonGroup inputSuccess={inputSuccess}>
-        <CustomGoBack onClick={!inputSuccess ? handleGoBack : handleUpdateForm}>
+        <CustomGoBack
+          onClick={!inputSuccess ? handleSetBank : handleUpdateForm}
+        >
           이전
         </CustomGoBack>
         <CustomGoNext
-          disabled={!banks}
-          onClick={!inputSuccess ? handleInputSuccess : handleSubmit}
+          disabled={!value}
+          onClick={!inputSuccess ? handleCheckAccount : handleSubmit}
         >
           {!inputSuccess ? '다음' : '선물하기'}
         </CustomGoNext>
@@ -72,8 +77,8 @@ const bounce = keyframes`
 const InputWrapper = styled.div<{ price?: boolean }>`
   width: 80%;
   height: 30px;
-  margin-left: 33px;
-  padding-left: 8px;
+  margin-left: 54px;
+  padding-left: ${({ price }) => (price ? '0' : '8px')};
   position: relative;
   border-left: ${({ price }) => (price ? 'none' : '2px solid black')};
   ${flexbox('start', 'center')};
@@ -86,20 +91,7 @@ const CustomInput = styled.span<{
   font-weight: ${({ price }) => (price ? 500 : 400)};
   font-size: ${({ price }) => (price ? '28px' : '18px')};
   line-height: ${({ price }) => (price ? '34px' : '22px')};
-  color: ${({ price }) => (price ? 'black' : 'lightgray')};
-`;
-
-const PriceLabel = styled.span`
-  position: absolute;
-  bottom: -30px;
-  display: block;
-  width: 200px;
-  height: 10px;
-  color: lightgray;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 17px;
+  color: ${({ price }) => (price ? 'black' : '#727272')};
 `;
 
 const ButtonGroup = styled.div<{ inputSuccess?: boolean }>`

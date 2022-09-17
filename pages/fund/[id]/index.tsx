@@ -17,6 +17,9 @@ import ArrowFatRightMedium from '@public/assets/images/ArrowFatRight-medium.svg'
 import ArrowFatRightLarge from '@public/assets/images/ArrowFatRight-large.svg';
 import giftImage from '@public/assets/images/Gift-gradation.svg';
 import Link from '@public/assets/images/Link.svg';
+import { fundKeys } from '@apis/queryKeys/fund';
+import { useSetRecoilState } from 'recoil';
+import { isMainFullHeight } from '@recoil/layout';
 
 type DetailDataType = {
   name: string;
@@ -43,17 +46,23 @@ const DetailFundPage = ({
   id: string;
   detailData: DetailDataType;
 }) => {
-  const { data, refetch } = useQuery(['detail', id], () => detailFundApi(id), {
-    initialData: detailData,
-    retry: 1,
-    refetchOnWindowFocus: false,
-  });
+  const { data, refetch } = useQuery(
+    fundKeys.detail(+id),
+    () => detailFundApi(+id),
+    {
+      initialData: detailData,
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  );
 
   const [isFundingClosing, setIsFundingClosing] = useState(false);
   const [isPortal, setPortal] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const timer = useRef<any>(null);
   const router = useRouter();
+
+  const setIsFullHeight = useSetRecoilState(isMainFullHeight);
 
   const moveToFundingItem = () => {
     router.push(data.product.link);
@@ -66,6 +75,11 @@ const DetailFundPage = ({
     timer.current = setTimeout(() => {
       setPortal(false);
     }, 3000);
+  };
+
+  const handleGoPresent = () => {
+    router.push(`/fund/${id}/present`);
+    setIsFullHeight(false);
   };
 
   useEffect(() => {
@@ -104,7 +118,7 @@ const DetailFundPage = ({
           <Image src={Link} width={19} height={18} />
         </LinkCopyButton>
 
-        <PresentButton>
+        <PresentButton onClick={handleGoPresent}>
           {data.state === 'OPENED' ? (
             <>
               선물하기{' '}

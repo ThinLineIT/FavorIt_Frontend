@@ -1,53 +1,48 @@
 import Image from 'next/image';
 import { useEffect } from 'react';
-import { useRouter } from 'next/router';
 import { useResetRecoilState } from 'recoil';
 import styled from '@emotion/styled';
 
 import { GoBack } from '@components/layout';
-import siteMetadata from '@constants/sitemap';
 import { isLocalGenerator } from '@recoil/create';
 import { textStyle } from '@styles/mixins/_text-style';
 import { smoothAppearDownUp } from '@styles/modules/_keyframes';
 import { columnFlexbox, flexbox } from '@styles/mixins/_flexbox';
 import CongImage from '@public/assets/images/congratulations.svg';
+import useGetStarted from '@components/domain/create/hooks/useGetStarted';
 
 function FundList() {
-  const router = useRouter();
-  const { id, name, price } = router.query;
-
-  const isFromPresent = Boolean(name || price);
-
   const resetGenerator = useResetRecoilState(isLocalGenerator);
+  const {
+    labelString,
+    isFromBanking,
+    copyTextUrl,
+    handleRouteDetail,
+    handleCreateNewFunding,
+  } = useGetStarted();
 
   useEffect(() => {
     resetGenerator();
   }, [resetGenerator]);
-
-  const copyTextUrl = () => {
-    const baseUrl = `${siteMetadata.siteUrl}fund/${id}`;
-    navigator.clipboard.writeText(baseUrl).then(() => {
-      // 추후 토스트 메시지를 통해 유저에게 알리기
-      alert('링크를 복사했습니다.');
-    });
-  };
 
   return (
     <MainBase>
       <Header aria-label="펀딩 이미지">
         <Image src={CongImage} width={158} height={112} alt="funding image" />
       </Header>
-      <Title>
-        {!isFromPresent
-          ? '펀딩이 시작되었습니다. \n 링크를 공유하여 펀딩을 받으세요!'
-          : `${name}에 \n ${price} 원을 선물했어요!`}
-      </Title>
-      <ButtonGroup>
-        <LinkButton onClick={copyTextUrl}>링크 복사</LinkButton>
-        <DetailButton onClick={() => router.replace(`/fund/${id}`)}>
-          펀딩 보기
-        </DetailButton>
-      </ButtonGroup>
+      <Title>{labelString}</Title>
+      {!isFromBanking ? (
+        <ButtonGroup>
+          <LinkButton onClick={copyTextUrl}>링크 복사</LinkButton>
+          <DetailButton onClick={handleRouteDetail}>펀딩 보기</DetailButton>
+        </ButtonGroup>
+      ) : (
+        <ButtonGroup>
+          <DetailButton onClick={handleCreateNewFunding}>
+            새로운 펀딩 만들기
+          </DetailButton>
+        </ButtonGroup>
+      )}
       <GoBack path="/" />
     </MainBase>
   );

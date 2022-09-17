@@ -10,7 +10,7 @@ type Props = {
 };
 
 const ErrorMessage = ({ children, isCenter }: Props) => {
-  return <Error isCenter>{children}</Error>;
+  return <Error isCenter={isCenter}>{children}</Error>;
 };
 
 export default ErrorMessage;

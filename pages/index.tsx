@@ -1,62 +1,74 @@
-import Link from 'next/link';
-import { useEffect } from 'react';
+import type { GetServerSideProps } from 'next';
 import styled from '@emotion/styled';
 import type { NextPage } from 'next';
-import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 
-import { Button } from '@components/base';
-import { isFundingForm, isLocalGenerator } from '@recoil/create';
-import { canGoBack } from '@recoil/layout';
-import { LandingBox } from '@components/domain/home';
-import { columnFlexbox } from '@styles/mixins/_flexbox';
+import { COOKIE } from '@util/cookie';
 
-const Main = styled.main`
-  ${columnFlexbox('around', 'center')};
-  row-gap: 12px;
-  width: 100%;
-  height: 100%;
-  padding: 15px;
+import { getCookie } from 'cookies-next';
 
-  > a {
-    width: 100%;
-  }
-`;
+import note from '@public/assets/images/Note.png';
+import planarFigure from '@public/assets/images/Planarfigure.png';
+import polaroid from '@public/assets/images/Polaroid.png';
 
 const Home: NextPage = () => {
-  const setCanGoBack = useSetRecoilState(canGoBack);
-  const resetForm = useResetRecoilState(isFundingForm);
-  const [generator, setGenerator] = useRecoilState(isLocalGenerator);
-  const useGenerate = () => {
-    if (generator.proceed) {
-    }
-    resetForm();
-    setGenerator((prev) => ({
-      ...prev,
-      done: false,
-      page: 0,
-    }));
+  const router = useRouter();
+
+  const onClickNoteHandler = () => {
+    router.push('/');
+  };
+  const onClickPlanarHandler = () => {
+    router.push('/');
+  };
+  const onClickPolaroidHandler = () => {
+    router.push('/');
   };
 
-  useEffect(() => {
-    setCanGoBack(false);
-    return () => setCanGoBack(true);
-  }, [setCanGoBack]);
-
   return (
-    <>
-      <Main>
-        <h1 className="visually-hidden">난 이걸로 부탁해, 선물펀딩 FavorIt</h1>
-        <LandingBox />
-        <Link href="/fund/create">
-          <a onClick={useGenerate}>
-            <Button type="button" aria-label="펀딩 생성 버튼">
-              펀딩 만들기
-            </Button>
-          </a>
-        </Link>
-      </Main>
-    </>
+    <HomePage>
+      <ImageWrapper>
+        <Image src={note} onClick={onClickNoteHandler} />
+      </ImageWrapper>
+      <ImageWrapper>
+        <Image src={planarFigure} onClick={onClickPlanarHandler} />
+      </ImageWrapper>
+      <ImageWrapper>
+        <Image src={polaroid} onClick={onClickPolaroidHandler} />
+      </ImageWrapper>
+    </HomePage>
   );
 };
 
+const HomePage = styled.main`
+  background-image: url('/assets/images/SplashCenterCrop.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+`;
+
+// TODO: 반응형
+const ImageWrapper = styled.div`
+  // position: absolute;
+`;
+
 export default Home;
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const cookieToken = getCookie(COOKIE.ACCESS_TOKEN, { req, res });
+
+  if (!cookieToken) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {
+      isRootApproach: true,
+    },
+  };
+};

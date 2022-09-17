@@ -11,6 +11,9 @@ import { textStyle } from '@styles/mixins/_text-style';
 import { columnFlexbox, flexbox } from '@styles/mixins/_flexbox';
 import { isFundingForm, isLocalGenerator } from '@recoil/create';
 import { formGeneratorType } from '@apis/@types/fund';
+import { smoothAppearDownUp } from '@styles/modules/_keyframes';
+import FundingProgress from '@components/domain/detail/FundingProgress';
+import dayjs from 'dayjs';
 
 type fundingId = {
   funding_id: string;
@@ -26,7 +29,6 @@ const Preview = () => {
   const setGenerator = useSetRecoilState(isLocalGenerator);
   const setIsFullHeight = useSetRecoilState(isMainFullHeight);
 
-  //@ react-query 사용하기 => 리팩토링하기
   const [create, { loading, data }] = useMutation<MutationResult>(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/funding`,
   );
@@ -48,6 +50,8 @@ const Preview = () => {
     }
   }, [data, setGenerator]);
 
+  console.log(fundingForm);
+
   const PreviewContent = (
     <Base aria-label="펀딩 정보 프리뷰">
       <Section>
@@ -60,14 +64,12 @@ const Preview = () => {
             상품 보러 가기
           </Link>
           <Description>{fundingForm.contents}</Description>
-          <DatesCard>
-            <progress value="80" max="100" id="progressDates"></progress>
-            <span>{fundingForm.due_date}</span>
-          </DatesCard>
-          <PriceCard>
-            <progress value="60" max="100" id="progressPrices"></progress>
-            <span>{fundingForm.product.price} 원</span>
-          </PriceCard>
+          <CustomFundingProgress
+            percent={0}
+            dueDate={fundingForm.due_date}
+            price={fundingForm.product.price}
+            creationDate={dayjs(new Date()).toString()}
+          />
         </Main>
         <Footer>
           <BackButton
@@ -105,6 +107,7 @@ const Base = styled.div`
   width: 100%;
   height: 100%;
   ${columnFlexbox('start', 'center')};
+  animation: ${smoothAppearDownUp} 300ms;
 `;
 const Section = styled.section`
   width: 100%;
@@ -144,50 +147,8 @@ const Card = styled.div`
     inset 0px -2px 9px rgba(0, 0, 0, 0.25);
   border-radius: 20px;
 `;
-const DatesCard = styled(Card)`
-  height: 83px;
-  & > #progressDates {
-    appearance: none;
-    width: 90%;
-    height: 4px;
-    &::-webkit-progress-bar {
-      background-color: #e6f6ff;
-      border-radius: 10px;
-    }
-    &::-webkit-progress-value {
-      background-color: #92d2ff;
-      border-radius: 10px;
-    }
-  }
-  span {
-    width: 90%;
-    text-align: right;
-    margin-top: 10px;
-    ${textStyle(12, '#92d2ff')}
-  }
-`;
-const PriceCard = styled(Card)`
-  height: 108px;
-  & > #progressPrices {
-    appearance: none;
-    width: 90%;
-    height: 4px;
-    &::-webkit-progress-bar {
-      background-color: #e6f6ff;
-      border-radius: 10px;
-    }
-    &::-webkit-progress-value {
-      background-color: #fda2e3;
-      border-radius: 10px;
-    }
-  }
-  span {
-    width: 90%;
-    text-align: right;
-    margin-top: 10px;
-    ${textStyle(12, '#fda2e3')}
-  }
-`;
+const CustomFundingProgress = styled(FundingProgress)``;
+
 const Footer = styled.footer`
   width: 100%;
   ${flexbox()}

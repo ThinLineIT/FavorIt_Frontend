@@ -2,27 +2,44 @@ import { useState, useEffect } from 'react';
 import { useMutation } from 'react-query';
 
 import { getBanksApi } from '@apis/fundApi';
-import { BankList } from '../BankCardList';
 
 const useLoadBanks = () => {
-  const [banks, SetBanks] = useState<BankList>();
+  const [banks, SetBanks] = useState([]);
+  const [bankCode, setBankCode] = useState('');
+  const [bankName, setBankName] = useState('');
+  const [isSetBank, setIsSetBank] = useState(false);
 
   const getBanksFn = () => getBanksApi();
-  const {
-    mutate: getBanksMutate,
-    isLoading,
-    isSuccess,
-  } = useMutation(getBanksFn, {
-    onSuccess: (data: any) => SetBanks(data.data),
+  const { mutate, isLoading } = useMutation(getBanksFn, {
+    onSuccess: (data: any) => {
+      SetBanks(data.data);
+    },
   });
 
-  useEffect(() => getBanksMutate(), [getBanksMutate]);
+  const handleSetBank = () => {
+    setIsSetBank((prev) => !prev);
+    setBankName('');
+  };
+
+  const handleSetValue = (val: string) => {
+    setBankCode(val);
+  };
+
+  const handleSetBankName = (name: string) => {
+    setBankName(name);
+  };
+
+  useEffect(() => mutate(), [mutate]);
 
   return {
-    getBanksMutate,
     banks,
+    bankName,
+    bankCode,
+    isSetBank,
     isLoading,
-    isSuccess,
+    handleSetBank,
+    handleSetValue,
+    handleSetBankName,
   };
 };
 

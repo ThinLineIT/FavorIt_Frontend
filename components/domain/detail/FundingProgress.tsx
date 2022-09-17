@@ -68,7 +68,7 @@ const FundingProgress = ({
       </FundingPeriodProgress>
       <FundingAmountProgress>
         <ProgressBackground color={'#e6f6ff'}>
-          <ProgressBar value={percent} color={'#FDA2E3'}>
+          <ProgressBar value={percent >= 100 ? 100 : percent} color={'#FDA2E3'}>
             <MarkerWrapper>
               <PinkMarker>{percent}%</PinkMarker>
             </MarkerWrapper>
@@ -115,7 +115,7 @@ const AmountWrapper = styled.div`
 `;
 
 const FundingAmountProgress = styled.div`
-  width: 100%;
+  width: 310px;
   height: 83px;
   border-radius: 20px;
   margin-bottom: 18px;

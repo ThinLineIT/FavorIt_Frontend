@@ -1,66 +1,73 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useMutation } from 'react-query';
 
-import { getCheckBanksApi } from '@apis/fundApi';
+import { checkBankAccountApi, paymentFundApi } from '@apis/fundApi';
+import { CheckBanksTypes, paymentsDoneData } from '@apis/@types/fund';
+import useKeypads from '@hooks/useKeypads';
+import { deleteComma } from '@util/helper/formatter';
 
-const useAddBanking = ({ router, code }: any) => {
-  const [banks, SetBanks] = useState<string>('');
+const useAddBanking = ({ router, bank_code }: any) => {
+  const { id } = router.query;
+  const { value, handleKeyClick } = useKeypads();
+  const [accountUser, setAccountUser] = useState('');
   const [inputSuccess, setInputSuccess] = useState(false);
 
-  const getBanksFn = (data: any) => getCheckBanksApi(data);
-  const {
-    mutate: getBanksMutate,
-    isLoading,
-    isSuccess,
-  } = useMutation(getBanksFn, {
-    onSuccess: (data: any) => SetBanks(data.data),
+  const getBanksFn = (data: CheckBanksTypes) => checkBankAccountApi(data);
+  const { mutate, isLoading, isSuccess } = useMutation(getBanksFn, {
+    onSuccess: (data) => setAccountUser(data.data.account_owner_name),
   });
+  const paymentsDoneFn = (data: paymentsDoneData) => paymentFundApi(data, id);
+  const { mutate: paymentsDoneMutate, isSuccess: bankingIsSuccess } =
+    useMutation(paymentsDoneFn);
 
-  const handleSubmit = useCallback(() => {
-    getBanksMutate({ code, account_number: banks });
-  }, [banks, code, getBanksMutate]);
-
-  const handleKeyClick = useCallback(
-    (event: React.MouseEvent<HTMLSpanElement>) => {
-      if (event.target instanceof HTMLSpanElement) {
-        const keyName = event?.target?.innerHTML;
-
-        if (keyName !== '&lt;-') {
-          SetBanks((prev) => prev + keyName);
-        } else {
-          SetBanks((prev) => {
-            const editedPrice = prev.slice(0, -1);
-            return editedPrice;
-          });
-        }
-      }
-    },
-    [],
-  );
+  const handleCheckAccount = useCallback(() => {
+    if (!value) return;
+    mutate({ bank_code, account_number: deleteComma(value) });
+  }, [value, mutate, bank_code]);
 
   const handleUpdateForm = () => {
     setInputSuccess(false);
   };
 
-  const handleInputSuccess = () => {
-    if (!banks) return;
-    setInputSuccess(true);
-  };
+  const handleSubmit = useCallback(() => {
+    if (!value) return;
+    paymentsDoneMutate({
+      funding_id: +id,
+      bank_code,
+      full_name: accountUser,
+      account_number: value,
+    });
+  }, [accountUser, bank_code, id, paymentsDoneMutate, value]);
 
   const handleGoBack = () => {
-    router.push('/');
+    router.back();
   };
 
+  const labelString = !inputSuccess
+    ? value !== ''
+      ? value
+      : '계좌번호를 입력해주세요'
+    : `받으시는 분이 ${accountUser} 맞으실까요?`;
+
+  useEffect(() => {
+    if (isSuccess) {
+      setInputSuccess(true);
+    }
+  }, [isSuccess]);
+
   return {
-    banks,
+    value,
     isLoading,
-    inputSuccess,
     isSuccess,
+    labelString,
+    accountUser,
+    inputSuccess,
+    handleGoBack,
     handleSubmit,
     handleKeyClick,
-    handleGoBack,
     handleUpdateForm,
-    handleInputSuccess,
+    bankingIsSuccess,
+    handleCheckAccount,
   };
 };
 

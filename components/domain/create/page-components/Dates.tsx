@@ -14,27 +14,6 @@ import { smoothAppearDownUp } from '@styles/modules/_keyframes';
 import { isFundingForm, isLocalGenerator } from '@recoil/create';
 import { addFundFormType, formGeneratorType } from '@apis/@types/fund';
 
-const Form = styled.form`
-  width: 100%;
-  display: block;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  animation: ${smoothAppearDownUp} 300ms;
-
-  & > div {
-    min-width: 100% !important;
-    ${flexbox()}
-  }
-`;
-const NextButton = styled.button`
-  ${btnPrimary};
-  ${btn48}
-  width: 125px;
-  margin-top: 25px;
-`;
-
 const Dates = () => {
   const [error, setError] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
@@ -85,3 +64,24 @@ const Dates = () => {
 };
 
 export default React.memo(Dates);
+
+const Form = styled.form`
+  width: 100%;
+  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  animation: ${smoothAppearDownUp} 300ms;
+
+  & > div {
+    min-width: 100% !important;
+    ${flexbox()}
+  }
+`;
+const NextButton = styled.button`
+  ${btnPrimary};
+  ${btn48}
+  width: 125px;
+  margin-top: 25px;
+`;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 
 import BankCardList from '@components/domain/banking/BankCardList';
@@ -6,35 +6,39 @@ import useLoadBanks from '@components/domain/banking/hooks/useLoadBank';
 import AddBankingForm from '@components/domain/banking/AddBankingForm';
 
 function Banking() {
-  const [bankName, setBankName] = useState('');
-  const [isSetBank, setIsSetBank] = useState(false);
-  const { banks, isLoading } = useLoadBanks();
+  const {
+    banks,
+    bankCode,
+    bankName,
+    isSetBank,
+    isLoading,
+    handleSetBank,
+    handleSetValue,
+    handleSetBankName,
+  } = useLoadBanks();
+
+  console.log(bankName);
 
   if (isLoading) return <div>loading..</div>;
-
-  const handleSetBank = () => {
-    setIsSetBank(true);
-  };
-
-  const handleSetValue = (val: any) => {
-    setBankName(val);
-  };
 
   return (
     <Root>
       <LabelWrapper>
         <LabelTitle>어디로 받을까요?</LabelTitle>
-        <LabelText>은행을 선택해주세요!</LabelText>
+        <LabelText>
+          {bankName !== '' ? `${bankName}` : '은행을 선택해주세요!'}
+        </LabelText>
       </LabelWrapper>
-      {!isSetBank ? (
+      {banks && !isSetBank ? (
         <BankCardList
           banks={banks}
-          setIsSetBank={handleSetBank}
+          handleSetBank={handleSetBank}
           handleSetValue={handleSetValue}
+          handleSetBankName={handleSetBankName}
         />
       ) : (
         <Wrapper>
-          <AddBankingForm code={bankName} />
+          <AddBankingForm bank_code={bankCode} handleSetBank={handleSetBank} />
         </Wrapper>
       )}
     </Root>
@@ -68,6 +72,7 @@ const LabelText = styled.span`
   font-size: 24px;
   line-height: 29px;
   color: #000000;
+  margin-top: 4px;
 `;
 
 const Wrapper = styled.div`

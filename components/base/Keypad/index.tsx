@@ -26,11 +26,13 @@ const KeypadWrapper = styled.div`
   width: 100%;
   height: 300px;
 `;
+
 const Key = styled.span`
   ${flexbox()};
-  cursor: pointer;
   font-weight: 400;
   font-size: 25px;
   line-height: 30px;
+  color: #000000;
   user-select: none;
+  cursor: pointer;
 `;
