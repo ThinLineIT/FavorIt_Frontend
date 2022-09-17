@@ -33,7 +33,7 @@ const LoginPage = styled.main`
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100vh;
+  height: 100%;
 `;
 
 const KakaoLoginButton = styled.button`

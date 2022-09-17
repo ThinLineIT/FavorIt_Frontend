@@ -28,6 +28,10 @@ const TransitionWrapper: React.FC<TransitionWrapperProps> = ({
         {(state) => (
           <div
             style={{
+              height: ' 100vh',
+              position: 'relative',
+              aspectRatio: '9 / 20',
+              margin: '0 auto',
               ...defaultStyle,
               ...transitionStyles[state],
             }}

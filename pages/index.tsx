@@ -28,16 +28,16 @@ const Home: NextPage = () => {
 
   return (
     <HomePage>
-      <ImageWrapper top={63} left={23.9}>
+      <ImageWrapper top={63} left={23.9} zIndex={1}>
         <Image src={album} onClick={onClickPlanarHandler} alt="Album" />
       </ImageWrapper>
-      <ImageWrapper top={60} left={71}>
+      <ImageWrapper top={60} left={71} zIndex={0}>
         <Image src={note} onClick={onClickNoteHandler} alt="note" />
       </ImageWrapper>
-      <ImageWrapper top={39} left={6.7}>
+      <ImageWrapper top={39} left={6.7} zIndex={0}>
         <Image src={polaroid} onClick={onClickPolaroidHandler} alt="polaroid" />
       </ImageWrapper>
-      <ImageWrapper top={60} left={2}>
+      <ImageWrapper top={60} left={2} zIndex={0}>
         <Image src={camera} onClick={onClickPolaroidHandler} alt="camera" />
       </ImageWrapper>
     </HomePage>
@@ -48,20 +48,21 @@ const HomePage = styled.main`
   background-image: url('/assets/images/SplashCenterCrop.png');
   background-position: center center;
   background-repeat: no-repeat;
-  background-size: cover;
-  height: 100vh;
-  position: relative;
+  background-size: auto 100%;
+  height: 100%;
 `;
 
 // TODO: 반응형
 interface ImagePositionProps {
   top: number;
   left: number;
+  zIndex: number;
 }
 const ImageWrapper = styled.div<ImagePositionProps>`
   position: absolute;
   top: ${(props) => props.top}%;
   left: ${(props) => props.left}%;
+  z-index: ${(props) => props.zIndex};
 `;
 
 export default Home;
