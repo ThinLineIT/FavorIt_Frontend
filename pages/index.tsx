@@ -9,8 +9,9 @@ import { COOKIE } from '@util/cookie';
 import { getCookie } from 'cookies-next';
 
 import note from '@public/assets/images/Note.png';
-import planarFigure from '@public/assets/images/Planarfigure.png';
+import album from '@public/assets/images/Album.png';
 import polaroid from '@public/assets/images/Polaroid.png';
+import camera from '@public/assets/images/Camera.png';
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -27,14 +28,17 @@ const Home: NextPage = () => {
 
   return (
     <HomePage>
-      <ImageWrapper>
-        <Image src={note} onClick={onClickNoteHandler} />
+      <ImageWrapper top={63} left={23.9}>
+        <Image src={album} onClick={onClickPlanarHandler} alt="Album" />
       </ImageWrapper>
-      <ImageWrapper>
-        <Image src={planarFigure} onClick={onClickPlanarHandler} />
+      <ImageWrapper top={60} left={71}>
+        <Image src={note} onClick={onClickNoteHandler} alt="note" />
       </ImageWrapper>
-      <ImageWrapper>
-        <Image src={polaroid} onClick={onClickPolaroidHandler} />
+      <ImageWrapper top={39} left={6.7}>
+        <Image src={polaroid} onClick={onClickPolaroidHandler} alt="polaroid" />
+      </ImageWrapper>
+      <ImageWrapper top={60} left={2}>
+        <Image src={camera} onClick={onClickPolaroidHandler} alt="camera" />
       </ImageWrapper>
     </HomePage>
   );
@@ -46,11 +50,18 @@ const HomePage = styled.main`
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh;
+  position: relative;
 `;
 
 // TODO: 반응형
-const ImageWrapper = styled.div`
-  // position: absolute;
+interface ImagePositionProps {
+  top: number;
+  left: number;
+}
+const ImageWrapper = styled.div<ImagePositionProps>`
+  position: absolute;
+  top: ${(props) => props.top}%;
+  left: ${(props) => props.left}%;
 `;
 
 export default Home;
