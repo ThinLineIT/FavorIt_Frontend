@@ -35,7 +35,7 @@ function App({ Component, pageProps }: AppProps) {
             <SEO />
             <Global styles={GlobalStyle} />
             <Wrapper>
-              <TestBlur></TestBlur>
+              <BackgroundBlur></BackgroundBlur>
               <TransitionWrapper path={router.pathname}>
                 <Component {...pageProps} />
               </TransitionWrapper>
@@ -51,21 +51,16 @@ function App({ Component, pageProps }: AppProps) {
 export default App;
 
 const Wrapper = styled.div`
-  max-width: 50%;
-  width: 100%;
-  min-width: 320px;
   height: 100%;
-  margin: 0 auto;
   overflow: hidden;
   position: relative;
-
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.12);
 `;
 
-const TestBlur = styled.div`
+const BackgroundBlur = styled.div`
   background-position: center center;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
   background-image: url('/assets/images/SplashCenterCrop.png');
   position: fixed;
   width: 100%;
