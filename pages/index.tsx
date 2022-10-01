@@ -20,10 +20,10 @@ const Home: NextPage = () => {
     router.push('/');
   };
   const onClickPlanarHandler = () => {
-    router.push('/');
+    router.push('/fund/1/present/list/1');
   };
   const onClickPolaroidHandler = () => {
-    router.push('/');
+    router.push('/fund/1/present/list');
   };
 
   return (
