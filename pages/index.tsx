@@ -4,10 +4,6 @@ import type { NextPage } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import { COOKIE } from '@util/cookie';
-
-import { getCookie } from 'cookies-next';
-
 import note from '@public/assets/images/Note.png';
 import album from '@public/assets/images/Album.png';
 import polaroid from '@public/assets/images/Polaroid.png';
@@ -67,10 +63,8 @@ const ImageWrapper = styled.div<ImagePositionProps>`
 
 export default Home;
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const cookieToken = getCookie(COOKIE.ACCESS_TOKEN, { req, res });
-
-  if (!cookieToken) {
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  if (!query.skip) {
     return {
       redirect: {
         destination: '/login',
