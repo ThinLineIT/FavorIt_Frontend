@@ -5,9 +5,24 @@ const PresentList = ({ presentRow }: any) => {
     <ImageRowWrapper>
       {presentRow &&
         presentRow.map((present: any, index: number) => {
-          if (index % 3 == 0) return <LeftPolaroid key={index} />;
-          else if (index % 3 == 1) return <CenterPolaroid key={index} />;
-          else return <RightPolaroid key={index} />;
+          if (index % 3 == 0)
+            return (
+              <LeftPolaroid key={index}>
+                <LeftText>{present.from_name}</LeftText>
+              </LeftPolaroid>
+            );
+          else if (index % 3 == 1)
+            return (
+              <CenterPolaroid key={index}>
+                <CenterText>{present.from_name}</CenterText>
+              </CenterPolaroid>
+            );
+          else
+            return (
+              <RightPolaroid key={index}>
+                <RightText>{present.from_name}</RightText>
+              </RightPolaroid>
+            );
         })}
     </ImageRowWrapper>
   );
@@ -19,7 +34,38 @@ const ImageRowWrapper = styled.div`
   grid-template-rows: 130px 130px 130px;
   gap: 10px 5px;
   padding: 3% 4% 0 4%;
-  padding-left
+  font-weight: 700;
+  font-size: 11px;
+`;
+
+const RightText = styled.span`
+  left: 50%;
+  position: absolute;
+  bottom: 17%;
+  transform: rotate(7deg) translateX(-50%);
+  width: 85%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+const CenterText = styled.span`
+  left: 53%;
+  position: absolute;
+  bottom: 23%;
+  transform: rotate(-7deg) translateX(-50%);
+  width: 85%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+const LeftText = styled.span`
+  left: 50%;
+  position: absolute;
+  bottom: 15%;
+  transform: rotate(7deg) translateX(-50%);
+  width: 85%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 const RightPolaroid = styled.div`
@@ -29,6 +75,7 @@ const RightPolaroid = styled.div`
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 100%;
+  position: relative;
 `;
 
 const LeftPolaroid = styled.div`
@@ -38,6 +85,7 @@ const LeftPolaroid = styled.div`
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 100%;
+  position: relative;
 `;
 
 const CenterPolaroid = styled.div`
@@ -47,6 +95,7 @@ const CenterPolaroid = styled.div`
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 100%;
+  position: relative;
 `;
 
 export default PresentList;
