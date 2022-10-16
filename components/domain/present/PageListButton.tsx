@@ -3,9 +3,11 @@ import styled from '@emotion/styled';
 const PageListButton = ({
   currentIndex,
   lastIndex,
+  totalNumber,
 }: {
   currentIndex: number;
   lastIndex: number;
+  totalNumber: number;
 }) => {
   return (
     <NumberWrapper>
@@ -15,7 +17,7 @@ const PageListButton = ({
       <CurrentNumber last={lastIndex} current={currentIndex}>
         {currentIndex + 1}
       </CurrentNumber>
-      <NextNumber last={lastIndex} current={currentIndex}>
+      <NextNumber last={lastIndex} current={currentIndex} total={totalNumber}>
         {currentIndex + 2}
       </NextNumber>
     </NumberWrapper>
@@ -25,6 +27,7 @@ const PageListButton = ({
 interface IndexProps {
   current: number;
   last: number;
+  total?: number;
 }
 const NumberWrapper = styled.div`
   display: flex;

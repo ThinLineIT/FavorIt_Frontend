@@ -7,6 +7,12 @@ import Image from 'next/image';
 import styled from '@emotion/styled';
 import { useRef, useState } from 'react';
 import { keyframes } from '@emotion/react';
+import { dehydrate, QueryClient, useQuery } from 'react-query';
+import { serverRequestInterceptor } from '@apis/serverAuth';
+import axios from 'axios';
+
+import { presentListApi } from '@apis/present';
+import presentKeys from '@apis/queryKeys/present';
 
 import PresentList from '@components/domain/present/PresentList';
 import PageListButton from '@components/domain/present/PageListButton';
@@ -84,7 +90,11 @@ const Present: NextPage = ({
         ) : (
           <EmptySpace />
         )}
-        <PageListButton lastIndex={lastIndex} currentIndex={pageIndex} />
+        <PageListButton
+          lastIndex={lastIndex}
+          currentIndex={pageIndex}
+          totalNumber={presentList.length}
+        />
         {pageIndex < lastIndex ? (
           <Image onClick={onClickNextButton} src={NextButton} width={41.5} />
         ) : (
@@ -212,238 +222,38 @@ const EmptySpace = styled.div`
 export default Present;
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  return {
-    props: {
-      presentList: [
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-        {
-          image: 'wwww',
-          name: 'sss',
-        },
-      ],
-    },
-  };
+  const fundId = Number(req.url?.split('/')[2]);
+
+  const serverAuthApi = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  });
+
+  serverRequestInterceptor(serverAuthApi, req, res);
+
+  try {
+    const { data } = await serverAuthApi.get(`api/funding/${fundId}/presents`);
+    return {
+      props: {
+        presentList: data.data,
+      },
+    };
+  } catch (err) {
+    return {
+      redirect: {
+        destination: '/404',
+        permanent: false,
+      },
+    };
+  }
+
+  // TODO: SSR을 위한 API 형식 추가
+  // const queryClient = new QueryClient();
+
+  // await queryClient.prefetchQuery('presentList', () => presentListApi(fundId));
+
+  // return {
+  //   props: {
+  // dehydratedState: dehydrate(queryClient),
+  //   },
+  // };
 };
