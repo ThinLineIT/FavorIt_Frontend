@@ -27,6 +27,7 @@ clientAuthApi.interceptors.response.use(
     ) {
       requestRecycle.isRecycle = true;
       const { data } = await renewUserToken(refresh_token);
+
       setCookie(COOKIE.ACCESS_TOKEN, data[COOKIE.ACCESS_TOKEN], {
         maxAge: COOKIE.ACCESS_MAX_AGE,
       });

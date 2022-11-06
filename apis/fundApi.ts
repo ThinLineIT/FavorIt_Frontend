@@ -7,6 +7,7 @@ import {
   CheckBanksTypes,
   paymentsDoneData,
 } from './@types/fund';
+import { presentListApi } from './present';
 
 export const addFundApi = async (data: addFundFormType) =>
   await ax.post(`/api/funding`, data);
@@ -40,7 +41,7 @@ export const addPaymentsApi = async (data: addPaymentTypes, fundId: number) =>
   await ax.post(`/api/funding/${fundId}/present`, data);
 
 export const getBanksApi = async (): Promise<Bank> =>
-  await ax.post('/api/funding/options/bank');
+  await ax.get('/api/funding/options/bank');
 
 export const checkBankAccountApi = async (
   data: CheckBanksTypes,
@@ -54,3 +55,16 @@ export const paymentFundApi = async (
   paymentData: paymentsDoneData,
   fundId: number,
 ) => await ax.post(`/api/funding/${fundId}/payment`, paymentData);
+
+export const fundSettlePageApi = async (fundId: number) => {
+  try {
+    const fundDetails = detailFundApi(fundId);
+    const presentList = presentListApi(fundId);
+    return {
+      fundDetails,
+      presentList,
+    };
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};

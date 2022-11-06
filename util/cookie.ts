@@ -1,8 +1,10 @@
 export const COOKIE = {
   ACCESS_TOKEN: 'access_token',
   REFRESH_TOKEN: 'refresh_token',
-  ACCESS_MAX_AGE: 604800,
-  REFRESH_MAX_AGE: 1209600,
+  ACCESS_MAX_AGE: 300,
+  REFRESH_MAX_AGE: 600,
+  // ACCESS_MAX_AGE: 604800,
+  // REFRESH_MAX_AGE: 1209600,
 };
 
 export const setCookie = (name: string, cookie: string, day: number) => {

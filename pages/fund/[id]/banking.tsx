@@ -52,6 +52,7 @@ const Root = styled.div`
   height: calc(100% - 3rem);
   display: flex;
   flex-flow: column;
+  background-color: white;
 `;
 
 const LabelWrapper = styled.div`

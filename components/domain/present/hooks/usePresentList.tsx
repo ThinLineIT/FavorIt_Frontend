@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 const usePresentList = (presentList: any) => {
   const [pageIndex, setPageIndex] = useState(0);
@@ -14,7 +14,6 @@ const usePresentList = (presentList: any) => {
       const pageData = presentList.slice(startIndex, startIndex + 9);
       pagedData.push(pageData);
     }
-
     setProcessedData(pagedData);
   };
 

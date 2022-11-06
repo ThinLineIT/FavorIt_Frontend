@@ -25,6 +25,7 @@ const KeypadWrapper = styled.div`
   bottom: 0;
   width: 100%;
   height: 300px;
+  background-color: white;
 `;
 
 const Key = styled.span`
