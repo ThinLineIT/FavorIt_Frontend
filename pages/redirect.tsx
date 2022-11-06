@@ -29,7 +29,7 @@ const Redirect: NextPage = () => {
       maxAge: COOKIE.REFRESH_MAX_AGE,
     });
     timeout.current = setTimeout(() => {
-      router.push('/animate');
+      router.push('/panning');
     }, 500);
   };
 

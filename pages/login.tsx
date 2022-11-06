@@ -25,7 +25,7 @@ const Login: NextPage = ({
   useEffect(() => {
     if (authorized) {
       timerRef.current = window.setTimeout(() => {
-        router.push('/animate');
+        router.push('/panning');
       }, 2000);
     }
     return () => {
