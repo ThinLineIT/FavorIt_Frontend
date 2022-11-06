@@ -3,28 +3,25 @@ import type {
   GetServerSideProps,
   InferGetServerSidePropsType,
 } from 'next';
+import { PresentType } from '@apis/@types/present';
 import Image from 'next/image';
 import styled from '@emotion/styled';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { keyframes } from '@emotion/react';
-import { dehydrate, QueryClient, useQuery } from 'react-query';
 import { serverRequestInterceptor } from '@apis/serverAuth';
 import axios from 'axios';
-
-import { presentListApi } from '@apis/present';
-import presentKeys from '@apis/queryKeys/present';
-
+import { useRouter } from 'next/router';
 import PresentList from '@components/domain/present/PresentList';
 import PageListButton from '@components/domain/present/PageListButton';
-
+import PresentDetail from '@components/domain/present/PresentDetail';
 import usePresentList from '@components/domain/present/hooks/usePresentList';
-
 import CloseButton from '@public/assets/images/CloseButton.svg';
 import PreviousButton from '@public/assets/images/PreviousButton.svg';
 import NextButton from '@public/assets/images/NextButton.svg';
 
 const Present: NextPage = ({
   presentList,
+  fundId,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const {
     lastIndex,
@@ -35,8 +32,20 @@ const Present: NextPage = ({
   } = usePresentList(presentList);
 
   const presentListRef = useRef<HTMLDivElement>(null);
-
+  const router = useRouter();
   const [eventType, setEventType] = useState('event');
+  const [seletedPresent, setPresent] = useState<PresentType | null>(null);
+
+  const moveToFundingDeteil = () => {
+    router.push(`/fund/${fundId}`);
+  };
+
+  useEffect(() => {
+    if (!seletedPresent && pageIndex !== 0) {
+      if (pageIndex % 2 === 1)
+        presentListRef.current?.classList.add('slide-right');
+    }
+  }, [seletedPresent]);
 
   const onClickNextButton = () => {
     presentListRef.current?.classList.remove(eventType);
@@ -63,45 +72,63 @@ const Present: NextPage = ({
   };
 
   return (
-    <PresentPage>
-      <div style={{ padding: '23px 0 32px 18px' }}>
-        <Image src={CloseButton} width={27} />
-      </div>
-      <PresentCountText>
-        총 {presentList.length ? presentList.length : 0}분이 선물하셨어요
-      </PresentCountText>
-      <ListWrapper ref={presentListRef}>
-        <LeftPage>
-          <PresentList presentRow={processedData[Math.floor(pageIndex / 2)]} />
-        </LeftPage>
-        <RightPage>
-          <PresentList
-            presentRow={processedData[Math.floor(pageIndex / 2) + 1]}
-          />
-        </RightPage>
-      </ListWrapper>
-      <PresentListPagination>
-        {pageIndex >= 1 ? (
-          <Image
-            onClick={onClickPreviosButton}
-            src={PreviousButton}
-            width={41.5}
-          />
-        ) : (
-          <EmptySpace />
-        )}
-        <PageListButton
-          lastIndex={lastIndex}
-          currentIndex={pageIndex}
-          totalNumber={presentList.length}
-        />
-        {pageIndex < lastIndex ? (
-          <Image onClick={onClickNextButton} src={NextButton} width={41.5} />
-        ) : (
-          <EmptySpace />
-        )}
-      </PresentListPagination>
-    </PresentPage>
+    <>
+      {seletedPresent ? (
+        <PresentDetail present={seletedPresent} setPresent={setPresent} />
+      ) : (
+        <PresentPage>
+          <div style={{ padding: '23px 0 32px 18px', cursor: 'pointer' }}>
+            <Image
+              src={CloseButton}
+              width={27}
+              onClick={() => moveToFundingDeteil()}
+            />
+          </div>
+          <PresentCountText>
+            총 {presentList.length ? presentList.length : 0}분이 선물하셨어요
+          </PresentCountText>
+          <ListWrapper ref={presentListRef}>
+            <LeftPage>
+              <PresentList
+                presentRow={processedData[Math.floor(pageIndex / 2)]}
+                setPresent={setPresent}
+              />
+            </LeftPage>
+            <RightPage>
+              <PresentList
+                presentRow={processedData[Math.floor(pageIndex / 2) + 1]}
+                setPresent={setPresent}
+              />
+            </RightPage>
+          </ListWrapper>
+          <PresentListPagination>
+            {pageIndex >= 1 ? (
+              <Image
+                onClick={onClickPreviosButton}
+                src={PreviousButton}
+                width={41.5}
+              />
+            ) : (
+              <EmptySpace />
+            )}
+            <PageListButton
+              lastIndex={lastIndex}
+              currentIndex={pageIndex}
+              totalNumber={presentList.length}
+            />
+            {pageIndex < lastIndex ? (
+              <Image
+                onClick={onClickNextButton}
+                src={NextButton}
+                width={41.5}
+              />
+            ) : (
+              <EmptySpace />
+            )}
+          </PresentListPagination>
+        </PresentPage>
+      )}
+    </>
   );
 };
 
@@ -235,6 +262,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     return {
       props: {
         presentList: data.data,
+        fundId,
       },
     };
   } catch (err) {

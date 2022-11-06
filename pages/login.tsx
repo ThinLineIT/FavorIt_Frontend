@@ -23,7 +23,7 @@ const Login: NextPage = ({
   };
 
   useEffect(() => {
-    if (!authorized) {
+    if (authorized) {
       timerRef.current = window.setTimeout(() => {
         router.push('/animate');
       }, 2000);
@@ -35,7 +35,7 @@ const Login: NextPage = ({
 
   return (
     <LoginPage>
-      {authorized && (
+      {!authorized && (
         <KakaoLoginButton onClick={moveToKakakLogin}>
           <Image src={kakaoBtn} alt="kakao login" />
         </KakaoLoginButton>
