@@ -15,7 +15,7 @@ export default class CanvasAnimation {
     this.canvasHtmlElement = canvasHtmlElement;
     this.canvasWrapper = canvasWrapper;
     this.canvasObject = this.initCanvas(canvasHtmlElement, canvasWrapper);
-    this.calculatedBgWidth = (this.canvasObject.getHeight() / 1920) * 3431;
+    this.calculatedBgWidth = (this.canvasObject.getHeight() / 808) * 1438;
     this.drawBackgroundImage();
     this.moveToMainPage = moveToMainPage;
   }
@@ -36,11 +36,11 @@ export default class CanvasAnimation {
 
   async drawBackgroundImage() {
     await this.canvasObject.setBackgroundImage(
-      'https://i.ibb.co/hdPSLqg/main.png',
+      'https://i.ibb.co/1QVhBvk/landing.png',
       this.canvasObject.renderAll.bind(this.canvasObject),
       {
-        scaleX: this.canvasObject.getHeight() / 1920,
-        scaleY: this.canvasObject.getHeight() / 1920,
+        scaleX: this.canvasObject.getHeight() / 808,
+        scaleY: this.canvasObject.getHeight() / 808,
       },
     );
     this.moveToRightFromLeft();

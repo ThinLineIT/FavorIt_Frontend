@@ -28,6 +28,7 @@ const TransitionWrapper: React.FC<TransitionWrapperProps> = ({
   const modalComponent = useRecoilValue(modalComponentState);
 
   return (
+<<<<<<< HEAD
     <>
       <TransitionGroup>
         <Transition key={path} timeout={50}>
@@ -49,6 +50,27 @@ const TransitionWrapper: React.FC<TransitionWrapperProps> = ({
         </Transition>
       </TransitionGroup>
     </>
+=======
+    <TransitionGroup>
+      <Transition key={path} timeout={50}>
+        {(state) => (
+          <div
+            style={{
+              overflow: 'hidden',
+              height: ' 100vh',
+              position: 'relative',
+              aspectRatio: '9 / 20',
+              margin: '0 auto',
+              ...defaultStyle,
+              ...transitionStyles[state],
+            }}
+          >
+            {children}
+          </div>
+        )}
+      </Transition>
+    </TransitionGroup>
+>>>>>>> dev
   );
 };
 

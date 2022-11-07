@@ -1,29 +1,45 @@
-import type { NextPage } from 'next';
+import type { GetServerSideProps } from 'next';
+import type { NextPage, InferGetServerSidePropsType } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
+import { getCookie } from 'cookies-next';
 
 import kakaoBtn from '@public/assets/images/KakaoButton.png';
 
-import { userInfo } from '@recoil/user';
-import { useRecoilState } from 'recoil';
+import { COOKIE } from '@util/cookie';
 
-const Login: NextPage = () => {
-  const [userInfoValue, setUserInfoValue] = useRecoilState(userInfo);
+const Login: NextPage = ({
+  authorized,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
+  const timerRef = useRef<number | null>(null);
 
   const moveToKakakLogin = () => {
     router.push(
       `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL}&response_type=code`,
     );
-    router.push('/');
   };
+
+  useEffect(() => {
+    if (authorized) {
+      timerRef.current = window.setTimeout(() => {
+        router.push('/panning');
+      }, 2000);
+    }
+    return () => {
+      if (timerRef.current) window.clearTimeout(timerRef.current);
+    };
+  }, []);
 
   return (
     <LoginPage>
-      <KakaoLoginButton onClick={moveToKakakLogin}>
-        <Image src={kakaoBtn} alt="kakao login" />
-      </KakaoLoginButton>
+      {!authorized && (
+        <KakaoLoginButton onClick={moveToKakakLogin}>
+          <Image src={kakaoBtn} alt="kakao login" />
+        </KakaoLoginButton>
+      )}
     </LoginPage>
   );
 };
@@ -44,3 +60,12 @@ const KakaoLoginButton = styled.button`
 `;
 
 export default Login;
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const cookieToken = getCookie(COOKIE.ACCESS_TOKEN, { req, res });
+  return {
+    props: {
+      authorized: cookieToken ? true : false,
+    },
+  };
+};
