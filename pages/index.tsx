@@ -17,7 +17,7 @@ const Home: NextPage = () => {
     router.push('/fund/newCreate');
   };
   const onClickPlanarHandler = () => {
-    router.push('/fund/1/present/list/1');
+    console.log('zzz');
   };
   const onClickPolaroidHandler = () => {
     router.push('/fund/list');

@@ -256,23 +256,24 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   });
 
   serverRequestInterceptor(serverAuthApi, req, res);
+  const { data } = await serverAuthApi.get(`api/funding/${fundId}/presents`);
+  return {
+    props: {
+      presentList: data.data,
+      fundId,
+    },
+  };
 
-  try {
-    const { data } = await serverAuthApi.get(`api/funding/${fundId}/presents`);
-    return {
-      props: {
-        presentList: data.data,
-        fundId,
-      },
-    };
-  } catch (err) {
-    return {
-      redirect: {
-        destination: '/404',
-        permanent: false,
-      },
-    };
-  }
+  // try {
+  // } catch (err) {
+  //   console.log(err);
+  //   return {
+  //     redirect: {
+  //       destination: '/404',
+  //       permanent: false,
+  //     },
+  //   };
+  // }
 
   // TODO: SSR을 위한 API 형식 추가
   // const queryClient = new QueryClient();

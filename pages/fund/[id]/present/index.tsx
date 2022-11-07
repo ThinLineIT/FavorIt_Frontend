@@ -60,7 +60,7 @@ const PresentForm = () => {
         className={keypad ? 'move-up' : ''}
       >
         <PresentItemCard>
-          <BackToList>
+          <BackToList onClick={() => router.back()}>
             <Image src={ArrowRight} width={32} height={32} />
           </BackToList>
           <PresentDetailIamge imageSrc={imageSrc} setImageSrc={setImageSrc} />
