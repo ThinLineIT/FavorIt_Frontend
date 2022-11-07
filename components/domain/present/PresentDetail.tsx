@@ -21,7 +21,9 @@ const PresentItem = ({
         목록으로 가기
       </BackToList>
       <PresentImage>
-        <Image src={present.image} layout="fill" className="present-image" />
+        {present.image && (
+          <Image src={present.image} layout="fill" className="present-image" />
+        )}
       </PresentImage>
       <LetterWrapper>
         <NameWrapper>
@@ -71,9 +73,10 @@ const PresentImage = styled.div`
   border-radius: 30px;
   margin: 0 auto;
   & > span {
+    height: 100% !important;
     position: unset !important;
     & .present-image {
-      object-fit: contain !important;
+      object-fit: none !important;
       position: relative !important;
       height: auto !important;
     }

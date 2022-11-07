@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { keyframes } from '@emotion/react';
 import { useMemo } from 'react';
 
 const PresentPictures = ({
@@ -26,6 +27,15 @@ type CurrentProgressProps = {
   progress: number;
 };
 
+const widthAnimation = (width: number) => keyframes`
+  0%{
+    width: 1%;
+  }
+  100% {
+    width: ${width}%;
+  } 
+`;
+
 const BackgroundProgress = styled.div`
   background-color: #f9ede5;
   width: 92%;
@@ -38,8 +48,10 @@ const CurrentProgress = styled.div<CurrentProgressProps>`
   background-color: #a3cef5;
   height: 100%;
   position: relative;
-  width: ${(props) => props.progress}%;
+  // width: ${(props) => props.progress}%;
+  width: 1%;
   left: 0;
+  animation: ${(props) => widthAnimation(props.progress)} 1s ease 4.8s forwards;
 `;
 
 const ProgressMarker = styled.div`
