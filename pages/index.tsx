@@ -1,12 +1,12 @@
+import React from 'react';
+import Image from 'next/image';
+import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import type { GetServerSideProps } from 'next';
 import styled from '@emotion/styled';
-import type { NextPage } from 'next';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
+import { getCookie } from 'cookies-next';
 
 import { COOKIE } from '@util/cookie';
-
-import { getCookie } from 'cookies-next';
 
 import note from '@public/assets/images/Note.png';
 import album from '@public/assets/images/Album.png';
@@ -17,13 +17,13 @@ const Home: NextPage = () => {
   const router = useRouter();
 
   const onClickNoteHandler = () => {
-    router.push('/');
+    router.push('/fund/newCreate');
   };
   const onClickPlanarHandler = () => {
     router.push('/');
   };
   const onClickPolaroidHandler = () => {
-    router.push('/');
+    router.push('/fund/list');
   };
 
   return (

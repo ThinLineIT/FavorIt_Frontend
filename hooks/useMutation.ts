@@ -28,7 +28,11 @@ export default function useMutation<T = any>(
     //   },
     //   body: JSON.stringify(data),
     // })
-    ax.post(url, data)
+    ax.post(url, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       .then((res) => res.data)
       .then((data) => setState((prev) => ({ ...prev, data, loading: false })))

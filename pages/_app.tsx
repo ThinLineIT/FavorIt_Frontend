@@ -1,15 +1,17 @@
 import React from 'react';
-import Head from 'next/head';
 import { RecoilRoot } from 'recoil';
-import type { AppProps } from 'next/app';
-import styled from '@emotion/styled';
-import { Global, ThemeProvider } from '@emotion/react';
-import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { SEO } from '@components/base';
-import { GlobalStyle, theme } from '@styles/base';
-import { TransitionWrapper } from '@components/layout';
+import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
+import type { AppProps } from 'next/app';
+import { Global, ThemeProvider } from '@emotion/react';
+import styled from '@emotion/styled';
+
+import { SEO } from '@components/base';
+import { TransitionWrapper } from '@components/layout';
+import { GlobalStyle, theme } from '@styles/base';
+import Toast from '@components/base/Toast/Toast.component';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,6 +23,7 @@ const queryClient = new QueryClient({
 
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
+
   return (
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
@@ -35,6 +38,7 @@ function App({ Component, pageProps }: AppProps) {
             <SEO />
             <Global styles={GlobalStyle} />
             <Wrapper>
+              <Toast />
               <BackgroundBlur></BackgroundBlur>
               <TransitionWrapper path={router.pathname}>
                 <Component {...pageProps} />

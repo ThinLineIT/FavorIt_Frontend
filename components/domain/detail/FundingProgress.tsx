@@ -12,25 +12,29 @@ const FundingProgress = ({
   percent,
   price,
 }: {
-  dueDate: string;
-  creationDate: string;
-  percent: number;
-  price: number;
+  dueDate?: string;
+  creationDate?: string;
+  percent?: number;
+  price?: number;
 }) => {
-  const periodProgress = (date: string, baseDate: string) => {
-    const isDespired = isAfter(new Date(), new Date(date));
+  const periodProgress = (date?: string, baseDate?: string) => {
+    const isDespired = date && isAfter(new Date(), new Date(date));
 
     if (isDespired) return 100;
 
     const total = Number(
-      formatDistanceStrict(new Date(date), new Date(baseDate), {
-        unit: 'day',
-      }).split(' ')[0],
+      date &&
+        baseDate &&
+        formatDistanceStrict(new Date(date), new Date(baseDate), {
+          unit: 'day',
+        }).split(' ')[0],
     );
     const upToToday = Number(
-      formatDistanceToNowStrict(new Date(baseDate), { unit: 'day' }).split(
-        ' ',
-      )[0],
+      date &&
+        baseDate &&
+        formatDistanceToNowStrict(new Date(baseDate), { unit: 'day' }).split(
+          ' ',
+        )[0],
     );
     return Math.floor((upToToday / total) * 100);
   };
@@ -53,7 +57,7 @@ const FundingProgress = ({
           >
             <MarkerWrapper>
               <BlueMarker>
-                {leftDays(dueDate)}일
+                {dueDate && leftDays(dueDate)}일
                 <br />
                 남음
               </BlueMarker>
@@ -62,13 +66,18 @@ const FundingProgress = ({
         </ProgressBackground>
 
         <DatePeriodWrapper>
-          <span>{format(new Date(creationDate), 'yy-MM-dd')}</span>
-          <span>{format(new Date(dueDate), 'yy-MM-dd')}</span>
+          <span>
+            {creationDate && format(new Date(creationDate), 'yy-MM-dd')}
+          </span>
+          <span>{dueDate && format(new Date(dueDate), 'yy-MM-dd')}</span>
         </DatePeriodWrapper>
       </FundingPeriodProgress>
       <FundingAmountProgress>
         <ProgressBackground color={'#e6f6ff'}>
-          <ProgressBar value={percent >= 100 ? 100 : percent} color={'#FDA2E3'}>
+          <ProgressBar
+            value={percent && percent >= 100 ? 100 : percent}
+            color={'#FDA2E3'}
+          >
             <MarkerWrapper>
               <PinkMarker>{percent}%</PinkMarker>
             </MarkerWrapper>
@@ -137,10 +146,15 @@ interface ProgressProps {
   color: string;
 }
 
-const ProgressBar = styled.div<ProgressProps>`
-  width: ${(props) => props.value}%;
+interface ProgreeBarProps {
+  value?: number;
+  color?: string;
+}
+
+const ProgressBar = styled.div<ProgreeBarProps>`
+  width: ${(props) => props?.value}%;
   height: 5px;
-  background-color: ${(props) => props.color};
+  background-color: ${(props) => props?.color};
   position: relative;
 `;
 

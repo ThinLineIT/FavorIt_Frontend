@@ -6,17 +6,6 @@ import { CSSTransition } from 'react-transition-group';
 import Portal from '@components/base/Portal';
 import { flexbox } from 'styles/mixins/_flexbox';
 
-const Overlay = styled.div`
-  position: fixed;
-  z-index: ${({ theme }) => theme.zIndexes.modal_level};
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
-  ${flexbox()}
-`;
-
 const Dim = styled.div`
   position: absolute;
   top: 0;
@@ -50,10 +39,8 @@ function Modal({ children, isOpen, onClose }: ModalProps) {
       unmountOnExit
     >
       <Portal>
-        <Overlay>
-          <Dim onClick={onClose} />
-          <Container ref={nodeRef}>{children}</Container>
-        </Overlay>
+        <Dim onClick={onClose} />
+        <Container ref={nodeRef}>{children}</Container>
       </Portal>
     </CSSTransition>
   );

@@ -1,291 +1,182 @@
-import { useState, useEffect, useRef } from 'react';
-import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
+import React from 'react';
 import Image from 'next/image';
-import { isAfter } from 'date-fns';
-import axios from 'axios';
+import type { NextPage } from 'next';
 import { useQuery } from 'react-query';
+import { clientAuthApi as ax } from 'apis/auth';
+
+import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
-import { detailFundApi } from '@apis/fundApi';
-import Portal from '@components/base/Portal';
-import { Modal } from '@components/base';
-import FundingCloseModal from '@components/domain/detail/FundingCloseModal';
-import FundingCloseDialogue from '@components/domain/detail/FundingCloseDialogue';
+
+import HomeIcon from 'components/domain/detail/assets/HomeIcon.svg';
+import LogoIcon from 'components/domain/detail/assets/LogoIcon.svg';
+import Note from 'components/domain/detail/assets/Note.png';
+import Camera from 'components/domain/detail/assets/Camera.png';
+import Ribbon from 'components/domain/detail/assets/Ribbon.png';
+import Box from 'components/domain/detail/assets/Box.png';
+import Pencil from 'components/domain/detail/assets/Pencil.png';
+
+import useToast from '@hooks/useToast';
+import siteMetadata from '@constants/sitemap';
+import { css } from '@emotion/react';
 import FundingProgress from '@components/domain/detail/FundingProgress';
-import { serverRequestInterceptor } from '@apis/serverAuth';
-import ArrowFatRightMedium from '@public/assets/images/ArrowFatRight-medium.svg';
-import ArrowFatRightLarge from '@public/assets/images/ArrowFatRight-large.svg';
-import giftImage from '@public/assets/images/Gift-gradation.svg';
-import Link from '@public/assets/images/Link.svg';
-import { fundKeys } from '@apis/queryKeys/fund';
-import { useSetRecoilState } from 'recoil';
-import { isMainFullHeight } from '@recoil/layout';
 
-type DetailDataType = {
-  name: string;
-  contents: string;
-  creation_date: string;
-  due_date: string;
-  is_maker: false;
-  link_for_sharing: string;
-  product: ProductType;
-  progress_percent: number;
-  state: string;
-};
+interface FundDetailModel {
+  data: {
+    name: string;
+    contents: string;
+    state: string;
+    is_maker: boolean;
+    image: string;
+    creation_date: string;
+    due_date: string;
+    progress_percent: number;
+    link_for_sharing: string;
+    product: {
+      link: string;
+      price: number;
+    };
+  };
+  message: string;
+}
 
-type ProductType = {
-  link: string;
-  option: string;
-  price: number;
-};
-
-const DetailFundPage = ({
-  id,
-  detailData,
-}: {
-  id: string;
-  detailData: DetailDataType;
-}) => {
-  const { data, refetch } = useQuery(
-    fundKeys.detail(+id),
-    () => detailFundApi(+id),
-    {
-      initialData: detailData,
-      retry: 1,
-      refetchOnWindowFocus: false,
-    },
-  );
-
-  const [isFundingClosing, setIsFundingClosing] = useState(false);
-  const [isPortal, setPortal] = useState(false);
-  const [isModal, setIsModal] = useState(false);
-  const timer = useRef<any>(null);
+const Home: NextPage = () => {
   const router = useRouter();
 
-  const setIsFullHeight = useSetRecoilState(isMainFullHeight);
+  const toast = useToast();
 
-  const moveToFundingItem = () => {
-    router.push(data.product.link);
+  const api = async (): Promise<FundDetailModel> => {
+    const res = await ax.get(`/api/funding/${router.query.id}`);
+    return res.data;
   };
 
-  const copyPageLink = async (link: string) => {
-    setPortal(true);
-    await navigator.clipboard.writeText(link);
+  const { data } = useQuery<FundDetailModel>(['get-detail'], api);
 
-    timer.current = setTimeout(() => {
-      setPortal(false);
-    }, 3000);
+  const onClickHomeHandler = () => {
+    router.push('/');
   };
 
-  const handleGoPresent = () => {
-    router.push(`/fund/${id}/present`);
-    setIsFullHeight(false);
+  const onClickNoteHandler = () => {
+    router.push(`/fund/${router.query.id}/detail`);
   };
 
-  useEffect(() => {
-    const isAfterDueDate = isAfter(new Date(), new Date(data.due_date));
-    if (isAfterDueDate && data.is_maker && data.state === 'OPENED')
-      setIsModal(true);
+  const onClickCameraHandler = () => {
+    router.push(`/fund/${router.query.id}/present`);
+  };
 
-    return () => {
-      clearTimeout(timer.current);
-    };
-  }, []);
+  const onClickBoxHandler = () => {
+    router.push('/');
+  };
+
+  const onClickRibbonHandler = () => {
+    router.push('/');
+  };
+
+  const onClickPencilHandler = () => {
+    const baseUrl = `${siteMetadata.siteUrl}fund/${router.query.id}`;
+    navigator.clipboard.writeText(baseUrl).then(() => {
+      toast('복사 완료!');
+    });
+  };
 
   return (
-    <FundingDetailMain>
-      <GiftImageWrapper>
-        <Image src={giftImage} width={'95px'} height={'90px'} />
-      </GiftImageWrapper>
-      <FundingName>{data.name}</FundingName>
-      <FundingItemLink onClick={moveToFundingItem}>
-        상품 보러 가기
-      </FundingItemLink>
-      <FundingContent>{data.contents}</FundingContent>
-      <FundingProgress
-        dueDate={data.due_date}
-        creationDate={data.creation_date}
-        percent={data.progress_percent}
-        price={data.product.price}
-      />
-      <ButtonWrapper>
-        <LinkCopyButton onClick={() => copyPageLink(data.link_for_sharing)}>
-          {isPortal && (
-            <Portal>
-              <CopySuccessTooltip>복사 완료!</CopySuccessTooltip>
-            </Portal>
-          )}
-          <Image src={Link} width={19} height={18} />
-        </LinkCopyButton>
+    <HomePage>
+      <ImageWrapper top={3} left={10} zIndex={1}>
+        <Image src={HomeIcon} onClick={onClickHomeHandler} alt="Home" />
+      </ImageWrapper>
+      <ImageWrapper top={2} left={25} zIndex={1} isPointer={false}>
+        <Image src={LogoIcon} alt="Logo" />
+      </ImageWrapper>
 
-        <PresentButton onClick={handleGoPresent}>
-          {data.state === 'OPENED' ? (
-            <>
-              선물하기{' '}
-              <Image src={ArrowFatRightMedium} width={18} height={18} />
-            </>
-          ) : (
-            <>마감된 펀딩입니다.</>
-          )}
-        </PresentButton>
-      </ButtonWrapper>
-      {data.is_maker && data.state === 'OPENED' && !isFundingClosing && (
-        <FundingCloseButton onClick={() => setIsFundingClosing(true)}>
-          펀딩 마감
-          <div style={{ position: 'absolute', right: '26.65px' }}>
-            <Image src={ArrowFatRightLarge} width={23} height={19} />
-          </div>
-        </FundingCloseButton>
-      )}
-      {isFundingClosing && (
-        <>
-          <FundingCloseDialogue
-            setIsFundingClosing={setIsFundingClosing}
-            percentage={data.progress_percent}
-            fundId={id}
-          />
-        </>
-      )}
-      {isModal && (
-        <Modal isOpen={isModal} onClose={() => setIsModal(false)}>
-          <FundingCloseModal onClose={() => setIsModal(false)} />
-        </Modal>
-      )}
-    </FundingDetailMain>
+      <DescBox>
+        <Title>
+          <b>이거사줘</b> 님의 선물상자
+        </Title>
+        <FundingProgress
+          dueDate={data?.data.due_date}
+          creationDate={data?.data.creation_date}
+          percent={data?.data.progress_percent}
+          price={data?.data.product.price}
+        />
+        <Desc>
+          <span>
+            <b>30명</b>이 선물해줬어요
+          </span>
+          <span>
+            펀딩 마감까지 <b>12</b>일 남았어요
+          </span>
+        </Desc>
+      </DescBox>
+
+      <ImageWrapper top={40} left={2} zIndex={1}>
+        <Image src={Camera} onClick={onClickCameraHandler} alt="camera" />
+      </ImageWrapper>
+      <ImageWrapper top={40} left={65} zIndex={0}>
+        <Image src={Note} onClick={onClickNoteHandler} alt="note" />
+      </ImageWrapper>
+      <CustomImageWrapper>
+        <Image src={Box} onClick={onClickBoxHandler} alt="Box" />
+      </CustomImageWrapper>
+      <ImageWrapper top={77} left={2} zIndex={0}>
+        <Image src={Ribbon} onClick={onClickRibbonHandler} alt="Ribbon" />
+      </ImageWrapper>
+      <ImageWrapper top={77} left={65} zIndex={0}>
+        <Image src={Pencil} onClick={onClickPencilHandler} alt="Pencil" />
+      </ImageWrapper>
+    </HomePage>
   );
 };
 
-// TODO: Hydrate 변경하기
-
-export const getServerSideProps: GetServerSideProps = async ({
-  req,
-  res,
-  params,
-}) => {
-  let detailData: undefined | DetailDataType;
-
-  const fundingId = params?.id;
-
-  const serverAuthApi = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_BASE_URL,
-  });
-  serverRequestInterceptor(serverAuthApi, req, res);
-  try {
-    const { data } = await serverAuthApi.get(`api/funding/${fundingId}`);
-    detailData = data.data;
-  } catch (err) {
-    console.log(err);
-  }
-
-  if (!detailData) {
-    return {
-      redirect: {
-        destination: '/404',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {
-      id: fundingId,
-      detailData,
-    },
-  };
-};
-
-export default DetailFundPage;
-
-const FundingDetailMain = styled.main`
-  width: 100%;
+const HomePage = styled.main`
+  background-image: url('/assets/images/detailBackground.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: auto 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 310px;
 `;
 
-const GiftImageWrapper = styled.div`
-  margin: 71px 0 38px 0;
+// TODO: 반응형
+interface ImagePositionProps {
+  top: number;
+  left: number;
+  zIndex: number;
+  isPointer?: boolean;
+}
+
+const ImageWrapper = styled.div<ImagePositionProps>`
+  ${({ top, left, zIndex, isPointer = true }) => css`
+    position: absolute;
+    top: ${top}%;
+    left: ${left}%;
+    z-index: ${zIndex};
+    cursor: ${isPointer ? 'pointer' : ''};
+  `}
 `;
 
-const FundingName = styled.h2`
-  font-size: 25px;
-  font-weight: 500;
-  margin-bottom: 14px;
-`;
-
-const FundingItemLink = styled.button`
-  margin-bottom: 15px;
-  font-weight: 700;
-  font-size: 17px;
-  color: #ffba50;
-`;
-
-const FundingContent = styled.p`
-  font-size: 14px;
-  font-weight: 400;
-  margin-bottom: 25px;
-`;
-
-const LinkCopyButton = styled.button`
-  background: #ffffff;
-  box-shadow: 0px 0px 9px rgba(231, 231, 231, 0.25),
-    inset 0px -2px 9px rgba(0, 0, 0, 0.25);
-  border-radius: 14px;
-  width: 52px;
-  height: 49px;
-`;
-
-const PresentButton = styled.button`
-  width: 247px;
-  height: 49px;
-  box-shadow: 0px 0px 9px rgba(231, 231, 231, 0.25),
-    inset 0px -2px 9px rgba(0, 0, 0, 0.25);
-  border-radius: 14px;
-  margin-left: 10px;
-  font-weight: 700;
-  font-size: 15px;
-  color: #fda2e3;
-  display: flex;
-  align-items: center;
-  padding: 0 15px 0 74px;
-  justify-content: space-between;
-  box-sizing: border-box;
-`;
-
-const FundingCloseButton = styled.div`
-  width: 100%;
-  box-shadow: 0px 0px 9px rgba(231, 231, 231, 0.25),
-    inset 0px -2px 9px rgba(0, 0, 0, 0.25);
-  font-weight: 700;
-  color: #fda2e3;
-  font-size: 15px;
-  height: 49px;
-  border-radius: 14px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-`;
-
-const CopySuccessTooltip = styled.div`
-  position: fixed;
-  bottom: 63px;
-  color: white;
-  textalign: center;
-  background-color: rgba(33, 33, 33, 0.6);
+const CustomImageWrapper = styled.div`
+  position: absolute;
+  top: 67%;
   left: 50%;
-  transform: translate(-50%, 0);
-  width: 278px;
-  height: 46px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  transform: translate(-50%, -67%);
+  z-index: 1;
 `;
 
-const ButtonWrapper = styled.div`
+export default Home;
+
+const DescBox = styled.div`
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 18px;
+  padding: 12px;
+  width: 80%;
+  background-color: #fff;
   display: flex;
-  margin-bottom: 14px;
+  flex-direction: column;
+  row-gap: 4px;
+  z-index: 10;
 `;
+
+const Title = styled.h3``;
+const ProgressBar = styled.span``;
+const Desc = styled.span``;

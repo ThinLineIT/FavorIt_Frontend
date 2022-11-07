@@ -283,6 +283,8 @@ const GlobalStyle = () => css`
 
   // calendar
   .react-datepicker {
+    width: 100%;
+    height: 100%;
     border: none !important;
   }
   .react-datepicker__header {

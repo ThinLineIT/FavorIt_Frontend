@@ -1,6 +1,5 @@
-import { useRef, useEffect, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import { Transition } from 'react-transition-group';
 
 interface LayoutWrapperProps {
   children: ReactNode;

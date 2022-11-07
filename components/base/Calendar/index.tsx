@@ -18,7 +18,7 @@ const formatDate = (d: Date) => {
 
 const CustomCalendarHeader = ({ date, decreaseMonth, increaseMonth }: any) => {
   return (
-    <DateWrapper>
+    <DateHeaderWrapper>
       <div>{formatDate(date)} 😊</div>
       <div
         onClick={
@@ -73,19 +73,9 @@ const CustomCalendarHeader = ({ date, decreaseMonth, increaseMonth }: any) => {
           />
         </svg>
       </div>
-    </DateWrapper>
+    </DateHeaderWrapper>
   );
 };
-
-const DateWrapper = styled.div`
-  width: 100%;
-  ${flexbox('around', 'center')}
-
-  svg {
-    width: 1.1rem;
-    height: 1.1rem;
-  }
-`;
 
 type CalendarProps = {
   endDate: Date | null;
@@ -95,8 +85,9 @@ type CalendarProps = {
 
 const Calendar = ({ startDate, endDate, onChange }: CalendarProps) => {
   return (
-    <DatePicker
+    <CustomDatePicker
       inline
+      id="asdsadadas"
       locale="ko"
       selectsRange
       endDate={endDate}
@@ -119,3 +110,18 @@ const Calendar = ({ startDate, endDate, onChange }: CalendarProps) => {
 };
 
 export default Calendar;
+
+const CustomDatePicker = styled(DatePicker)`
+  width: 100%;
+  height: 100%;
+`;
+
+const DateHeaderWrapper = styled.div`
+  width: 100%;
+  ${flexbox('around', 'center')}
+
+  svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+`;
