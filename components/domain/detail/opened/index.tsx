@@ -27,7 +27,7 @@ function OpendDetailPage({ data }: OpnedDetailPageProps) {
   const toast = useToast();
 
   const onClickHomeHandler = () => {
-    router.push('/');
+    router.push(`/?skip=${true}`);
   };
 
   const onClickNoteHandler = () => {
@@ -39,7 +39,12 @@ function OpendDetailPage({ data }: OpnedDetailPageProps) {
   };
 
   const onClickBoxHandler = () => {
+<<<<<<< HEAD
     router.push(`/fund/${router.asPath.split('/')[2]}/present/list`);
+=======
+    const id = router.asPath.split('/')[2];
+    router.push(`/fund/${id}/present/list`);
+>>>>>>> 6438547387212e926d686206c029d25becd8ecc5
   };
 
   const { openModal } = useModal();

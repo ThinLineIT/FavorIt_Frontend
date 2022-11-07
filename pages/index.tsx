@@ -16,7 +16,13 @@ const Home: NextPage = () => {
   const onClickNoteHandler = () => {
     router.push('/fund/newCreate');
   };
+<<<<<<< HEAD
 
+=======
+  const onClickPlanarHandler = () => {
+    console.log('zzz');
+  };
+>>>>>>> 6438547387212e926d686206c029d25becd8ecc5
   const onClickPolaroidHandler = () => {
     router.push('/fund/list');
   };
