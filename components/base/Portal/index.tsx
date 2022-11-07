@@ -1,11 +1,16 @@
-import { ReactNode, useRef } from 'react';
-import { createPortal } from 'react-dom';
+import ReactDOM, { createPortal } from 'react-dom';
 
-const Portal = ({ children }: { children: ReactNode }) => {
-  const portalRef = useRef<HTMLElement>(document.getElementById('portal'));
+interface PortalProps {
+  children: React.ReactNode;
+  elementId: string;
+  mounted: boolean;
+}
 
-  if (portalRef.current !== null) {
-    return createPortal(<>{children}</>, portalRef.current);
+const Portal = ({ children, elementId, mounted }: PortalProps) => {
+  if (mounted) {
+    const portal = document.getElementById(elementId);
+
+    return portal ? createPortal(children, portal) : null;
   }
 
   return null;

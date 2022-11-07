@@ -1,44 +1,71 @@
-import type { NextPage } from 'next';
+import type { GetServerSideProps } from 'next';
+import type { NextPage, InferGetServerSidePropsType } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
+import { getCookie } from 'cookies-next';
 
-import kakaoBtn from '@public/assets/kakao/kakao_login_medium_narrow_en.png';
+import kakaoBtn from '@public/assets/images/KakaoButton.png';
 
-import { userInfo } from '@recoil/user';
-import { useRecoilState } from 'recoil';
+import { COOKIE } from '@util/cookie';
 
-import { setCookie } from 'cookies-next';
-
-const Login: NextPage = () => {
-  // TODO 기본적인 회원 정보를 가져옵니다
-  const [userInfoValue, setUserInfoValue] = useRecoilState(userInfo);
+const Login: NextPage = ({
+  authorized,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
+  const timerRef = useRef<number | null>(null);
 
   const moveToKakakLogin = () => {
-    // router.push(
-    //   `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL}&response_type=code`,
-    // );
-    console.log('쿠키 저장');
-    setCookie('COOKIE', 'test', {
-      maxAge: 50000,
-    });
-    router.push('/');
+    router.push(
+      `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL}&response_type=code`,
+    );
   };
+
+  useEffect(() => {
+    if (authorized) {
+      timerRef.current = window.setTimeout(() => {
+        router.push('/panning');
+      }, 2000);
+    }
+    return () => {
+      if (timerRef.current) window.clearTimeout(timerRef.current);
+    };
+  }, []);
 
   return (
     <LoginPage>
-      <h1>간편 로그인</h1>
-      <p>
-        <Image onClick={moveToKakakLogin} src={kakaoBtn} alt="kakao login" />
-      </p>
+      {!authorized && (
+        <KakaoLoginButton onClick={moveToKakakLogin}>
+          <Image src={kakaoBtn} alt="kakao login" />
+        </KakaoLoginButton>
+      )}
     </LoginPage>
   );
 };
 
-const LoginPage = styled.article`
+const LoginPage = styled.main`
+  background-image: url('/assets/images/Login.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+`;
+
+const KakaoLoginButton = styled.button`
   position: absolute;
-  z-index: 2;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 4%;
 `;
 
 export default Login;
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const cookieToken = getCookie(COOKIE.ACCESS_TOKEN, { req, res });
+  return {
+    props: {
+      authorized: cookieToken ? true : false,
+    },
+  };
+};

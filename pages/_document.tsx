@@ -25,8 +25,9 @@ export default class MyDocument extends Document {
         </Head>
         <body>
           <Main />
-          <div id="mt" />
           <NextScript />
+          <div id="modal-root" />
+          <div id="toast-root" />
         </body>
       </Html>
     );

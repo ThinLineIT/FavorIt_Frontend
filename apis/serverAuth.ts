@@ -26,6 +26,12 @@ export const serverRequestInterceptor = (
     async (error) => {
       const refresh_token = getCookie(COOKIE.REFRESH_TOKEN, { req, res });
       const requestRecycle = error.config;
+      console.log(
+        '반갑습니다',
+        error.response.status,
+        refresh_token,
+        refresh_token,
+      );
       if (
         error.response.status === 401 &&
         typeof refresh_token === 'string' &&
