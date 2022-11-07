@@ -66,7 +66,7 @@ const RootStyle = styled.section<RootStyleProps>`
   ${({ rotate }) => css`
     position: relative;
     width: 170px;
-    height: 170px;
+    height: 180px;
     display: flex;
     flex-direction: column;
     align-items: center;

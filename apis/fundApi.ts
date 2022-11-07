@@ -68,3 +68,6 @@ export const fundSettlePageApi = async (fundId: number) => {
     return Promise.reject(error);
   }
 };
+
+export const closeFund = async (fundId: string | number) =>
+  await ax.post(`/api/funding/${fundId}/close`);

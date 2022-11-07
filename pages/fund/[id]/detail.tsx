@@ -108,7 +108,6 @@ function Detail() {
                   );
               }
             })}
-          <button>다음</button>
         </DetailUI>
       </RootStyle>
     </CreateSection>

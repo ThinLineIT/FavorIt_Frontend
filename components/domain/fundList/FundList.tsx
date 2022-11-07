@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import styled from '@emotion/styled';
 import { DefaultListModel } from 'pages/fund/list';
 import FundItem from './FundItem';
 
-import TapeGreen from './assets/tape_green.svg';
-import TapePink from './assets/tape_pink.svg';
+// import TapeGreen from './assets/tape_green.svg';
+// import TapePink from './assets/tape_pink.svg';
 import Link from 'next/link';
 
 export type FundListProps = {
@@ -14,10 +13,6 @@ export type FundListProps = {
 };
 
 function FundList({ title, type, data }: FundListProps) {
-  //   const Tapes = type === 'MY' ? TapeGreen : TapePink;
-
-  console.log(data);
-
   return (
     <RootStyle>
       <Title>
@@ -58,4 +53,8 @@ const ListStyle = styled.ul`
   column-gap: 70px;
   overflow-x: auto;
   overflow-y: hidden;
+
+  &::-webkit-scrollbar {
+    display: none !important;
+  }
 `;
