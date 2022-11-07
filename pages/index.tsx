@@ -4,13 +4,7 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import type { GetServerSideProps } from 'next';
 import styled from '@emotion/styled';
-import { getCookie } from 'cookies-next';
 
-<<<<<<< HEAD
-import { COOKIE } from '@util/cookie';
-
-=======
->>>>>>> dev
 import note from '@public/assets/images/Note.png';
 import album from '@public/assets/images/Album.png';
 import polaroid from '@public/assets/images/Polaroid.png';
@@ -26,11 +20,7 @@ const Home: NextPage = () => {
     router.push('/fund/1/present/list/1');
   };
   const onClickPolaroidHandler = () => {
-<<<<<<< HEAD
     router.push('/fund/list');
-=======
-    router.push('/fund/1/present/list');
->>>>>>> dev
   };
 
   return (

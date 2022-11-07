@@ -2,6 +2,8 @@ import { Portal } from '@components/base';
 import Dimmer from '@components/base/Dimmer';
 import Keypad from '@components/base/Keypad';
 import styled from '@emotion/styled';
+import { isShowModalState } from '@recoil/layout';
+import { useRecoilValue } from 'recoil';
 
 interface KeypadModalProps {
   closeModal: () => void;
@@ -12,8 +14,10 @@ export default function KeypadModal({
   closeModal,
   handleKeyClick,
 }: KeypadModalProps) {
+  const isModalMounted = useRecoilValue(isShowModalState);
+
   return (
-    <Portal>
+    <Portal elementId="modal-root" mounted={!!isModalMounted}>
       <Dimmer>
         <ModalBox>
           <CloseIcon onClick={closeModal}>x</CloseIcon>

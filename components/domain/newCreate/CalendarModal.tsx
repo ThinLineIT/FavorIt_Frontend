@@ -1,6 +1,8 @@
 import { Calendar, Portal } from '@components/base';
 import Dimmer from '@components/base/Dimmer';
 import styled from '@emotion/styled';
+import { isShowModalState } from '@recoil/layout';
+import { useRecoilValue } from 'recoil';
 
 interface CalendarModalProps {
   startDate: Date | undefined;
@@ -15,8 +17,10 @@ export default function CalendarModal({
   closeModal,
   onChange,
 }: CalendarModalProps) {
+  const isModalMounted = useRecoilValue(isShowModalState);
+
   return (
-    <Portal>
+    <Portal elementId="modal-root" mounted={!!isModalMounted}>
       <Dimmer>
         <ModalBox>
           <CloseIcon onClick={closeModal}>x</CloseIcon>
