@@ -26,7 +26,7 @@ function ClosedDetailPage({ data }: ClosedDetailPageProps) {
   const toast = useToast();
 
   const onClickHomeHandler = () => {
-    router.push('/');
+    router.push(`/?skip=${true}`);
   };
 
   const onClickNoteHandler = () => {
@@ -38,7 +38,7 @@ function ClosedDetailPage({ data }: ClosedDetailPageProps) {
   };
 
   const onClickBoxHandler = () => {
-    router.push('/');
+    router.push(`/fund/${router.query.id}/present/list`);
   };
 
   const onClickRibbonHandler = () => {

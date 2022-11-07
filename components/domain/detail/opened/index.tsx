@@ -27,7 +27,7 @@ function OpendDetailPage({ data }: OpnedDetailPageProps) {
   const toast = useToast();
 
   const onClickHomeHandler = () => {
-    router.push('/');
+    router.push(`/?skip=${true}`);
   };
 
   const onClickNoteHandler = () => {
@@ -39,7 +39,8 @@ function OpendDetailPage({ data }: OpnedDetailPageProps) {
   };
 
   const onClickBoxHandler = () => {
-    router.push('/');
+    const id = router.asPath.split('/')[2];
+    router.push(`/fund/${id}/present/list`);
   };
 
   const { openModal } = useModal();
