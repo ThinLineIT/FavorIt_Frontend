@@ -28,7 +28,7 @@ const AddBankingForm = ({ bank_code, handleSetBank }: AddBankingFormProps) => {
   useEffect(() => {
     if (bankingIsSuccess) {
       router.replace({
-        pathname: '/fund/get-started',
+        pathname: '/settle-complete',
         query: { banking: 'bankingSuccess' },
       });
     }
@@ -49,7 +49,7 @@ const AddBankingForm = ({ bank_code, handleSetBank }: AddBankingFormProps) => {
           disabled={!value}
           onClick={!inputSuccess ? handleCheckAccount : handleSubmit}
         >
-          {!inputSuccess ? '다음' : '선물하기'}
+          {!inputSuccess ? '다음' : '정산받기'}
         </CustomGoNext>
       </ButtonGroup>
       <CustomKeypad onClick={handleKeyClick} inputSuccess={inputSuccess} />

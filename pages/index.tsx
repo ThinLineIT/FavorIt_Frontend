@@ -5,10 +5,10 @@ import { useRouter } from 'next/router';
 import type { GetServerSideProps } from 'next';
 import styled from '@emotion/styled';
 
-import note from '@public/assets/images/Note.png';
-import album from '@public/assets/images/Album.png';
-import polaroid from '@public/assets/images/Polaroid.png';
-import camera from '@public/assets/images/Camera.png';
+import note from '@public/assets/images/GreenNote.png';
+import box from '@public/assets/images/PresentBox.png';
+import post from '@public/assets/images/PolaroidPost.png';
+import camera from '@public/assets/images/PolaroidCamera.png';
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -26,13 +26,13 @@ const Home: NextPage = () => {
   return (
     <HomePage>
       <ImageWrapper top={63} left={23.9} zIndex={1}>
-        <Image src={album} onClick={onClickPlanarHandler} alt="Album" />
+        <Image src={box} onClick={onClickPlanarHandler} alt="Album" />
       </ImageWrapper>
       <ImageWrapper top={60} left={71} zIndex={0}>
         <Image src={note} onClick={onClickNoteHandler} alt="note" />
       </ImageWrapper>
-      <ImageWrapper top={39} left={6.7} zIndex={0}>
-        <Image src={polaroid} onClick={onClickPolaroidHandler} alt="polaroid" />
+      <ImageWrapper top={39} left={6} zIndex={0}>
+        <Image src={post} onClick={onClickPolaroidHandler} alt="polaroid" />
       </ImageWrapper>
       <ImageWrapper top={60} left={2} zIndex={0}>
         <Image src={camera} onClick={onClickPolaroidHandler} alt="camera" />
