@@ -39,7 +39,7 @@ function OpendDetailPage({ data }: OpnedDetailPageProps) {
   };
 
   const onClickBoxHandler = () => {
-    router.push('/');
+    router.push(`/fund/${router.asPath.split('/')[2]}/present/list`);
   };
 
   const { openModal } = useModal();

@@ -16,9 +16,7 @@ const Home: NextPage = () => {
   const onClickNoteHandler = () => {
     router.push('/fund/newCreate');
   };
-  const onClickPlanarHandler = () => {
-    router.push('/fund/1/present/list/1');
-  };
+
   const onClickPolaroidHandler = () => {
     router.push('/fund/list');
   };
@@ -26,7 +24,7 @@ const Home: NextPage = () => {
   return (
     <HomePage>
       <ImageWrapper top={63} left={23.9} zIndex={1}>
-        <Image src={box} onClick={onClickPlanarHandler} alt="Album" />
+        <Image src={box} alt="Album" />
       </ImageWrapper>
       <ImageWrapper top={60} left={71} zIndex={0}>
         <Image src={note} onClick={onClickNoteHandler} alt="note" />

@@ -4,7 +4,6 @@ import type { ReactNode } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
 import Portal from '@components/base/Portal';
-import { flexbox } from 'styles/mixins/_flexbox';
 
 const Dim = styled.div`
   position: absolute;
@@ -38,7 +37,7 @@ function Modal({ children, isOpen, onClose }: ModalProps) {
       classNames="modal"
       unmountOnExit
     >
-      <Portal>
+      <Portal elementId="modal-root" mounted={isOpen}>
         <Dim onClick={onClose} />
         <Container ref={nodeRef}>{children}</Container>
       </Portal>
