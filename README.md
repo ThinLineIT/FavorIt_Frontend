@@ -1,34 +1,53 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+![Group 57 2](https://user-images.githubusercontent.com/80245801/236281288-8f80e407-52de-4558-bc86-fa76b440def5.png)
 
-## Getting Started
 
-First, run the development server:
+# 💡 Topic
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+선물받고 싶은 펀딩을 만들고, 친구들에게 공유하여, 펀딩을 후원 받자. **Favor It !**
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# 📝 Summary
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+[커넵](https://www.notion.so/c173c122298c45cea6d18c5f2e66d867)을 함께한 멤버들과 새롭게 시작한 사이드 프로젝트입니다. 이 프로젝트의 기획은 [라인(Line)](https://line.me/ko/) 사내 공모전에서 1등 아이템으로 선정되었으며 **라인 사내 벤쳐**로 새롭게 진행 중에 있습니다.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+# ⭐️ Key Function
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- **펀딩 생성**
+- **펀딩 목록**
+- **펀딩 보기**
+- **선물하기**
+- **펀딩 마감**
 
-## Learn More
+# 🛠 Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+`Typescript`, `Next.js`, `React Query`, `Recoil`, `Context API`, `Axios`, `Cookies`, 
+`@emotion/react`, `@emotion/styled`, `date-fns`, `react-hook-form`, `react-transition-group`, `nprogress`, `cross-env`, `env-cmd`, `husky`, `eslint`, `prettier`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# 🧑🏻‍💻 Team
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- 기획자 2명
+- 디자이너 2명
+- 백엔드 개발자 1명
+- 안드로이드 개발자 3명
+- **프론트엔드 개발자 2명**
 
-## Deploy on Vercel
+# 🤚🏻 Part
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **프론트엔드 개발자**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+# 📷 Screenshot
+<div>
+
+![랜딩페이지](https://user-images.githubusercontent.com/80245801/236281523-6b5fd9b8-bdb7-4213-af9b-abe33ebb9004.png)
+![펀딩보기](https://user-images.githubusercontent.com/80245801/236281544-09447fa0-f2d6-43ab-b059-23582098cbe9.png)
+![3  선물하기_생성예시](https://user-images.githubusercontent.com/80245801/236281654-16f3dbae-beff-4c88-9945-45d222af5620.png)
+
+<br />
+
+![3  선물하기_결제-1) 금액 입력](https://user-images.githubusercontent.com/80245801/236281669-3eebef0e-24a8-4571-866e-f3e7969f88f6.png)
+![1  펀딩만들기_4)펀딩 내용](https://user-images.githubusercontent.com/80245801/236281770-187739ae-0c50-44da-840f-f65582ab32be.png)
+![펀딩 정산](https://user-images.githubusercontent.com/80245801/236281787-e19d5915-6119-45ba-8b62-91917095265d.png)
+
+</div>
+
+
